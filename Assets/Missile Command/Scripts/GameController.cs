@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerSpawner), typeof(ObjectPoolManager))]
-public class GameController : MonoBehaviour
-{
+public class GameController : MonoBehaviour {
     public PlayerSpawner playerSpawner;
     public ObjectPoolManager objectPoolManager;
 
@@ -18,15 +17,13 @@ public class GameController : MonoBehaviour
     private bool isClickDown = false;
     private Vector2 clickDownPosition = Vector2.zero;
 
-    private void Awake()
-    {
+    private void Awake() {
         var spawnedPlayerData = playerSpawner.performInitialSpawn();
         missileBatteries = spawnedPlayerData.missileBatteries;
         cities = spawnedPlayerData.cities;
     }
 
-    private void onClick(float x, float y)
-    {
+    private void onClick(float x, float y) {
         for (int i = 0; i < missileBatteries.Count; i++) {
             var index = (i + currentBatteryIndex) % (missileBatteries.Count);
             if (missileBatteries[index].fire(x, y)) {
@@ -38,10 +35,8 @@ public class GameController : MonoBehaviour
     }
 
     // handle interaction
-    void Update()
-    {
-        if (Input.GetButtonDown("Fire1"))
-        {
+    void Update() {
+        if (Input.GetButtonDown("Fire1")) {
             isClickDown = true;
             clickDownPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         } else if (isClickDown) {

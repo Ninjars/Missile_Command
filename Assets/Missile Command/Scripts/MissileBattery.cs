@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissileBattery : MonoBehaviour
-{
+public class MissileBattery : MonoBehaviour {
     public GameObject missilePrefab;
     public int missilesStored = 10;
     private Rigidbody2D rb;
-    
+
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
     }
