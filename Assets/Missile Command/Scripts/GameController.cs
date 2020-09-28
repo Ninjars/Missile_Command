@@ -28,8 +28,8 @@ public class GameController : MonoBehaviour
     private void onClick(float x, float y)
     {
         for (int i = 0; i < missileBatteries.Count; i++) {
-            var index = (i + currentBatteryIndex) % (missileBatteries.Count - 1);
-            if (missileBatteries[currentBatteryIndex].fire(x, y)) {
+            var index = (i + currentBatteryIndex) % (missileBatteries.Count);
+            if (missileBatteries[index].fire(x, y)) {
                 currentBatteryIndex = index + 1;
                 break;
             }
