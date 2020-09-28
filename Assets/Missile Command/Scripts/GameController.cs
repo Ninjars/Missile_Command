@@ -38,7 +38,7 @@ public class GameController : MonoBehaviour
     }
 
     // handle interaction
-    void FixedUpdate()
+    void Update()
     {
         if (Input.GetButtonDown("Fire1"))
         {
