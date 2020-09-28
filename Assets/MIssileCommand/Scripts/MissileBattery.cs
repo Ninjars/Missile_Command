@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class MissileBattery : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject missilePrefab;
+    public int missilesStored = 10;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public bool fire(float x, float y) {
+        if (missilesStored <= 0) {
+            return false;
+        }
+
+        var missile = ObjectPoolManager.Instance.getObjectInstance(missilePrefab).GetComponent<Missile>();
+        missile.transform.position = transform.position;
+        missile.launch(new Vector2(x, y));
+        missile.SetActive(true);
+        return true;
     }
 }
