@@ -19,7 +19,7 @@ public class Missile : MonoBehaviour {
     public void launch(Vector2 position, Vector2 target) {
         Debug.Log($"launch {gameObject.name}: {position} -> {target}");
         rb.position = position;
-        transform.position = new Vector3(rb.position.x, rb.position.y, missileLayerZ);
+        transform.position = new Vector3(position.x, position.y, missileLayerZ);
         gameObject.SetActive(true);
         var vector = (target - rb.position).normalized;
         rb.AddForce(vector * thrust, ForceMode2D.Impulse);
