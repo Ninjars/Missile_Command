@@ -870,6 +870,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpawner: {fileID: 1839267172}
   objectPoolManager: {fileID: 0}
+  currentBatteryIndex: 0
 --- !u!114 &1839267175
 MonoBehaviour:
   m_ObjectHideFlags: 0
