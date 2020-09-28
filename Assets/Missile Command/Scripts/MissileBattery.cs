@@ -17,6 +17,7 @@ public class MissileBattery : MonoBehaviour
             return false;
         }
 
+        missilesStored--;
         var missile = ObjectPoolManager.Instance.getObjectInstance(missilePrefab).GetComponent<Missile>();
         missile.launch(rb.position, new Vector2(x, y));
         return true;
