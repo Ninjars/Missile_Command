@@ -6,6 +6,8 @@ using UnityEngine;
 public class Missile : MonoBehaviour {
     public float missileLayerZ = 8;
     public float thrust = 10;
+    public MissileExplosion explosionPrefab;
+
     private Rigidbody2D _rb;
     private Rigidbody2D rb {
         get {
@@ -14,6 +16,10 @@ public class Missile : MonoBehaviour {
             }
             return _rb;
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        
     }
 
     public void launch(Vector2 position, Vector2 target) {

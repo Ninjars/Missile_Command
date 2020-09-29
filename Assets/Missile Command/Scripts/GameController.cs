@@ -24,8 +24,10 @@ public class GameController : MonoBehaviour {
     }
 
     private void onClick(float x, float y) {
+        Debug.Log("onClick()");
         for (int i = 0; i < missileBatteries.Count; i++) {
             var index = (i + currentBatteryIndex) % (missileBatteries.Count);
+            Debug.Log($"sending fire request to battery {index}");
             if (missileBatteries[index].fire(x, y)) {
                 currentBatteryIndex = index + 1;
                 break;
