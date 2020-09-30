@@ -160,7 +160,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missileLayerZ: 8
-  thrust: 10
+  launchImpulse: 3
+  thrust: 2
+  rateOfTurnDegrees: 10
   explosionPrefab: {fileID: 0}
 --- !u!50 &-3380123666757657350
 Rigidbody2D:
