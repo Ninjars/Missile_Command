@@ -29,19 +29,9 @@ public class MissileExplosion : MonoBehaviour {
             return _discShape;
         }
     }
-    private Rigidbody2D _rb;
-    private Rigidbody2D rb {
-        get {
-            if (_rb == null) {
-                _rb = GetComponent<Rigidbody2D>();
-            }
-            return _rb;
-        }
-    }
     private float startTime;
 
     public void boom(Vector2 position) {
-        rb.position = position;
         transform.position = new Vector3(position.x, position.y, layerZ);
         discShape.Radius = initialRadius;
         circleCollider.radius = initialRadius;
