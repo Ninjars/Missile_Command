@@ -9,8 +9,10 @@ public class Missile : MonoBehaviour {
     public float thrust = 10;
     public float rateOfTurnDegrees = 3;
     public MissileExplosion explosionPrefab;
-    private Vector2 facing;
+    public GameObject targetMarker;
+    private TargetMarker marker;
     private Vector2 target;
+    private Vector2 facing;
 
     private Rigidbody2D _rb;
     private Rigidbody2D rb {
@@ -23,15 +25,31 @@ public class Missile : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
+        Debug.Log($"OnCollisionEnter2D {gameObject.name} -> {other.gameObject.name} on layer {LayerMask.LayerToName(other.gameObject.layer)}");
+        explode(rb.position);
+    }
 
+    public void explode(Vector2 position) {
+        Debug.Log("explode()");
+        gameObject.SetActive(false);
+
+        var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<MissileExplosion>();
+        explosion.boom(position);
+        
+        marker.gameObject.SetActive(false);
+        marker = null;
     }
 
     public void launch(Vector2 position, Vector2 target) {
         Debug.Log($"launch {gameObject.name}: {position} -> {target}");
         this.target = target;
         rb.position = position;
-        facing = (target - position).normalized;
+        this.facing = (target - position).normalized;
         transform.position = new Vector3(position.x, position.y, missileLayerZ);
+
+        this.marker = ObjectPoolManager.Instance.getObjectInstance(targetMarker.gameObject).GetComponent<TargetMarker>();
+        marker.configure(this, target);
+
         gameObject.SetActive(true);
         rb.AddForce(facing * launchImpulse, ForceMode2D.Impulse);
     }
