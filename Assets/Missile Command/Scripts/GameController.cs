@@ -38,14 +38,15 @@ public class GameController : MonoBehaviour {
 
     // handle interaction
     void Update() {
-        if (Input.GetButtonDown("Fire1")) {
+        if (Input.GetButton("Fire1") && !isClickDown) {
             isClickDown = true;
             clickDownPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        } else if (isClickDown) {
+        } else if (!Input.GetButton("Fire1") && isClickDown) {
             isClickDown = false;
-            // TODO: ignore releases where distance is too great
             Vector3 currentPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            onClick(currentPosition.x, currentPosition.y);
+            if (Vector3.Distance(clickDownPosition, currentPosition) < CLICK_DISTANCE_THRESHOLD) {
+                onClick(currentPosition.x, currentPosition.y);
+            }
         }
     }
 }
