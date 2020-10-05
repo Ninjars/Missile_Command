@@ -15,6 +15,7 @@ public class MissileBattery : MonoBehaviour {
         if (missilesStored <= 0) {
             return false;
         }
+        Debug.Log($"{gameObject.name} firing - ammunition: {missilesStored}");
 
         missilesStored--;
         var missile = ObjectPoolManager.Instance.getObjectInstance(missilePrefab).GetComponent<Missile>();

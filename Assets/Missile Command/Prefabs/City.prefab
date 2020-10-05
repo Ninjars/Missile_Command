@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3181994914049257599}
   - component: {fileID: -707621967015038596}
   - component: {fileID: 4752288431491396298}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: City
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 9171085698499815029}
   - component: {fileID: 9160817599485851337}
   - component: {fileID: 6622104882146732233}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: City-Shape
   m_TagString: Untagged
   m_Icon: {fileID: 0}

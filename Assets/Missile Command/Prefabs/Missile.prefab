@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8894251960028518728}
   - component: {fileID: 1086069244514476176}
   - component: {fileID: 5655225337942765029}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Missile-Shape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,8 @@ GameObject:
   - component: {fileID: 1299435136357556743}
   - component: {fileID: 6694631007747261177}
   - component: {fileID: -3380123666757657350}
-  m_Layer: 0
+  - component: {fileID: -4285643505544058001}
+  m_Layer: 9
   m_Name: Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,7 +161,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missileLayerZ: 8
-  thrust: 10
+  launchImpulse: 3
+  thrust: 2
+  rateOfTurnDegrees: 10
+  explosionPrefab: {fileID: 6328716267540692050, guid: 587466809da6de9458138d0a9bfb1b76,
+    type: 3}
+  targetMarker: {fileID: 3020493202006186503, guid: 379d57ec6ce95ad4cbd0ffc54ffd6a48,
+    type: 3}
 --- !u!50 &-3380123666757657350
 Rigidbody2D:
   serializedVersion: 4
@@ -181,4 +188,20 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
+--- !u!58 &-4285643505544058001
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8501363587255599509}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.01
