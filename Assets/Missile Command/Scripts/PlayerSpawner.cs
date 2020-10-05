@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSpawner : MonoBehaviour
-{
+public class PlayerSpawner : MonoBehaviour {
     public MissileBattery batteryPrefab;
     public int batteryMaxOffset;
     public int batteryCount;
@@ -13,15 +12,13 @@ public class PlayerSpawner : MonoBehaviour
     public float cityXOffsetFactor;
     public float cityYPos;
     public float cityZPos;
-    
-    public SpawnData performInitialSpawn()
-    {
+
+    public SpawnData performInitialSpawn() {
         List<MissileBattery> missileBatteries = new List<MissileBattery>();
         List<City> cities = new List<City>();
 
         List<float> positions = new List<float>();
-        for (int i = 0; i < batteryCount; i++)
-        {
+        for (int i = 0; i < batteryCount; i++) {
             positions.Add(getMissileBatteryPosition(i));
         }
 
@@ -31,8 +28,7 @@ public class PlayerSpawner : MonoBehaviour
         } else {
             cityOffset = Mathf.Abs(positions[1] - positions[0]) * cityXOffsetFactor;
         }
-        for (int i = 0; i < positions.Count; i++) 
-        {
+        for (int i = 0; i < positions.Count; i++) {
             var position = positions[i];
             var missileBattery = GameObject.Instantiate(batteryPrefab);
             missileBattery.transform.position = new Vector3(position, 0, batteryZPos);
@@ -57,21 +53,18 @@ public class PlayerSpawner : MonoBehaviour
         return city;
     }
 
-    private float getMissileBatteryPosition(int index)
-    {
+    private float getMissileBatteryPosition(int index) {
         float fraction = Mathf.Ceil(index * 0.5f) / (batteryCount * 0.5f);
         if (index % 2 != 0) fraction *= -1;
         return fraction * batteryMaxOffset;
     }
 }
 
-public class SpawnData
-{
+public class SpawnData {
     public readonly List<MissileBattery> missileBatteries;
     public readonly List<City> cities;
 
-    public SpawnData(List<MissileBattery> missileBatteries, List<City> cities)
-    {
+    public SpawnData(List<MissileBattery> missileBatteries, List<City> cities) {
         this.missileBatteries = missileBatteries;
         this.cities = cities;
     }

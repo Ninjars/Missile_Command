@@ -50,6 +50,9 @@ TagManager:
   - name: Background-Ground
     uniqueID: 2985458193
     locked: 0
+  - name: Trails
+    uniqueID: 1023789283
+    locked: 0
   - name: Structures
     uniqueID: 3326734937
     locked: 0
