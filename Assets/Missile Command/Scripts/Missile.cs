@@ -25,15 +25,15 @@ public class Missile : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D other) {
         Debug.Log($"OnCollisionEnter2D {gameObject.name} -> {other.gameObject.name} on layer {LayerMask.LayerToName(other.gameObject.layer)}");
-        explode(rb.position);
+        explode();
     }
 
-    public void explode(Vector2 position) {
+    public void explode() {
         Debug.Log("explode()");
         gameObject.SetActive(false);
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<MissileExplosion>();
-        explosion.boom(position);
+        explosion.boom(rb.position);
         
         marker.gameObject.SetActive(false);
         marker = null;
