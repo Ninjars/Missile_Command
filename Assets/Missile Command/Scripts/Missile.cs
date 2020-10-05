@@ -7,7 +7,6 @@ public class Missile : MonoBehaviour {
     public float missileLayerZ = 8;
     public float launchImpulse = 20;
     public float thrust = 10;
-    public float rateOfTurnDegrees = 3;
     public MissileExplosion explosionPrefab;
     public GameObject targetMarker;
     private TargetMarker marker;
@@ -61,20 +60,8 @@ public class Missile : MonoBehaviour {
     private void OnDrawGizmos() {
         Debug.DrawLine(
             new Vector3(rb.position.x, rb.position.y, missileLayerZ),
-            new Vector3(rb.position.x + facing.x, rb.position.y + facing.y, missileLayerZ),
-            Color.red
-        );
-        Debug.DrawLine(
-            new Vector3(rb.position.x, rb.position.y, missileLayerZ),
             new Vector3(target.x, target.y, missileLayerZ),
             Color.green
-        );
-    }
-
-    private static Vector2 rotate(Vector2 v, float delta) {
-        return new Vector2(
-            v.x * Mathf.Cos(delta) - v.y * Mathf.Sin(delta),
-            v.x * Mathf.Sin(delta) + v.y * Mathf.Cos(delta)
         );
     }
 
