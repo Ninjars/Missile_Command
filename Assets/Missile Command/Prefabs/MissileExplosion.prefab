@@ -183,7 +183,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxRadius: 1
-  initialRadius: 0.1
-  expandDuration: 0.75
-  lingerDuration: 1
+  duration: 2
+  expansion:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.1909595
+      value: 0.87722266
+      inSlope: 1.7521985
+      outSlope: 1.7521985
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.117291994
+    - serializedVersion: 3
+      time: 0.405
+      value: 1.0000014
+      inSlope: -0.008484442
+      outSlope: -0.008484442
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.17641544
+    - serializedVersion: 3
+      time: 0.745797
+      value: 0.99919
+      inSlope: -0.02219901
+      outSlope: -0.02219901
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.13252299
+      outWeight: 0.4487338
+    - serializedVersion: 3
+      time: 1
+      value: 0.0030670166
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   layerZ: 6
