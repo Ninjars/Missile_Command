@@ -21,32 +21,33 @@ public class ICBM : MonoBehaviour {
 
     public void launch(
         WorldCoords worldCoords,
-        WeaponData weaponData,
-        int level,
+        ICBMData weaponData,
+        float stageProgress,
         Vector2 targetCoords
     ) {
         Vector3 spawnPosition = calculateSpawnPosition(worldCoords, targetCoords.x);
-        float deviance = UnityEngine.Random.value * weaponData.accuracy.evaluate(level);
+        float deviance = UnityEngine.Random.value * weaponData.accuracy.evaluate(stageProgress);
         if (UnityEngine.Random.value < 0.5f) {
             deviance = -deviance;
         }
         this.targetPosition = new Vector3(targetCoords.x + deviance, targetCoords.y, layerZ);
-        this.thrust = weaponData.primaryAcceleration.evaluate(level);
+        this.thrust = weaponData.primaryAcceleration.evaluate(stageProgress);
         this.thrustVector = (targetPosition - spawnPosition).normalized;
         transform.position = spawnPosition;
 
         gameObject.SetActive(true);
-        rb.AddForce(thrustVector * weaponData.primaryImpulse.evaluate(level));
+        rb.AddForce(thrustVector * weaponData.primaryImpulse.evaluate(stageProgress));
     }
 
     private Vector3 calculateSpawnPosition(WorldCoords worldCoords, float targetX) {
         float x;
+        Debug.Log($"calculateSpawnPosition() targetX {targetX} worldCenter {worldCoords.centerX}");
         if (targetX > worldCoords.centerX) {
             x = worldCoords.worldLeft - worldSpawnBuffer;
         } else {
             x = worldCoords.worldRight + worldSpawnBuffer;
         }
-        return new Vector3(x, worldCoords.worldTop+worldSpawnBuffer, layerZ);
+        return new Vector3(x * UnityEngine.Random.value, worldCoords.worldTop+worldSpawnBuffer, layerZ);
     }
 
     private void explode() {
@@ -55,6 +56,12 @@ public class ICBM : MonoBehaviour {
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<MissileExplosion>();
         explosion.boom(transform.position);
     }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        Debug.Log($"OnCollisionEnter2D {gameObject.name} -> {other.gameObject.name} on layer {LayerMask.LayerToName(other.gameObject.layer)}");
+        explode();
+    }
+
 
     private void FixedUpdate() {
         if (Vector3.Distance(transform.position, targetPosition) < detonationRange) {

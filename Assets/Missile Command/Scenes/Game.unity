@@ -649,7 +649,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1351095282}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.73, z: 0}
+  m_LocalPosition: {x: 0, y: 4.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -813,6 +813,8 @@ GameObject:
   - component: {fileID: 1839267174}
   - component: {fileID: 1839267172}
   - component: {fileID: 1839267175}
+  - component: {fileID: 1839267177}
+  - component: {fileID: 1839267176}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -869,7 +871,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpawner: {fileID: 1839267172}
-  objectPoolManager: {fileID: 0}
+  objectPoolManager: {fileID: 1839267175}
+  levelManager: {fileID: 1839267176}
+  attackController: {fileID: 1839267177}
   currentBatteryIndex: 0
 --- !u!114 &1839267175
 MonoBehaviour:
@@ -881,6 +885,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0552a0767530144358a6999bb7b0c312, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1839267176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839267171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 623826a75b1512541bc3bbd8eec539a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageData:
+  - {fileID: 11400000, guid: 6468f84938cf07242a67db7964d554c2, type: 2}
+  currentStage: 0
+  stageLevel: 0
+--- !u!114 &1839267177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839267171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc90f55228a36a74ba4775fce8a8e508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1921181807

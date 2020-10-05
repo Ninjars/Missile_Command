@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelData", menuName = "Missile Command/Level Data")]
-public class LevelData : ScriptableObject {
-    public string message = "";
-    public List<WeaponData> attacks;
+public class StageData : ScriptableObject {
+    public string title;
+    public int levels = 10;
+    public ICBMData icbmData;
 }
