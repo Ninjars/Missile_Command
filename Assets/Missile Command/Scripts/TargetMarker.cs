@@ -15,7 +15,7 @@ public class TargetMarker : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D other) {
         Debug.Log($"onTriggerEnter2D {other.gameObject}");
         if (other.gameObject == missile.gameObject) {
-            missile.explode(transform.position);
+            missile.explode();
             gameObject.SetActive(false);
         }
     }
