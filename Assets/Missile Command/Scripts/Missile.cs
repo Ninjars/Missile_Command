@@ -29,14 +29,18 @@ public class Missile : MonoBehaviour {
     }
 
     public void explode() {
+        if (!gameObject.activeSelf) return;
+
         Debug.Log("explode()");
         gameObject.SetActive(false);
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<MissileExplosion>();
         explosion.boom(rb.position);
         
-        marker.gameObject.SetActive(false);
-        marker = null;
+        if (marker != null) {
+            marker.gameObject.SetActive(false);
+            marker = null;
+        }
     }
 
     public void launch(Vector2 position, Vector2 target) {

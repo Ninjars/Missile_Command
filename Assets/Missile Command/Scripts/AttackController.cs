@@ -6,6 +6,7 @@ using UnityEngine;
 public class AttackController : MonoBehaviour {
 
     internal void scheduleAttackEvents(
+        StateUpdater stateUpdater,
         WorldCoords worldCoords,
         List<City> cities,
         List<MissileBattery> missileBatteries,
@@ -13,11 +14,14 @@ public class AttackController : MonoBehaviour {
         float stageProgress
     ) {
         float accumulatedTime = 0;
-        for (int i = 0; i < icbmData.count.evaluate(stageProgress); i++) {
+        int attackCount = icbmData.count.evaluate(stageProgress);
+        stateUpdater.addScheduledAttacks(attackCount);
+        for (int i = 0; i < attackCount; i++) {
             float attackInterval = getAttackInterval(icbmData, stageProgress);
             accumulatedTime += attackInterval;
             StartCoroutine(
                 scheduleAttack(
+                    stateUpdater,
                     worldCoords,
                     cities,
                     missileBatteries,
@@ -37,6 +41,7 @@ public class AttackController : MonoBehaviour {
     }
 
     private IEnumerator scheduleAttack(
+        StateUpdater stateUpdater,
         WorldCoords worldCoords,
         List<City> cities,
         List<MissileBattery> missileBatteries,
@@ -50,6 +55,7 @@ public class AttackController : MonoBehaviour {
         
         Debug.Log("targeting ICBM");
         weapon.launch(
+            stateUpdater,
             worldCoords,
             icbmData,
             stageProgress,

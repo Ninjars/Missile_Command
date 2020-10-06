@@ -10,6 +10,8 @@ public class ICBM : MonoBehaviour {
     private float thrust;
     private Vector3 thrustVector;
     private Rigidbody2D _rb;
+    private StateUpdater stateUpdater;
+
     private Rigidbody2D rb {
         get {
             if (_rb == null) {
@@ -20,11 +22,13 @@ public class ICBM : MonoBehaviour {
     }
 
     public void launch(
+        StateUpdater stateUpdater,
         WorldCoords worldCoords,
         ICBMData weaponData,
         float stageProgress,
         Vector2 targetCoords
     ) {
+        this.stateUpdater = stateUpdater;
         Vector3 spawnPosition = calculateSpawnPosition(worldCoords, targetCoords.x);
         float deviance = UnityEngine.Random.value * weaponData.accuracy.evaluate(stageProgress);
         if (UnityEngine.Random.value < 0.5f) {
@@ -51,6 +55,7 @@ public class ICBM : MonoBehaviour {
     }
 
     private void explode() {
+        stateUpdater.onAttackDestroyed();
         gameObject.SetActive(false);
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<MissileExplosion>();

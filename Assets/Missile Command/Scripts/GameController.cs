@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour {
 
     public int currentBatteryIndex = 0;
     private WorldCoords worldCoords;
+    private GameState gameState;
 
     // Click handling
     private static readonly float CLICK_DISTANCE_THRESHOLD = 0.5f;
@@ -25,6 +26,10 @@ public class GameController : MonoBehaviour {
         var spawnedPlayerData = playerSpawner.performInitialSpawn();
         missileBatteries = spawnedPlayerData.missileBatteries;
         cities = spawnedPlayerData.cities;
+
+        gameState = new GameState(cities);
+        gameState.onLevelPrepare();
+
         var bottomLeft = Camera.main.ViewportToWorldPoint(Vector2.zero);
         var topRight = Camera.main.ViewportToWorldPoint(Vector2.one);
         worldCoords = new WorldCoords(
@@ -34,8 +39,41 @@ public class GameController : MonoBehaviour {
             topRight.y,
             0
         );
-        Debug.Log($"worldCoords: {worldCoords.worldLeft}, {worldCoords.worldRight}, {worldCoords.centerX}");
-        startNextLevel();
+    }
+
+    private void Update() {
+        updateStateMachine();
+    }
+
+    private void updateStateMachine() {
+        switch (gameState.currentMode) {
+            case GameMode.PRE_LEVEL: {
+                startNextLevel();
+                gameState.onLevelBegin();
+                break;
+            }
+            case GameMode.IN_LEVEL: {
+                checkGameInput();
+
+                if (gameState.hasLost) {
+                    gameState.onGameEnded(false);
+
+                } else if (gameState.isLevelComplete) {
+                    gameState.onLevelCompleted();
+                }
+                break;
+            }
+            case GameMode.POST_LEVEL: {
+                levelManager.onLevelCompleted();
+
+                if (levelManager.allStagesCompleted) {
+                    gameState.onGameEnded(true);
+                } else {
+                    gameState.onLevelPrepare();
+                }
+                break;
+            }
+        }
     }
 
     private void startNextLevel() {
@@ -43,6 +81,7 @@ public class GameController : MonoBehaviour {
 
         LevelData levelData = levelManager.getLevelData();
         attackController.scheduleAttackEvents(
+            gameState,
             worldCoords,
             cities,
             missileBatteries,
@@ -51,15 +90,15 @@ public class GameController : MonoBehaviour {
         );
     }
 
-    internal void restockBases() {
-        foreach (var battery in missileBatteries) {
-            battery.setIsDestroyed(false);
-            battery.missilesStored = battery.maxMissiles;
+    private void checkGameInput() {
+        if (Input.GetButtonDown("Fire1")) {
+            isClickDown = true;
+            Vector3 currentPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            targetMissile(currentPosition.x, currentPosition.y);
         }
     }
 
-    private void onClick(float x, float y) {
-        Debug.Log("onClick()");
+    private void targetMissile(float x, float y) {
         for (int i = 0; i < missileBatteries.Count; i++) {
             var index = (i + currentBatteryIndex) % (missileBatteries.Count);
             Debug.Log($"sending fire request to battery {index}");
@@ -71,11 +110,10 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    void Update() {
-        if (Input.GetButtonDown("Fire1")) {
-            isClickDown = true;
-            Vector3 currentPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            onClick(currentPosition.x, currentPosition.y);
+    private void restockBases() {
+        foreach (var battery in missileBatteries) {
+            battery.setIsDestroyed(false);
+            battery.missilesStored = battery.maxMissiles;
         }
     }
 }
