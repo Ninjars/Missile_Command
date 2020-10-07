@@ -874,6 +874,57 @@ MonoBehaviour:
   objectPoolManager: {fileID: 1839267175}
   levelManager: {fileID: 1839267176}
   attackController: {fileID: 1839267177}
+  inGameInput:
+    m_Name: In Game Input
+    m_Id: b49f8741-bbfe-4ca5-a6b6-448b27aeaed8
+    m_Asset: {fileID: 0}
+    m_Actions:
+    - m_Name: Fire 1
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: a7ddd9aa-bc61-4255-a79a-4edd6ed33662
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    - m_Name: Fire 2
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: 44643bd4-1b06-4ee1-9009-5e1559a457ec
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    - m_Name: Fire 3
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: 4fc2c9e3-e62e-46c7-b784-22a5a8e7d51c
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Bindings:
+    - m_Name: 
+      m_Id: c8290973-1321-420f-abcb-57a34f391f3f
+      m_Path: <Keyboard>/a
+      m_Interactions: Tap
+      m_Processors: 
+      m_Groups: 
+      m_Action: Fire 1
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 38c4f85e-8785-49a7-a3a7-d94874593dd9
+      m_Path: <Keyboard>/s
+      m_Interactions: Tap
+      m_Processors: 
+      m_Groups: 
+      m_Action: Fire 2
+      m_Flags: 0
+    - m_Name: 
+      m_Id: ab1524cb-7dff-4092-9aaa-ae1ca254890d
+      m_Path: <Keyboard>/d
+      m_Interactions: Tap
+      m_Processors: 
+      m_Groups: 
+      m_Action: Fire 3
+      m_Flags: 0
   currentBatteryIndex: 0
 --- !u!114 &1839267175
 MonoBehaviour:

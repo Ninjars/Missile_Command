@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 [RequireComponent(typeof(PlayerSpawner), typeof(ObjectPoolManager), typeof(LevelManager))]
 [RequireComponent(typeof(AttackController))]
@@ -10,10 +12,11 @@ public class GameController : MonoBehaviour {
     public LevelManager levelManager;
     public AttackController attackController;
 
+    public InputActionMap inGameInput;
+
     private List<MissileBattery> missileBatteries;
     private List<City> cities;
 
-    public int currentBatteryIndex = 0;
     private WorldCoords worldCoords;
     private GameState gameState;
 
@@ -39,6 +42,10 @@ public class GameController : MonoBehaviour {
             topRight.y,
             0
         );
+
+        inGameInput["Fire 1"].performed += fireOne;
+        inGameInput["Fire 2"].performed += fireTwo;
+        inGameInput["Fire 3"].performed += fireThree;
     }
 
     private void Update() {
@@ -49,12 +56,11 @@ public class GameController : MonoBehaviour {
         switch (gameState.currentMode) {
             case GameMode.PRE_LEVEL: {
                 startNextLevel();
+                inGameInput.Enable();
                 gameState.onLevelBegin();
                 break;
             }
             case GameMode.IN_LEVEL: {
-                checkGameInput();
-
                 if (gameState.hasLost) {
                     gameState.onGameEnded(false);
 
@@ -65,6 +71,7 @@ public class GameController : MonoBehaviour {
             }
             case GameMode.POST_LEVEL: {
                 levelManager.onLevelCompleted();
+                inGameInput.Disable();
 
                 if (levelManager.allStagesCompleted) {
                     gameState.onGameEnded(true);
@@ -92,23 +99,20 @@ public class GameController : MonoBehaviour {
         );
     }
 
-    private void checkGameInput() {
-        if (Input.GetButtonDown("Fire1")) {
-            isClickDown = true;
-            Vector3 currentPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            targetMissile(currentPosition.x, currentPosition.y);
-        }
+    private void fireOne(InputAction.CallbackContext context) {
+        fire(missileBatteries[0]);
     }
 
-    private void targetMissile(float x, float y) {
-        for (int i = 0; i < missileBatteries.Count; i++) {
-            var index = (i + currentBatteryIndex) % (missileBatteries.Count);
-            Debug.Log($"sending fire request to battery {index}");
-            if (missileBatteries[index].fire(x, y)) {
-                currentBatteryIndex = index + 1;
-                break;
-            }
-            currentBatteryIndex++;
-        }
+    private void fireTwo(InputAction.CallbackContext context) {
+        fire(missileBatteries[1]);
+    }
+
+    private void fireThree(InputAction.CallbackContext context) {
+        fire(missileBatteries[2]);
+    }
+
+    private void fire(MissileBattery battery) {
+        Vector3 targetPos = Camera.main.ScreenToWorldPoint(Pointer.current.position.ReadValue());
+        battery.fire(targetPos.x, targetPos.y);
     }
 }
