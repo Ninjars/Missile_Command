@@ -28,7 +28,12 @@ public class MissileBattery : MonoBehaviour {
         return isDestroyed;
     }
 
-    internal void setIsDestroyed(bool isDestroyed) {
-        this.isDestroyed = isDestroyed;
+    internal void destroy() {
+        this.isDestroyed = true;
+    }
+
+    internal void restore() {
+        missilesStored = maxMissiles;
+        isDestroyed = false;
     }
 }
