@@ -63,6 +63,7 @@ public class MissileBattery : MonoBehaviour {
                 ammoIndicators[i].gameObject.SetActive(false);
             }
         }
+        loadedIndicator.SetActive(missilesStored > 0);
     }
 
     private void regenerateAmmoIndicators() {
