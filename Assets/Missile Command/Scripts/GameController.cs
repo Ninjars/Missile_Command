@@ -77,7 +77,9 @@ public class GameController : MonoBehaviour {
     }
 
     private void startNextLevel() {
-        restockBases();
+        foreach (var battery in missileBatteries) {
+            battery.restore();
+        }
 
         LevelData levelData = levelManager.getLevelData();
         attackController.scheduleAttackEvents(
@@ -107,13 +109,6 @@ public class GameController : MonoBehaviour {
                 break;
             }
             currentBatteryIndex++;
-        }
-    }
-
-    private void restockBases() {
-        foreach (var battery in missileBatteries) {
-            battery.setIsDestroyed(false);
-            battery.missilesStored = battery.maxMissiles;
         }
     }
 }

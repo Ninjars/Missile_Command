@@ -15,8 +15,8 @@ public class ObjectPool {
     }
 
     private GameObject createNewInstance() {
-        pooledObjectPrefab.SetActive(false);
         var obj = GameObject.Instantiate(pooledObjectPrefab);
+        obj.SetActive(false);
         obj.name = $"{pooledObjectPrefab.name} {pooledObjects.Count}";
         pooledObjects.Add(obj);
         return obj;
