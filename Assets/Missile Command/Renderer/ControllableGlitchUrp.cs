@@ -25,7 +25,7 @@
 
         public override void Create()
         {
-            mobilePostProcessLwrpPass = new ControllableGlitchUrpPass(settings.Event, settings.blitMaterial, settings.ChromaticGlitch, settings.FrameGlitch, settings.PixelGlitch, this.name);
+            mobilePostProcessLwrpPass = new ControllableGlitchUrpPass(settings.Event, settings.blitMaterial, settings, this.name);
         }
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)

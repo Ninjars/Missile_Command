@@ -815,6 +815,7 @@ GameObject:
   - component: {fileID: 1839267175}
   - component: {fileID: 1839267177}
   - component: {fileID: 1839267176}
+  - component: {fileID: 1839267178}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -965,6 +966,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc90f55228a36a74ba4775fce8a8e508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1839267178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839267171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c57dc2080d266f74591326e0800e4835, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  glitchEffectController: {fileID: -6055593531310483686, guid: da00c6b55c6082e4480941f19bc68542,
+    type: 2}
+  distortion: 0
+  distortionMaxEffect: 5
+  distortionDecayRate: 2
+  glitch: 0
+  glitchMaxEffect: 1
+  glitchDecayRate: 0.1
 --- !u!1 &1921181807
 GameObject:
   m_ObjectHideFlags: 0
