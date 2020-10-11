@@ -925,7 +925,6 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Fire 3
       m_Flags: 0
-  currentBatteryIndex: 0
 --- !u!114 &1839267175
 MonoBehaviour:
   m_ObjectHideFlags: 0
