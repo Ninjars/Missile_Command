@@ -17,6 +17,15 @@ public class MissileBattery : MonoBehaviour {
 
     private bool isDestroyed = false;
     private List<Rectangle> ammoIndicators;
+    private ScreenEffectManager _screenEffectManager;
+    private ScreenEffectManager screenEffectManager {
+        get {
+            if (_screenEffectManager == null) {
+                _screenEffectManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<ScreenEffectManager>();
+            }
+            return _screenEffectManager;
+        }
+    }
 
     private void Awake() {
         ammoIndicators = new List<Rectangle>();
@@ -48,6 +57,7 @@ public class MissileBattery : MonoBehaviour {
         this.isDestroyed = true;
         missilesStored = 0;
         updateAmmoIndicators();
+        screenEffectManager.onBatteryDestroyed();
     }
 
     internal void restore() {
