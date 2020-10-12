@@ -7,7 +7,7 @@ public class Missile : MonoBehaviour {
     public float missileLayerZ = 8;
     public float launchImpulse = 20;
     public float thrust = 10;
-    public MissileExplosion explosionPrefab;
+    public Explosion explosionPrefab;
     public GameObject targetMarker;
     private TargetMarker marker;
     private Vector2 target;
@@ -34,7 +34,7 @@ public class Missile : MonoBehaviour {
         Debug.Log("explode()");
         gameObject.SetActive(false);
 
-        var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<MissileExplosion>();
+        var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
         explosion.boom(rb.position);
         
         if (marker != null) {
