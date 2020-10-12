@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Shapes;
 using UnityEngine;
@@ -7,9 +8,12 @@ public class MissileBattery : MonoBehaviour {
     public GameObject missilePrefab;
     public GameObject ammoIndicatorPrefab;
     public GameObject loadedIndicator;
+    public Explosion explosionPrefab;
+    public Color aliveColor;
+    public Color deadColor;
     public int maxMissiles = 10;
     public int missilesStored = 10;
-    
+
     public int ammoPerRow = 10;
     public float maxXAmmoOffset = 0.5f;
     public float ammoPadding = 0.01f;
@@ -17,6 +21,7 @@ public class MissileBattery : MonoBehaviour {
 
     private bool isDestroyed = false;
     private List<Rectangle> ammoIndicators;
+    private Polyline lineShape;
     private ScreenEffectManager _screenEffectManager;
     private ScreenEffectManager screenEffectManager {
         get {
@@ -29,8 +34,9 @@ public class MissileBattery : MonoBehaviour {
 
     private void Awake() {
         ammoIndicators = new List<Rectangle>();
+        lineShape = GetComponentInChildren<Polyline>();
     }
-    
+
     private void OnTriggerEnter2D(Collider2D other) {
         Debug.Log($"OnTriggerEnter2D {gameObject.name} -> {other.gameObject.name} on layer {LayerMask.LayerToName(other.gameObject.layer)}");
         destroy();
@@ -54,16 +60,29 @@ public class MissileBattery : MonoBehaviour {
     }
 
     internal void destroy() {
-        this.isDestroyed = true;
+        if (isDestroyed) return;
+
+        isDestroyed = true;
         missilesStored = 0;
         updateAmmoIndicators();
         screenEffectManager.onBatteryDestroyed();
+
+        var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
+        explosion.boom(transform.position);
+        StartCoroutine(setDeadVisuals());
+    }
+
+    private IEnumerator setDeadVisuals() {
+        yield return new WaitForSeconds(0.2f);
+
+        lineShape.Color = deadColor;
     }
 
     internal void restore() {
         isDestroyed = false;
         missilesStored = maxMissiles;
         updateAmmoIndicators();
+        lineShape.Color = aliveColor;
     }
 
     private void updateAmmoIndicators() {
@@ -104,7 +123,7 @@ public class MissileBattery : MonoBehaviour {
         indicator.Width = width;
         indicator.Height = height;
         indicator.gameObject.SetActive(true);
-        
+
         return indicator;
     }
 }

@@ -307,6 +307,10 @@ MonoBehaviour:
   ammoIndicatorPrefab: {fileID: 1502236975749590842, guid: 41fda7d2a9d0ffe49938e88be4007787,
     type: 3}
   loadedIndicator: {fileID: 3628875260165961224}
+  explosionPrefab: {fileID: 6328716267540692050, guid: 85ffbe0a51fa2214cac7fbe633aa8ce0,
+    type: 3}
+  aliveColor: {r: 1, g: 1, b: 1, a: 1}
+  deadColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
   maxMissiles: 10
   missilesStored: 10
   ammoPerRow: 10
