@@ -1,14 +1,21 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Shapes;
+﻿using Shapes;
 using UnityEngine;
 
 public class MissileExplosion : MonoBehaviour {
+    public bool causesEmp = true;
     public float maxRadius = 2;
     public float duration = 2f;
     public AnimationCurve expansion;
     public float layerZ = 6;
+    private ScreenEffectManager _screenEffectManager;
+    private ScreenEffectManager screenEffectManager {
+        get {
+            if (_screenEffectManager == null) {
+                _screenEffectManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<ScreenEffectManager>();
+            }
+            return _screenEffectManager;
+        }
+    }
 
     private CircleCollider2D _circleCollider;
     private CircleCollider2D circleCollider {
@@ -36,6 +43,7 @@ public class MissileExplosion : MonoBehaviour {
         circleCollider.radius = 0;
         startTime = Time.time;
         gameObject.SetActive(true);
+        if (causesEmp) screenEffectManager.onEMP(position.y);
     }
 
     private void Update() {
