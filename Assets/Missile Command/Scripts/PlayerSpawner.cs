@@ -4,42 +4,32 @@ using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviour {
     public MissileBattery batteryPrefab;
-    public int batteryMaxOffset;
     public int batteryCount;
     public float batteryZPos;
 
     public City cityPrefab;
-    public float cityXOffsetFactor;
     public float cityYPos;
     public float cityZPos;
 
-    public SpawnData performInitialSpawn() {
+    public SpawnData performInitialSpawn(WorldCoords worldCoords) {
         List<MissileBattery> missileBatteries = new List<MissileBattery>();
         List<City> cities = new List<City>();
 
-        List<float> positions = new List<float>();
+        float worldWidth = worldCoords.worldRight - worldCoords.worldLeft;
+        float batterySpacing = worldWidth / (batteryCount + 1f);
+        float cityOffset = batterySpacing / 3f;
         for (int i = 0; i < batteryCount; i++) {
-            positions.Add(getMissileBatteryPosition(i));
-        }
-
-        float cityOffset;
-        if (positions.Count <= 1) {
-            cityOffset = 1;
-        } else {
-            cityOffset = Mathf.Abs(positions[1] - positions[0]) * cityXOffsetFactor;
-        }
-        for (int i = 0; i < positions.Count; i++) {
-            var position = positions[i];
+            var batteryPosition = batterySpacing * (i + 1) + worldCoords.worldLeft;
             var missileBattery = GameObject.Instantiate(batteryPrefab);
-            missileBattery.transform.position = new Vector3(position, 0, batteryZPos);
+            missileBattery.transform.position = new Vector3(batteryPosition, 0, batteryZPos);
             missileBattery.gameObject.name = $"MissileBattery {i}";
             missileBatteries.Add(missileBattery);
 
-            var cityA = instantiateCity(position + cityOffset);
+            var cityA = instantiateCity(batteryPosition + cityOffset);
             cityA.gameObject.name = $"City {i}A";
             cities.Add(cityA);
 
-            var cityB = instantiateCity(position - cityOffset);
+            var cityB = instantiateCity(batteryPosition - cityOffset);
             cityB.gameObject.name = $"City {i}B";
             cities.Add(cityB);
         }
@@ -51,12 +41,6 @@ public class PlayerSpawner : MonoBehaviour {
         var city = GameObject.Instantiate(cityPrefab);
         city.transform.position = new Vector3(xPos, cityYPos, cityZPos);
         return city;
-    }
-
-    private float getMissileBatteryPosition(int index) {
-        float fraction = Mathf.Ceil(index * 0.5f) / (batteryCount * 0.5f);
-        if (index % 2 != 0) fraction *= -1;
-        return fraction * batteryMaxOffset;
     }
 }
 
