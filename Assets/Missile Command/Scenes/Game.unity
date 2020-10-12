@@ -837,12 +837,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   batteryPrefab: {fileID: -698992362079301448, guid: 1d19f6c677048401f8f4508578f3f110,
     type: 3}
-  batteryMaxOffset: 6
   batteryCount: 3
   batteryZPos: 5
   cityPrefab: {fileID: -707621967015038596, guid: 1757962d31ae64e58a3987d214f35739,
     type: 3}
-  cityXOffsetFactor: 0.3
   cityYPos: 0.2
   cityZPos: 10
 --- !u!4 &1839267173
