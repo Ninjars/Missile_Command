@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8516042779177980994}
   - component: {fileID: 8516042779177980995}
   - component: {fileID: 8516042779177980992}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Shape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,13 +133,13 @@ GameObject:
   - component: {fileID: 8516042780396545596}
   - component: {fileID: 2953682293360695005}
   - component: {fileID: 6328716267540692050}
-  m_Layer: 11
-  m_Name: MissileExplosion
+  m_Layer: 0
+  m_Name: CityExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8516042780396545597
 Transform:
   m_ObjectHideFlags: 0
@@ -204,9 +204,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6d5b59611f35ab489e7d691b1285e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  causesEmp: 1
-  maxRadius: 1
-  duration: 2
+  causesEmp: 0
+  maxRadius: 0.6
+  duration: 1
   expansion:
     serializedVersion: 2
     m_Curve:
@@ -220,32 +220,14 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.1909595
-      value: 0.87722266
-      inSlope: 1.7521985
-      outSlope: 1.7521985
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.117291994
-    - serializedVersion: 3
-      time: 0.405
-      value: 1.0000014
+      time: 0.07309082
+      value: 1.0015159
       inSlope: -0.008484442
       outSlope: -0.008484442
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.17641544
-    - serializedVersion: 3
-      time: 0.745797
-      value: 0.99919
-      inSlope: -0.02219901
-      outSlope: -0.02219901
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.13252299
-      outWeight: 0.4487338
     - serializedVersion: 3
       time: 1
       value: 0.0030670166
@@ -258,4 +240,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  layerZ: 6
+  layerZ: 4

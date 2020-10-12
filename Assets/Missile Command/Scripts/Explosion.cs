@@ -1,7 +1,7 @@
 ﻿using Shapes;
 using UnityEngine;
 
-public class MissileExplosion : MonoBehaviour {
+public class Explosion : MonoBehaviour {
     public bool causesEmp = true;
     public float maxRadius = 2;
     public float duration = 2f;

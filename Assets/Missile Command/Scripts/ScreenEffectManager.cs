@@ -42,7 +42,7 @@ public class ScreenEffectManager : MonoBehaviour {
         increaseDistort(impactStrength, distortionMaxEffect);
     }
 
-    public void onBatteryNukeHit() {
+    public void onBatteryDestroyed() {
         increaseGlitch(1, glitchMaxEffect);
     }
 }

@@ -26,13 +26,6 @@ public class GameController : MonoBehaviour {
     private Vector2 clickDownPosition = Vector2.zero;
 
     private void Awake() {
-        var spawnedPlayerData = playerSpawner.performInitialSpawn();
-        missileBatteries = spawnedPlayerData.missileBatteries;
-        cities = spawnedPlayerData.cities;
-
-        gameState = new GameState(cities);
-        gameState.onLevelPrepare();
-
         var bottomLeft = Camera.main.ViewportToWorldPoint(Vector2.zero);
         var topRight = Camera.main.ViewportToWorldPoint(Vector2.one);
         worldCoords = new WorldCoords(
@@ -42,6 +35,13 @@ public class GameController : MonoBehaviour {
             topRight.y,
             0
         );
+
+        var spawnedPlayerData = playerSpawner.performInitialSpawn(worldCoords);
+        missileBatteries = spawnedPlayerData.missileBatteries;
+        cities = spawnedPlayerData.cities;
+
+        gameState = new GameState(cities);
+        gameState.onLevelPrepare();
 
         inGameInput["Fire 1"].performed += fireOne;
         inGameInput["Fire 2"].performed += fireTwo;
@@ -100,11 +100,11 @@ public class GameController : MonoBehaviour {
     }
 
     private void fireOne(InputAction.CallbackContext context) {
-        fire(missileBatteries[1]);
+        fire(missileBatteries[0]);
     }
 
     private void fireTwo(InputAction.CallbackContext context) {
-        fire(missileBatteries[0]);
+        fire(missileBatteries[1]);
     }
 
     private void fireThree(InputAction.CallbackContext context) {

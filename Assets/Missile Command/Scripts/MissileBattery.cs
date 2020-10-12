@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Shapes;
 using UnityEngine;
@@ -7,21 +8,38 @@ public class MissileBattery : MonoBehaviour {
     public GameObject missilePrefab;
     public GameObject ammoIndicatorPrefab;
     public GameObject loadedIndicator;
+    public Explosion explosionPrefab;
+    public Color aliveColor;
+    public Color deadColor;
     public int maxMissiles = 10;
     public int missilesStored = 10;
-    
+
     public int ammoPerRow = 10;
     public float maxXAmmoOffset = 0.5f;
     public float ammoPadding = 0.01f;
     public float fullAmmoHeight = 0.4f;
 
     private bool isDestroyed = false;
-    private Rigidbody2D rb;
     private List<Rectangle> ammoIndicators;
+    private Polyline lineShape;
+    private ScreenEffectManager _screenEffectManager;
+    private ScreenEffectManager screenEffectManager {
+        get {
+            if (_screenEffectManager == null) {
+                _screenEffectManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<ScreenEffectManager>();
+            }
+            return _screenEffectManager;
+        }
+    }
 
     private void Awake() {
-        rb = GetComponent<Rigidbody2D>();
         ammoIndicators = new List<Rectangle>();
+        lineShape = GetComponentInChildren<Polyline>();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        Debug.Log($"OnTriggerEnter2D {gameObject.name} -> {other.gameObject.name} on layer {LayerMask.LayerToName(other.gameObject.layer)}");
+        destroy();
     }
 
     public bool fire(float x, float y) {
@@ -31,7 +49,7 @@ public class MissileBattery : MonoBehaviour {
 
         missilesStored--;
         var missile = ObjectPoolManager.Instance.getObjectInstance(missilePrefab).GetComponent<Missile>();
-        missile.launch(rb.position, new Vector2(x, y));
+        missile.launch(transform.position, new Vector2(x, y));
 
         updateAmmoIndicators();
         return true;
@@ -42,13 +60,29 @@ public class MissileBattery : MonoBehaviour {
     }
 
     internal void destroy() {
-        this.isDestroyed = true;
+        if (isDestroyed) return;
+
+        isDestroyed = true;
+        missilesStored = 0;
+        updateAmmoIndicators();
+        screenEffectManager.onBatteryDestroyed();
+
+        var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
+        explosion.boom(transform.position);
+        StartCoroutine(setDeadVisuals());
+    }
+
+    private IEnumerator setDeadVisuals() {
+        yield return new WaitForSeconds(0.2f);
+
+        lineShape.Color = deadColor;
     }
 
     internal void restore() {
-        missilesStored = maxMissiles;
         isDestroyed = false;
+        missilesStored = maxMissiles;
         updateAmmoIndicators();
+        lineShape.Color = aliveColor;
     }
 
     private void updateAmmoIndicators() {
@@ -89,7 +123,7 @@ public class MissileBattery : MonoBehaviour {
         indicator.Width = width;
         indicator.Height = height;
         indicator.gameObject.SetActive(true);
-        
+
         return indicator;
     }
 }

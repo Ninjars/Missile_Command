@@ -4,7 +4,7 @@ public class ICBM : MonoBehaviour {
     public float worldSpawnBuffer = 1;
     public float layerZ = 5;
     public float detonationRange = 0.5f;
-    public MissileExplosion explosionPrefab;
+    public Explosion explosionPrefab;
 
     private Vector3 targetPosition;
     private float thrust;
@@ -58,7 +58,7 @@ public class ICBM : MonoBehaviour {
         stateUpdater.onAttackDestroyed();
         gameObject.SetActive(false);
 
-        var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<MissileExplosion>();
+        var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
         explosion.boom(transform.position);
     }
 
