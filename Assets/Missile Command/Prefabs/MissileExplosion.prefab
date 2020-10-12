@@ -131,6 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8516042780396545597}
   - component: {fileID: 8516042780396545596}
+  - component: {fileID: 2953682293360695005}
   - component: {fileID: 6328716267540692050}
   m_Layer: 11
   m_Name: MissileExplosion
@@ -170,6 +171,27 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!50 &2953682293360695005
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8516042780396545594}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!114 &6328716267540692050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,6 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6d5b59611f35ab489e7d691b1285e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  causesEmp: 1
   maxRadius: 1
   duration: 2
   expansion:

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TargetMarker : MonoBehaviour {
     public float layerZ = 7;
@@ -13,7 +11,6 @@ public class TargetMarker : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log($"onTriggerEnter2D {other.gameObject}");
         if (other.gameObject == missile.gameObject) {
             missile.explode();
             gameObject.SetActive(false);

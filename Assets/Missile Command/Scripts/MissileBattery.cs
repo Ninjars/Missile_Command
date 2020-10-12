@@ -16,12 +16,15 @@ public class MissileBattery : MonoBehaviour {
     public float fullAmmoHeight = 0.4f;
 
     private bool isDestroyed = false;
-    private Rigidbody2D rb;
     private List<Rectangle> ammoIndicators;
 
     private void Awake() {
-        rb = GetComponent<Rigidbody2D>();
         ammoIndicators = new List<Rectangle>();
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other) {
+        Debug.Log($"OnTriggerEnter2D {gameObject.name} -> {other.gameObject.name} on layer {LayerMask.LayerToName(other.gameObject.layer)}");
+        destroy();
     }
 
     public bool fire(float x, float y) {
@@ -31,7 +34,7 @@ public class MissileBattery : MonoBehaviour {
 
         missilesStored--;
         var missile = ObjectPoolManager.Instance.getObjectInstance(missilePrefab).GetComponent<Missile>();
-        missile.launch(rb.position, new Vector2(x, y));
+        missile.launch(transform.position, new Vector2(x, y));
 
         updateAmmoIndicators();
         return true;
@@ -43,11 +46,13 @@ public class MissileBattery : MonoBehaviour {
 
     internal void destroy() {
         this.isDestroyed = true;
+        missilesStored = 0;
+        updateAmmoIndicators();
     }
 
     internal void restore() {
-        missilesStored = maxMissiles;
         isDestroyed = false;
+        missilesStored = maxMissiles;
         updateAmmoIndicators();
     }
 
