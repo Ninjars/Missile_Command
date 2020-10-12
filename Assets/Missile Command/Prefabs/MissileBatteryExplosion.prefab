@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8516042779177980994}
   - component: {fileID: 8516042779177980995}
   - component: {fileID: 8516042779177980992}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: Shape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 8516042780396545596}
   - component: {fileID: 2953682293360695005}
   - component: {fileID: 6328716267540692050}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: MissileBatteryExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
