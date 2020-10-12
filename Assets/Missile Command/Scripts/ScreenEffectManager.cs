@@ -10,7 +10,7 @@ public class ScreenEffectManager : MonoBehaviour {
     public float distortionDecayRate = 2f;
     public float glitch;
     public float glitchMaxEffect = 1;
-    public float glitchDecayRate = 0.1f;
+    public float glitchDecayRate = 0.2f;
 
     private void Update() {
         if (glitch > 0) {
@@ -24,15 +24,25 @@ public class ScreenEffectManager : MonoBehaviour {
         glitchEffectController.settings.PixelGlitch = glitch / glitchMaxEffect;
     }
 
-    public void onNukeExplosion(float yPosition) {
-        distortion += 1 - Mathf.Clamp01(yPosition / 1000f);
+    private void increaseGlitch(float value, float max) {
+        glitch = Mathf.Clamp(glitch + value, 0, Mathf.Min(max, glitchMaxEffect));
+    }
+
+    private void increaseDistort(float value, float max) {
+        distortion = Mathf.Clamp(distortion + value, 0, Mathf.Min(max, distortionMaxEffect));
+    }
+
+    public void onEMP(float yPosition) {
+        var factor = 1 - Mathf.Clamp01(yPosition / 10f);
+        increaseDistort(factor * 0.5f, distortionMaxEffect * 0.5f);
+        increaseGlitch(factor * 0.15f, distortionMaxEffect * 0.2f);
     }
 
     public void onCityNukeHit(float impactStrength) {
-        distortion = Mathf.Clamp(distortion + impactStrength, 0, distortionMaxEffect);
+        increaseDistort(impactStrength, distortionMaxEffect);
     }
 
     public void onBatteryNukeHit() {
-        glitch = Mathf.Clamp(glitch + 1, 0, glitchMaxEffect);
+        increaseGlitch(1, glitchMaxEffect);
     }
 }
