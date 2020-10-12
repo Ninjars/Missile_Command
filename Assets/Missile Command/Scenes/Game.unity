@@ -983,7 +983,7 @@ MonoBehaviour:
   distortionDecayRate: 2
   glitch: 0
   glitchMaxEffect: 1
-  glitchDecayRate: 0.1
+  glitchDecayRate: 0.35
 --- !u!1 &1921181807
 GameObject:
   m_ObjectHideFlags: 0
