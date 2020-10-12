@@ -100,11 +100,11 @@ public class GameController : MonoBehaviour {
     }
 
     private void fireOne(InputAction.CallbackContext context) {
-        fire(missileBatteries[0]);
+        fire(missileBatteries[1]);
     }
 
     private void fireTwo(InputAction.CallbackContext context) {
-        fire(missileBatteries[1]);
+        fire(missileBatteries[0]);
     }
 
     private void fireThree(InputAction.CallbackContext context) {
