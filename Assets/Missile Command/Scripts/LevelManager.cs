@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour {
@@ -30,6 +31,10 @@ public class LevelManager : MonoBehaviour {
             currentLevelData = levelData;
             return levelData;
         }
+    }
+
+    public int getTotalLevels() {
+        return stageData.Select(stage => stage.levels).Aggregate(0, (acc, next) => acc + next);
     }
 
     private LevelData createLevelData(StageData currentData, float stageProgress) {

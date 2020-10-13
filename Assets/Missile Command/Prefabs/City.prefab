@@ -194,6 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDestroyed: 0
+  evacuatedColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
   aliveVisuals: {fileID: 7928599694638219702}
   deadVisuals: {fileID: 2401830601307375502}
   explosionPrefab: {fileID: 6328716267540692050, guid: ee7773debad800a4eb9351ff523c2340,

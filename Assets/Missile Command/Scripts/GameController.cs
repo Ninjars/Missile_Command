@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 
 [RequireComponent(typeof(PlayerSpawner), typeof(ObjectPoolManager), typeof(LevelManager))]
-[RequireComponent(typeof(AttackController))]
+[RequireComponent(typeof(AttackController), typeof(EvacuationController))]
 public class GameController : MonoBehaviour {
     public PlayerSpawner playerSpawner;
     public ObjectPoolManager objectPoolManager;
     public LevelManager levelManager;
     public AttackController attackController;
+    public EvacuationController evacuationController;
+    [Tooltip("Percentage of the population that will be evacuated by the end of the game if no cities are destroyed")]
+    public float evacuationFactor = 0.5f;
 
     public InputActionMap inGameInput;
 
@@ -36,12 +38,14 @@ public class GameController : MonoBehaviour {
             0
         );
 
-        var spawnedPlayerData = playerSpawner.performInitialSpawn(worldCoords);
+        var spawnedPlayerData = playerSpawner.performInitialSpawn(worldCoords, levelManager.getTotalLevels(), evacuationFactor);
         missileBatteries = spawnedPlayerData.missileBatteries;
         cities = spawnedPlayerData.cities;
 
         gameState = new GameState(cities);
         gameState.onLevelPrepare();
+        
+        evacuationController.initialise(cities, gameState);
 
         inGameInput["Fire 1"].performed += fireOne;
         inGameInput["Fire 2"].performed += fireTwo;
@@ -71,6 +75,7 @@ public class GameController : MonoBehaviour {
             }
             case GameMode.POST_LEVEL: {
                 levelManager.onLevelCompleted();
+                evacuationController.performEvacuation();
                 inGameInput.Disable();
 
                 if (levelManager.allStagesCompleted) {
