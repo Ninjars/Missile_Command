@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 
 [RequireComponent(typeof(PlayerSpawner), typeof(ObjectPoolManager), typeof(LevelManager))]
 [RequireComponent(typeof(AttackController))]
@@ -11,6 +10,8 @@ public class GameController : MonoBehaviour {
     public ObjectPoolManager objectPoolManager;
     public LevelManager levelManager;
     public AttackController attackController;
+    [Tooltip("Percentage of the population that will be evacuated by the end of the game if no cities are destroyed")]
+    public float evacuationFactor = 0.5f;
 
     public InputActionMap inGameInput;
 
@@ -36,7 +37,7 @@ public class GameController : MonoBehaviour {
             0
         );
 
-        var spawnedPlayerData = playerSpawner.performInitialSpawn(worldCoords);
+        var spawnedPlayerData = playerSpawner.performInitialSpawn(worldCoords, levelManager.getTotalLevels(), evacuationFactor);
         missileBatteries = spawnedPlayerData.missileBatteries;
         cities = spawnedPlayerData.cities;
 

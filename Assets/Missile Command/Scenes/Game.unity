@@ -841,6 +841,7 @@ MonoBehaviour:
   batteryZPos: 5
   cityPrefab: {fileID: -707621967015038596, guid: 1757962d31ae64e58a3987d214f35739,
     type: 3}
+  cityPopulation: 1000000
   cityYPos: 0.2
   cityZPos: 10
 --- !u!4 &1839267173
@@ -873,6 +874,7 @@ MonoBehaviour:
   objectPoolManager: {fileID: 1839267175}
   levelManager: {fileID: 1839267176}
   attackController: {fileID: 1839267177}
+  evacuationFactor: 0.5
   inGameInput:
     m_Name: In Game Input
     m_Id: b49f8741-bbfe-4ca5-a6b6-448b27aeaed8
