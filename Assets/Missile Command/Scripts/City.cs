@@ -51,6 +51,7 @@ public class City : MonoBehaviour {
         if (!isDestroyed) {
             destroy();
         }
+        other.gameObject.SendMessage("explode");
     }
 
     private void destroy() {

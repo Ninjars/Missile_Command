@@ -157,7 +157,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3181994914049257599}
   - component: {fileID: -707621967015038596}
-  - component: {fileID: 564698146372756395}
+  - component: {fileID: -4855930507761740206}
   m_Layer: 8
   m_Name: City
   m_TagString: Untagged
@@ -199,7 +199,7 @@ MonoBehaviour:
   deadVisuals: {fileID: 2401830601307375502}
   explosionPrefab: {fileID: 6328716267540692050, guid: ee7773debad800a4eb9351ff523c2340,
     type: 3}
---- !u!58 &564698146372756395
+--- !u!58 &-4855930507761740206
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
