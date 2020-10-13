@@ -814,6 +814,7 @@ GameObject:
   - component: {fileID: 1839267172}
   - component: {fileID: 1839267175}
   - component: {fileID: 1839267177}
+  - component: {fileID: 1839267179}
   - component: {fileID: 1839267176}
   - component: {fileID: 1839267178}
   m_Layer: 0
@@ -874,6 +875,7 @@ MonoBehaviour:
   objectPoolManager: {fileID: 1839267175}
   levelManager: {fileID: 1839267176}
   attackController: {fileID: 1839267177}
+  evacuationController: {fileID: 1839267179}
   evacuationFactor: 0.5
   inGameInput:
     m_Name: In Game Input
@@ -986,6 +988,18 @@ MonoBehaviour:
   glitch: 0
   glitchMaxEffect: 1
   glitchDecayRate: 0.35
+--- !u!114 &1839267179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839267171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20b804540095e314d861ff7bb5505f8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1921181807
 GameObject:
   m_ObjectHideFlags: 0

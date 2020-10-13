@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Shapes;
 using UnityEngine;
 
@@ -19,6 +20,10 @@ public class City : MonoBehaviour {
             }
             return _screenEffectManager;
         }
+    }
+
+    internal bool canEvacuate() {
+        return !isDestroyed && population > 0;
     }
 
     public void initialise(long population, long evacuationRate) {

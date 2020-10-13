@@ -18,6 +18,8 @@ public class GameState : StateUpdater {
             return true; 
         }
     }
+    public long populationEvacuated { get; private set; }
+    public long populationDead { get; private set; }
 
     public GameState(List<City> cities) {
         this.cities = cities;
@@ -34,6 +36,14 @@ public class GameState : StateUpdater {
 
     public void onAttackDestroyed() {
         attacksRemaining--;
+    }
+
+    public void onPopulationEvacuated(long count) {
+        populationEvacuated += count;
+    }
+
+    public void onPopulationLost(long count) {
+        populationDead += count;
     }
 
     public void onLevelPrepare() {
