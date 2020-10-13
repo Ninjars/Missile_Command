@@ -4,6 +4,7 @@ public class ICBM : MonoBehaviour {
     public float worldSpawnBuffer = 1;
     public float layerZ = 5;
     public Explosion explosionPrefab;
+    public LinearTrail trailPrefab;
 
     private float thrust;
     private Vector3 thrustVector;
@@ -39,6 +40,9 @@ public class ICBM : MonoBehaviour {
 
         gameObject.SetActive(true);
         rb.AddForce(thrustVector * weaponData.primaryImpulse.evaluate(stageProgress));
+
+        var trail = ObjectPoolManager.Instance.getObjectInstance(trailPrefab.gameObject).GetComponent<LinearTrail>();
+        trail.initialise(gameObject);
     }
 
     private Vector3 calculateSpawnPosition(WorldCoords worldCoords, float targetX) {
