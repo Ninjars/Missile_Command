@@ -3,10 +3,8 @@
 public class ICBM : MonoBehaviour {
     public float worldSpawnBuffer = 1;
     public float layerZ = 5;
-    public float detonationRange = 0.5f;
     public Explosion explosionPrefab;
 
-    private Vector3 targetPosition;
     private float thrust;
     private Vector3 thrustVector;
     private Rigidbody2D _rb;
@@ -34,8 +32,8 @@ public class ICBM : MonoBehaviour {
         if (UnityEngine.Random.value < 0.5f) {
             deviance = -deviance;
         }
-        this.targetPosition = new Vector3(targetCoords.x + deviance, targetCoords.y, layerZ);
         this.thrust = weaponData.primaryAcceleration.evaluate(stageProgress);
+        Vector3 targetPosition = new Vector3(targetCoords.x + deviance, targetCoords.y, layerZ);
         this.thrustVector = (targetPosition - spawnPosition).normalized;
         transform.position = spawnPosition;
 
@@ -69,18 +67,6 @@ public class ICBM : MonoBehaviour {
 
 
     private void FixedUpdate() {
-        if (Vector3.Distance(transform.position, targetPosition) < detonationRange) {
-            explode();
-        } else {
-            rb.AddForce(thrustVector * thrust, ForceMode2D.Force);
-        }
-    }
-
-    private void OnDrawGizmos() {
-        Debug.DrawLine(
-            transform.position,
-            targetPosition,
-            Color.red
-        );
+        rb.AddForce(thrustVector * thrust, ForceMode2D.Force);
     }
 }

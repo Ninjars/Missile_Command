@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerSpawner : MonoBehaviour {
     public MissileBattery batteryPrefab;
     public int batteryCount;
+    public float batteryYPos;
     public float batteryZPos;
 
     public City cityPrefab;
@@ -24,7 +25,7 @@ public class PlayerSpawner : MonoBehaviour {
         for (int i = 0; i < batteryCount; i++) {
             var batteryPosition = batterySpacing * (i + 1) + worldCoords.worldLeft;
             var missileBattery = GameObject.Instantiate(batteryPrefab);
-            missileBattery.transform.position = new Vector3(batteryPosition, 0, batteryZPos);
+            missileBattery.transform.position = new Vector3(batteryPosition, batteryYPos, batteryZPos);
             missileBattery.gameObject.name = $"MissileBattery {i}";
             missileBatteries.Add(missileBattery);
 
