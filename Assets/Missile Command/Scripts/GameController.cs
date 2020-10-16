@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerSpawner), typeof(ObjectPoolManager), typeof(LevelManager))]
-[RequireComponent(typeof(AttackController), typeof(EvacuationController))]
+[RequireComponent(typeof(AttackController), typeof(EvacuationController), typeof(UiController))]
 public class GameController : MonoBehaviour {
+    private UiController uiController;
     private PlayerSpawner playerSpawner;
     private ObjectPoolManager objectPoolManager;
     private LevelManager levelManager;
@@ -57,9 +58,11 @@ public class GameController : MonoBehaviour {
         switch (gameState.currentMode) {
             case GameMode.MAIN_MENU: {
                 inGameInput.Disable();
+                uiController.setUiMode(UiMode.MAIN_MENU);
                 break;
             }
             case GameMode.START_GAME: {
+                uiController.setUiMode(UiMode.IN_GAME);
                 gameState.onLevelPrepare();
                 break;
             }
@@ -96,11 +99,13 @@ public class GameController : MonoBehaviour {
             case GameMode.GAME_LOST: {
                 inGameInput.Disable();
                 attackController.stopAttacks();
+                uiController.setUiMode(UiMode.LOSE_SCREEN);
                 break;
             }
             case GameMode.GAME_WON: {
                 inGameInput.Disable();
                 attackController.stopAttacks();
+                uiController.setUiMode(UiMode.WIN_SCREEN);
                 break;
             }
         }
@@ -165,6 +170,7 @@ public class GameController : MonoBehaviour {
         
         gameState.onGameBegin();
         evacuationController.initialise(gameState);
+        uiController.setGameState(gameState);
     }
 
     private void clearBoard() {
