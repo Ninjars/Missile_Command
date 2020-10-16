@@ -22,6 +22,8 @@ public class LinearTrail : MonoBehaviour {
     }
 
     public void initialise(GameObject subject, TrailSettings trailSettings) {
+        gameObject.SetActive(true);
+
         this.subject = subject;
         this.zPos = trailSettings.zPos;
         this.initialColor = trailSettings.color;
@@ -33,8 +35,6 @@ public class LinearTrail : MonoBehaviour {
         line.Start = getPosition();
         line.End = getPosition();
         line.Color = currentColor;
-
-        gameObject.SetActive(true);
     }
 
     private Vector3 getPosition() {
