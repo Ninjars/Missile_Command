@@ -29,12 +29,12 @@ public class PlayerSpawner : MonoBehaviour {
             missileBattery.gameObject.name = $"MissileBattery {i}";
             missileBatteries.Add(missileBattery);
 
-            var cityA = instantiateCity(batteryPosition + cityOffset);
+            var cityA = instantiateCity(batteryPosition - cityOffset);
             cityA.gameObject.name = $"City {i}A";
             cityA.initialise(stateUpdater, cityPopulation, evacuationRate);
             cities.Add(cityA);
 
-            var cityB = instantiateCity(batteryPosition - cityOffset);
+            var cityB = instantiateCity(batteryPosition + cityOffset);
             cityB.gameObject.name = $"City {i}B";
             cityB.initialise(stateUpdater, cityPopulation, evacuationRate);
             cities.Add(cityB);
