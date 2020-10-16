@@ -9,6 +9,7 @@ public class Missile : MonoBehaviour {
     public float thrust = 10;
     public Explosion explosionPrefab;
     public GameObject targetMarker;
+    public TrailSettings trailSettings;
     private TargetMarker marker;
     private Vector2 target;
     private Vector2 facing;
@@ -55,6 +56,9 @@ public class Missile : MonoBehaviour {
 
         gameObject.SetActive(true);
         rb.AddForce(facing * launchImpulse, ForceMode2D.Impulse);
+        
+        var trail = ObjectPoolManager.Instance.getObjectInstance(trailSettings.prefab.gameObject).GetComponent<LinearTrail>();
+        trail.initialise(gameObject, trailSettings);
     }
 
     private void FixedUpdate() {
