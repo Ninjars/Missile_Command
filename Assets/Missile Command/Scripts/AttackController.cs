@@ -53,7 +53,6 @@ public class AttackController : MonoBehaviour {
 
         ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(icbmData.weaponPrefab.gameObject).GetComponent<ICBM>();
         
-        Debug.Log("targeting ICBM");
         weapon.launch(
             stateUpdater,
             worldCoords,
@@ -74,7 +73,6 @@ public class AttackController : MonoBehaviour {
                 .FirstOrDefault();
 
         if (targetCity != null) {
-            Debug.Log($">> {targetCity}");
             return targetCity.transform.position;
         }
 
@@ -84,11 +82,9 @@ public class AttackController : MonoBehaviour {
                 .FirstOrDefault();
 
         if (targetBattery != null) {
-            Debug.Log($">> {targetBattery}");
             return targetBattery.transform.position;
         }
 
-        Debug.Log(">> ground position");
         return new Vector2(
             UnityEngine.Random.value * (worldCoords.worldRight - worldCoords.worldLeft) + worldCoords.worldLeft,
             worldCoords.groundY
