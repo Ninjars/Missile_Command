@@ -4,13 +4,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EvacuationController : MonoBehaviour {
-    private List<City> cities;
     private GameState gameState;
+    private List<City> cities {
+        get {
+            return gameState.cities;
+        }
+    }
     private int currentCityIndex;
 
-    internal void initialise(List<City> cities, GameState gameState) {
+    internal void initialise(GameState gameState) {
         currentCityIndex = 0;
-        this.cities = cities;
         this.gameState = gameState;
     }
 
