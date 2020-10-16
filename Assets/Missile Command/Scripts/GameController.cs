@@ -6,11 +6,11 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerSpawner), typeof(ObjectPoolManager), typeof(LevelManager))]
 [RequireComponent(typeof(AttackController), typeof(EvacuationController))]
 public class GameController : MonoBehaviour {
-    public PlayerSpawner playerSpawner;
-    public ObjectPoolManager objectPoolManager;
-    public LevelManager levelManager;
-    public AttackController attackController;
-    public EvacuationController evacuationController;
+    private PlayerSpawner playerSpawner;
+    private ObjectPoolManager objectPoolManager;
+    private LevelManager levelManager;
+    private AttackController attackController;
+    private EvacuationController evacuationController;
     [Tooltip("Percentage of the population that will be evacuated by the end of the game if no cities are destroyed")]
     public float evacuationFactor = 0.5f;
 
@@ -25,6 +25,13 @@ public class GameController : MonoBehaviour {
     private Vector2 clickDownPosition = Vector2.zero;
 
     private void Awake() {
+        playerSpawner = GetComponent<PlayerSpawner>();
+        objectPoolManager = GetComponent<ObjectPoolManager>();
+        levelManager = GetComponent<LevelManager>();
+        attackController = GetComponent<AttackController>();
+        evacuationController = GetComponent<EvacuationController>();
+        uiController = GetComponent<UiController>();
+
         var bottomLeft = Camera.main.ViewportToWorldPoint(Vector2.zero);
         var topRight = Camera.main.ViewportToWorldPoint(Vector2.one);
         worldCoords = new WorldCoords(
