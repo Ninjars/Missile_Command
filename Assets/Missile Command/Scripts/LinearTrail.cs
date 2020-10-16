@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Line))]
 public class LinearTrail : MonoBehaviour {
     public float zPos;
-    public float decayTime = 1.66f;
+    private float decayTime;
     private bool isDecaying;
     private float decayStart;
     private Color initialColor;
@@ -21,9 +21,11 @@ public class LinearTrail : MonoBehaviour {
         }
     }
 
-    public void initialise(GameObject subject) {
+    public void initialise(GameObject subject, TrailSettings trailSettings) {
         this.subject = subject;
-        initialColor = line.Color;
+        this.zPos = trailSettings.zPos;
+        this.initialColor = trailSettings.color;
+        this.decayTime = trailSettings.fadeDuration;
 
         isDecaying = false;
         currentColor = initialColor;
@@ -48,7 +50,6 @@ public class LinearTrail : MonoBehaviour {
             float decay = Time.time - decayStart;
             if (decay >= decayTime) {
                 gameObject.SetActive(false);
-                line.Color = initialColor;
                 
             } else {
                 currentColor.a = Mathf.Lerp(1, 0, decay / decayTime);
