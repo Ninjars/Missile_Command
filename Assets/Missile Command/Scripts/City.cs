@@ -59,6 +59,7 @@ public class City : MonoBehaviour {
 
     private void destroy() {
         if (isDestroyed) return;
+        GetComponent<CircleCollider2D>().enabled = false;
         stateUpdater.onPopulationLost(population);
         population = 0;
         isDestroyed = true;
