@@ -5,7 +5,8 @@ using UnityEngine;
 public class GameState : StateUpdater {
     public int levelsCompleted;
     private int attacksRemaining;
-    private List<City> cities;
+    public List<City> cities;
+    public List<MissileBattery> missileBatteries;
     public GameMode currentMode { get; private set; }
     public bool isLevelComplete { get { return attacksRemaining <= 0; }}
     public bool hasLost { 
