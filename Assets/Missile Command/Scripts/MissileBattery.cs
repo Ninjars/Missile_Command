@@ -104,7 +104,7 @@ public class MissileBattery : MonoBehaviour {
     private void regenerateAmmoIndicators() {
         Debug.Log($"regenerateAmmoIndicators()");
         foreach (var obj in ammoIndicators) {
-            obj.gameObject.SetActive(false);
+            GameObject.Destroy(obj.gameObject);
         }
         ammoIndicators.Clear();
 
@@ -119,7 +119,7 @@ public class MissileBattery : MonoBehaviour {
         float x = -maxXAmmoOffset + column * (width + ammoPadding);
         float y = -1 * (ammoPadding + (height * 0.5f) + row * (height + ammoPadding));
 
-        Rectangle indicator = ObjectPoolManager.Instance.getObjectInstance(ammoIndicatorPrefab.gameObject).GetComponent<Rectangle>();
+        Rectangle indicator = GameObject.Instantiate(ammoIndicatorPrefab, transform, false).GetComponent<Rectangle>();
         indicator.transform.position = transform.position + new Vector3(x, y, 0);
         indicator.Width = width;
         indicator.Height = height;
