@@ -163,11 +163,16 @@ MonoBehaviour:
   missileLayerZ: 8
   launchImpulse: 3
   thrust: 2
-  rateOfTurnDegrees: 10
   explosionPrefab: {fileID: 6328716267540692050, guid: 587466809da6de9458138d0a9bfb1b76,
     type: 3}
   targetMarker: {fileID: 3020493202006186503, guid: 379d57ec6ce95ad4cbd0ffc54ffd6a48,
     type: 3}
+  trailSettings:
+    prefab: {fileID: -5772984231095308130, guid: 36a2ef10c450b7b468f2e3233f5d0041,
+      type: 3}
+    color: {r: 1, g: 1, b: 1, a: 0.5882353}
+    fadeDuration: 0.5
+    zPos: 9
 --- !u!50 &-3380123666757657350
 Rigidbody2D:
   serializedVersion: 4

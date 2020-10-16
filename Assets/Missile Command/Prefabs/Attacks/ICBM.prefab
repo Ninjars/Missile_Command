@@ -132,7 +132,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5888894347606011470
 Transform:
   m_ObjectHideFlags: 0
@@ -141,7 +141,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5888894347606011466}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.972221, y: 9.73, z: 5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5888894346723749234}
@@ -199,6 +199,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldSpawnBuffer: 0.3
   layerZ: 5
-  detonationRange: 0.3
   explosionPrefab: {fileID: 6328716267540692050, guid: df664ed21167c724f8a2ca3c5a5049ba,
     type: 3}
+  trailSettings:
+    prefab: {fileID: -5772984231095308130, guid: 36a2ef10c450b7b468f2e3233f5d0041,
+      type: 3}
+    color: {r: 1, g: 0.4941551, b: 0.1745283, a: 1}
+    fadeDuration: 2
+    zPos: 6
