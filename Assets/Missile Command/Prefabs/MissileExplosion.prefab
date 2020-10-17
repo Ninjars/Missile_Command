@@ -56,7 +56,7 @@ MonoBehaviour:
   colorOuterStart: {r: 1, g: 1, b: 1, a: 1}
   colorInnerEnd: {r: 1, g: 1, b: 1, a: 1}
   colorOuterEnd: {r: 1, g: 1, b: 1, a: 1}
-  geometry: 0
+  geometry: 1
   angUnitInput: 1
   angRadiansStart: 0
   angRadiansEnd: 2.3561945
@@ -118,8 +118,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1117509583
+  m_SortingLayer: 7
   m_SortingOrder: 0
 --- !u!1 &8516042780396545594
 GameObject:
@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8516042780396545597
 Transform:
   m_ObjectHideFlags: 0

@@ -62,11 +62,11 @@ MonoBehaviour:
     color: {r: 1, g: 1, b: 1, a: 1}
     thickness: 1
   meshOutOfDate: 0
-  geometry: 0
+  geometry: 1
   joins: 1
   closed: 1
-  thickness: 0.125
-  thicknessSpace: 0
+  thickness: 0.6
+  thicknessSpace: 2
 --- !u!33 &1086069244514476176
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -132,7 +132,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1299435136357556743
 Transform:
   m_ObjectHideFlags: 0
@@ -192,7 +192,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!58 &-4285643505544058001
 CircleCollider2D:
