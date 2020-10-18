@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 040ecbc3ca73ed34d9dab2f9b0cddffa, type: 3}
-  m_Name: Color Palette 1
+  m_Name: Color Palette BSOD
   m_EditorClassIdentifier: 
   city: {r: 1, g: 1, b: 1, a: 1}
-  battery: {r: 1, g: 0.9647059, b: 0.37254903, a: 1}
-  buildingExplode: {r: 1, g: 0.48235294, b: 0, a: 1}
-  deadBuilding: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
-  targetMarker: {r: 0.54901963, g: 0.9529412, b: 0.54509807, a: 1}
+  battery: {r: 1, g: 1, b: 1, a: 1}
+  buildingExplode: {r: 0.81960785, g: 0.12156863, b: 0.20784314, a: 1}
+  deadBuilding: {r: 0.39607844, g: 0.39607844, b: 0.39607844, a: 1}
+  targetMarker: {r: 1, g: 1, b: 1, a: 1}
   missile: {r: 1, g: 1, b: 1, a: 1}
-  missileTrail: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 1}
+  missileTrail: {r: 1, g: 1, b: 1, a: 1}
   missileExplode: {r: 1, g: 1, b: 1, a: 1}
-  attack: {r: 0.8784314, g: 0.05490196, b: 0.05490196, a: 1}
-  attackTrail: {r: 0.6313726, g: 0.15686275, b: 0.15686275, a: 1}
-  attackExplode: {r: 1, g: 1, b: 1, a: 1}
+  attack: {r: 1, g: 0.49411765, b: 0.1764706, a: 1}
+  attackTrail: {r: 1, g: 0.6431373, b: 0.41960785, a: 1}
+  attackExplode: {r: 1, g: 0.49411765, b: 0.1764706, a: 1}
   sky:
-    from: {r: 0.10980392, g: 0.10980392, b: 0.10980392, a: 1}
+    from: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 1}
     to: {r: 0, g: 0, b: 0, a: 0}
   background:
     from: {r: 0, g: 0, b: 0, a: 0}

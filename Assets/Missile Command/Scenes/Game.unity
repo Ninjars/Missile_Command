@@ -5200,7 +5200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 805160f1262dcd745b41bf6c6b8dea3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorPalette: {fileID: 11400000, guid: c6da72d834d49a142be10253435997be, type: 2}
+  colorPalette: {fileID: 11400000, guid: f5afc0ab9ba4ee34681715664d52a877, type: 2}
 --- !u!1 &1853862028
 GameObject:
   m_ObjectHideFlags: 0
