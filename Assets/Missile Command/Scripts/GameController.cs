@@ -81,7 +81,7 @@ public class GameController : MonoBehaviour {
                 } else if (gameState.hasWon) {
                     gameState.onGameEnded(true);
 
-                } else if (gameState.isLevelComplete) {
+                } else if (hasLevelEnded()) {
                     gameState.onLevelCompleted();
                 }
                 break;
@@ -111,6 +111,10 @@ public class GameController : MonoBehaviour {
                 break;
             }
         }
+    }
+
+    private bool hasLevelEnded() {
+        return gameState.canEndLevel(Time.time) && GameObject.FindGameObjectsWithTag("Attack").Length == 0;
     }
 
     private void startNextLevel() {

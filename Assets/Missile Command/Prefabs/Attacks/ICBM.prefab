@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 5888894347606011465}
   m_Layer: 10
   m_Name: ICBM
-  m_TagString: Untagged
+  m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -18,7 +18,6 @@ public class AttackController : MonoBehaviour {
 
         float accumulatedTime = 0;
         int attackCount = icbmData.count.evaluate(stageProgress);
-        stateUpdater.addScheduledAttacks(attackCount);
         for (int i = 0; i < attackCount; i++) {
             float attackInterval = getAttackInterval(icbmData, stageProgress);
             accumulatedTime += attackInterval;
@@ -34,6 +33,7 @@ public class AttackController : MonoBehaviour {
                 )
             ));
         }
+        stateUpdater.setLevelEnd(Time.time + accumulatedTime);
     }
 
     internal void stopAttacks() {

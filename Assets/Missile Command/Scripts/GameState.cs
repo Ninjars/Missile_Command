@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class GameState : StateUpdater {
     public int levelsCompleted;
-    private int attacksRemaining;
     public List<City> cities;
     public List<MissileBattery> missileBatteries;
     public GameMode currentMode { get; private set; }
-    public bool isLevelComplete { get { return attacksRemaining <= 0; }}
     public bool hasLost { 
         get {
             if (currentMode == GameMode.MAIN_MENU) return false;
@@ -35,21 +33,10 @@ public class GameState : StateUpdater {
     }
     public long populationEvacuated { get; private set; }
     public long populationDead { get; private set; }
+    private float levelEndMin;
 
     public GameState() {
         currentMode = GameMode.MAIN_MENU;
-    }
-
-    public void addScheduledAttacks(int count) {
-        attacksRemaining += count;
-    }
-
-    public void onNewAttack() {
-        attacksRemaining++;
-    }
-
-    public void onAttackDestroyed() {
-        attacksRemaining--;
     }
 
     public void onPopulationEvacuated(long count) {
@@ -60,6 +47,14 @@ public class GameState : StateUpdater {
         populationDead += count;
     }
 
+    public void setLevelEnd(float timeStamp) {
+        levelEndMin = timeStamp;
+    }
+
+    public bool canEndLevel(float currentTime) {
+        return currentTime > levelEndMin;
+    }
+
     public void onGameBegin() {
         currentMode = GameMode.START_GAME;
     }
@@ -67,7 +62,6 @@ public class GameState : StateUpdater {
     public void onLevelPrepare() {
         Debug.Log("GameState.onLevelPrepare()");
         currentMode = GameMode.PRE_LEVEL;
-        attacksRemaining = 0;
     }
 
     public void onLevelBegin() {
@@ -98,8 +92,6 @@ public enum GameMode {
 }
 
 public interface StateUpdater {
-    void addScheduledAttacks(int count);
-    void onNewAttack();
-    void onAttackDestroyed();
+    void setLevelEnd(float timeStamp);
     void onPopulationLost(long count);
 }
