@@ -20,3 +20,13 @@ public class RangeIntData {
         return Mathf.RoundToInt(from + ((to - from) * progress));
     }
 }
+
+[Serializable]
+public class RangeColorData {
+    public Color from;
+    public Color to;
+
+    public Color evaluate(float progress) {
+        return Color.Lerp(from, to, progress);
+    }
+}
