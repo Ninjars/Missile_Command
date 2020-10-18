@@ -9,8 +9,6 @@ public class MissileBattery : MonoBehaviour {
     public GameObject ammoIndicatorPrefab;
     public GameObject loadedIndicator;
     public Explosion explosionPrefab;
-    public Color aliveColor;
-    public Color deadColor;
     public int maxMissiles = 10;
     public int missilesStored = 10;
 
@@ -19,6 +17,7 @@ public class MissileBattery : MonoBehaviour {
     public float ammoPadding = 0.01f;
     public float fullAmmoHeight = 0.4f;
 
+    private Colors colors { get { return Colors.Instance; }}
     private bool isDestroyed = false;
     private List<Rectangle> ammoIndicators;
     private Polyline lineShape;
@@ -63,27 +62,29 @@ public class MissileBattery : MonoBehaviour {
     internal void destroy() {
         if (isDestroyed) return;
 
+        GetComponent<BoxCollider2D>().enabled = false;
         isDestroyed = true;
         missilesStored = 0;
         updateAmmoIndicators();
         screenEffectManager.onBatteryDestroyed();
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
-        explosion.boom(transform.position);
+        explosion.boom(transform.position, colors.buildingExplodeColor);
         StartCoroutine(setDeadVisuals());
     }
 
     private IEnumerator setDeadVisuals() {
         yield return new WaitForSeconds(0.2f);
 
-        lineShape.Color = deadColor;
+        lineShape.Color = colors.deadBuildingColor;
     }
 
     internal void restore() {
         isDestroyed = false;
         missilesStored = maxMissiles;
         updateAmmoIndicators();
-        lineShape.Color = aliveColor;
+        lineShape.Color = colors.batteryColor;
+        GetComponent<BoxCollider2D>().enabled = true;
     }
 
     private void updateAmmoIndicators() {

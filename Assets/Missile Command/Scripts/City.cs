@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Shapes;
 using UnityEngine;
 
 public class City : MonoBehaviour {
     public bool isDestroyed = false;
-    public Color evacuatedColor;
     public GameObject aliveVisuals;
     public GameObject deadVisuals;
     public Explosion explosionPrefab;
@@ -13,6 +11,7 @@ public class City : MonoBehaviour {
     public long population { get; private set; }
     private long evacuationRate;
     private StateUpdater stateUpdater;
+    private Colors colors { get { return Colors.Instance; }}
 
     private ScreenEffectManager _screenEffectManager;
     private ScreenEffectManager screenEffectManager {
@@ -32,6 +31,9 @@ public class City : MonoBehaviour {
         this.stateUpdater = stateUpdater;
         this.population = population;
         this.evacuationRate = evacuationRate;
+
+        aliveVisuals.GetComponent<Polyline>().Color = colors.cityColor;
+        deadVisuals.GetComponent<Polyline>().Color = colors.deadBuildingColor;
     }
 
     public long evacuate() {
@@ -41,7 +43,7 @@ public class City : MonoBehaviour {
         } else if (population <= evacuationRate) {
             var evacCount = population;
             population = 0;
-            aliveVisuals.GetComponent<Polyline>().Color = evacuatedColor;
+            aliveVisuals.GetComponent<Polyline>().Color = colors.deadBuildingColor;
             return evacCount;
 
         } else {
@@ -66,7 +68,7 @@ public class City : MonoBehaviour {
         screenEffectManager.onCityNukeHit(1f);
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
-        explosion.boom(transform.position);
+        explosion.boom(transform.position, colors.buildingExplodeColor);
         StartCoroutine(setDeadVisuals());
     }
 

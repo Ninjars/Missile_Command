@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Shapes;
+using UnityEngine;
 
 public class ICBM : MonoBehaviour {
     public float worldSpawnBuffer = 1;
@@ -9,6 +10,7 @@ public class ICBM : MonoBehaviour {
     private float thrust;
     private Vector3 thrustVector;
     private Rigidbody2D _rb;
+    private Colors colors { get { return Colors.Instance; }}
     private StateUpdater stateUpdater;
 
     private Rigidbody2D rb {
@@ -38,11 +40,13 @@ public class ICBM : MonoBehaviour {
         this.thrustVector = (targetPosition - spawnPosition).normalized;
         transform.position = spawnPosition;
 
+        GetComponentInChildren<Polyline>().Color = colors.attackColor;
+
         gameObject.SetActive(true);
         rb.AddForce(thrustVector * weaponData.primaryImpulse.evaluate(stageProgress));
 
         var trail = ObjectPoolManager.Instance.getObjectInstance(trailSettings.prefab.gameObject).GetComponent<LinearTrail>();
-        trail.initialise(gameObject, trailSettings);
+        trail.initialise(gameObject, trailSettings, colors.attackTrailColor);
     }
 
     private Vector3 calculateSpawnPosition(WorldCoords worldCoords, float targetX) {
@@ -60,7 +64,7 @@ public class ICBM : MonoBehaviour {
         stateUpdater.onAttackDestroyed();
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
-        explosion.boom(transform.position);
+        explosion.boom(transform.position, colors.attackExplodeColor);
     }
 
     private void OnCollisionEnter2D(Collision2D other) {

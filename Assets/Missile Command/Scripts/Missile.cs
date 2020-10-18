@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Shapes;
 using UnityEngine;
 
 public class Missile : MonoBehaviour {
@@ -13,6 +11,7 @@ public class Missile : MonoBehaviour {
     private TargetMarker marker;
     private Vector2 target;
     private Vector2 facing;
+    private Colors colors { get { return Colors.Instance; }}
 
     private Rigidbody2D _rb;
     private Rigidbody2D rb {
@@ -34,7 +33,7 @@ public class Missile : MonoBehaviour {
         gameObject.SetActive(false);
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
-        explosion.boom(rb.position);
+        explosion.boom(rb.position, colors.missileExplodeColor);
         
         if (marker != null) {
             marker.gameObject.SetActive(false);
@@ -48,6 +47,8 @@ public class Missile : MonoBehaviour {
         this.facing = (target - position).normalized;
         transform.position = new Vector3(position.x, position.y, missileLayerZ);
 
+        GetComponentInChildren<Polyline>().Color = colors.missileColor;
+
         this.marker = ObjectPoolManager.Instance.getObjectInstance(targetMarker.gameObject).GetComponent<TargetMarker>();
         marker.configure(this, target);
 
@@ -55,7 +56,7 @@ public class Missile : MonoBehaviour {
         rb.AddForce(facing * launchImpulse, ForceMode2D.Impulse);
         
         var trail = ObjectPoolManager.Instance.getObjectInstance(trailSettings.prefab.gameObject).GetComponent<LinearTrail>();
-        trail.initialise(gameObject, trailSettings);
+        trail.initialise(gameObject, trailSettings, colors.missileTrailColor);
     }
 
     private void FixedUpdate() {

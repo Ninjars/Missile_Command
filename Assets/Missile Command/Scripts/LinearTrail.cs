@@ -21,12 +21,12 @@ public class LinearTrail : MonoBehaviour {
         }
     }
 
-    public void initialise(GameObject subject, TrailSettings trailSettings) {
+    public void initialise(GameObject subject, TrailSettings trailSettings, Color color) {
         gameObject.SetActive(true);
 
         this.subject = subject;
         this.zPos = trailSettings.zPos;
-        this.initialColor = trailSettings.color;
+        this.initialColor = color;
         this.decayTime = trailSettings.fadeDuration;
 
         isDecaying = false;

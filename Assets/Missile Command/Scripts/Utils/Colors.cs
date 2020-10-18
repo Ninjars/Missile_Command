@@ -7,10 +7,8 @@ public class Colors : MonoBehaviour {
 
     public static Colors Instance { get { return _instance; } }
 
-    private void Awake()
-    {
-        if (_instance != null && _instance != this)
-        {
+    private void Awake() {
+        if (_instance != null && _instance != this) {
             Destroy(this.gameObject);
         } else {
             _instance = this;
