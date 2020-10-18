@@ -47,7 +47,6 @@ public class ICBM : MonoBehaviour {
 
     private Vector3 calculateSpawnPosition(WorldCoords worldCoords, float targetX) {
         float x;
-        Debug.Log($"calculateSpawnPosition() targetX {targetX} worldCenter {worldCoords.centerX}");
         if (targetX > worldCoords.centerX) {
             x = worldCoords.worldLeft - worldSpawnBuffer;
         } else {

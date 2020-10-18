@@ -6,11 +6,13 @@ using UnityEngine;
 public class City : MonoBehaviour {
     public bool isDestroyed = false;
     public Color evacuatedColor;
-    public long population { get; private set; }
-    private long evacuationRate;
     public GameObject aliveVisuals;
     public GameObject deadVisuals;
     public Explosion explosionPrefab;
+
+    public long population { get; private set; }
+    private long evacuationRate;
+    private StateUpdater stateUpdater;
 
     private ScreenEffectManager _screenEffectManager;
     private ScreenEffectManager screenEffectManager {
@@ -26,7 +28,8 @@ public class City : MonoBehaviour {
         return !isDestroyed && population > 0;
     }
 
-    public void initialise(long population, long evacuationRate) {
+    public void initialise(StateUpdater stateUpdater, long population, long evacuationRate) {
+        this.stateUpdater = stateUpdater;
         this.population = population;
         this.evacuationRate = evacuationRate;
     }
@@ -56,6 +59,8 @@ public class City : MonoBehaviour {
 
     private void destroy() {
         if (isDestroyed) return;
+        GetComponent<CircleCollider2D>().enabled = false;
+        stateUpdater.onPopulationLost(population);
         population = 0;
         isDestroyed = true;
         screenEffectManager.onCityNukeHit(1f);

@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 public class AttackController : MonoBehaviour {
+    private List<Coroutine> currentAttacks;
 
     internal void scheduleAttackEvents(
         StateUpdater stateUpdater,
@@ -13,13 +14,15 @@ public class AttackController : MonoBehaviour {
         ICBMData icbmData,
         float stageProgress
     ) {
+        clearCurrentAttacks();
+
         float accumulatedTime = 0;
         int attackCount = icbmData.count.evaluate(stageProgress);
         stateUpdater.addScheduledAttacks(attackCount);
         for (int i = 0; i < attackCount; i++) {
             float attackInterval = getAttackInterval(icbmData, stageProgress);
             accumulatedTime += attackInterval;
-            StartCoroutine(
+            currentAttacks.Add(StartCoroutine(
                 scheduleAttack(
                     stateUpdater,
                     worldCoords,
@@ -29,8 +32,23 @@ public class AttackController : MonoBehaviour {
                     icbmData,
                     stageProgress
                 )
-            );
+            ));
         }
+    }
+
+    internal void stopAttacks() {
+        clearCurrentAttacks();
+    }
+
+    private void clearCurrentAttacks() {
+        if (currentAttacks == null) {
+            currentAttacks = new List<Coroutine>();
+            return;
+        }
+        foreach (var coroutine in currentAttacks) {
+            StopCoroutine(coroutine);
+        }
+        currentAttacks.Clear();
     }
 
     private float getAttackInterval(ICBMData icbmData, float stageProgress) {
@@ -53,7 +71,6 @@ public class AttackController : MonoBehaviour {
 
         ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(icbmData.weaponPrefab.gameObject).GetComponent<ICBM>();
         
-        Debug.Log("targeting ICBM");
         weapon.launch(
             stateUpdater,
             worldCoords,
@@ -74,7 +91,6 @@ public class AttackController : MonoBehaviour {
                 .FirstOrDefault();
 
         if (targetCity != null) {
-            Debug.Log($">> {targetCity}");
             return targetCity.transform.position;
         }
 
@@ -84,11 +100,9 @@ public class AttackController : MonoBehaviour {
                 .FirstOrDefault();
 
         if (targetBattery != null) {
-            Debug.Log($">> {targetBattery}");
             return targetBattery.transform.position;
         }
 
-        Debug.Log(">> ground position");
         return new Vector2(
             UnityEngine.Random.value * (worldCoords.worldRight - worldCoords.worldLeft) + worldCoords.worldLeft,
             worldCoords.groundY

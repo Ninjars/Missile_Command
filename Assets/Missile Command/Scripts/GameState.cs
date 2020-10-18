@@ -5,13 +5,28 @@ using UnityEngine;
 public class GameState : StateUpdater {
     public int levelsCompleted;
     private int attacksRemaining;
-    private List<City> cities;
+    public List<City> cities;
+    public List<MissileBattery> missileBatteries;
     public GameMode currentMode { get; private set; }
     public bool isLevelComplete { get { return attacksRemaining <= 0; }}
     public bool hasLost { 
         get {
+            if (currentMode == GameMode.MAIN_MENU) return false;
+
             foreach (var city in cities) {
                 if (!city.isDestroyed) {
+                    return false;
+                }
+            } 
+            return true; 
+        }
+    }
+    public bool hasWon { 
+        get {
+            if (currentMode == GameMode.MAIN_MENU) return false;
+            if (hasLost) return false;
+            foreach (var city in cities) {
+                if (city.population != 0) {
                     return false;
                 }
             } 
@@ -21,10 +36,9 @@ public class GameState : StateUpdater {
     public long populationEvacuated { get; private set; }
     public long populationDead { get; private set; }
 
-    public GameState(List<City> cities) {
-        this.cities = cities;
+    public GameState() {
+        currentMode = GameMode.MAIN_MENU;
     }
-    
 
     public void addScheduledAttacks(int count) {
         attacksRemaining += count;
@@ -44,6 +58,10 @@ public class GameState : StateUpdater {
 
     public void onPopulationLost(long count) {
         populationDead += count;
+    }
+
+    public void onGameBegin() {
+        currentMode = GameMode.START_GAME;
     }
 
     public void onLevelPrepare() {
@@ -70,6 +88,8 @@ public class GameState : StateUpdater {
 }
 
 public enum GameMode {
+    MAIN_MENU,
+    START_GAME,
     PRE_LEVEL,
     IN_LEVEL,
     POST_LEVEL,
@@ -81,4 +101,5 @@ public interface StateUpdater {
     void addScheduledAttacks(int count);
     void onNewAttack();
     void onAttackDestroyed();
+    void onPopulationLost(long count);
 }

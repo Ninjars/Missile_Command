@@ -13,7 +13,7 @@ public class PlayerSpawner : MonoBehaviour {
     public float cityYPos;
     public float cityZPos;
 
-    public SpawnData performInitialSpawn(WorldCoords worldCoords, int numberOfLevels, float evacuationFactor) {
+    public SpawnData performInitialSpawn(StateUpdater stateUpdater, WorldCoords worldCoords, int numberOfLevels, float evacuationFactor) {
         List<MissileBattery> missileBatteries = new List<MissileBattery>();
         List<City> cities = new List<City>();
 
@@ -31,12 +31,12 @@ public class PlayerSpawner : MonoBehaviour {
 
             var cityA = instantiateCity(batteryPosition + cityOffset);
             cityA.gameObject.name = $"City {i}A";
-            cityA.initialise(cityPopulation, evacuationRate);
+            cityA.initialise(stateUpdater, cityPopulation, evacuationRate);
             cities.Add(cityA);
 
             var cityB = instantiateCity(batteryPosition - cityOffset);
             cityB.gameObject.name = $"City {i}B";
-            cityB.initialise(cityPopulation, evacuationRate);
+            cityB.initialise(stateUpdater, cityPopulation, evacuationRate);
             cities.Add(cityB);
         }
 
