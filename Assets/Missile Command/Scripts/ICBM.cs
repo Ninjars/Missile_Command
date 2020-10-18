@@ -56,8 +56,8 @@ public class ICBM : MonoBehaviour {
     }
 
     private void explode() {
-        stateUpdater.onAttackDestroyed();
         gameObject.SetActive(false);
+        stateUpdater.onAttackDestroyed();
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
         explosion.boom(transform.position);
