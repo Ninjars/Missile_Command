@@ -56,7 +56,9 @@ public class LinearTrail : MonoBehaviour {
                 line.Color = currentColor;
             }
 
-        } else if (subject != null && !subject.activeInHierarchy) {
+        } else if (!isDecaying 
+                && (subject == null || (subject != null && !subject.activeInHierarchy)
+        )) {
             subject = null;
             isDecaying = true;
             decayStart = Time.time;
