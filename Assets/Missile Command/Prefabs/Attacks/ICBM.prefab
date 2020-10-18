@@ -204,6 +204,5 @@ MonoBehaviour:
   trailSettings:
     prefab: {fileID: -5772984231095308130, guid: 36a2ef10c450b7b468f2e3233f5d0041,
       type: 3}
-    color: {r: 1, g: 0.4941551, b: 0.1745283, a: 1}
     fadeDuration: 2
-    zPos: 6
+    zPos: 10

@@ -33,6 +33,8 @@ public class GameController : MonoBehaviour {
         evacuationController = GetComponent<EvacuationController>();
         uiController = GetComponent<UiController>();
 
+        Camera.main.backgroundColor = Colors.Instance.skyColor.from;
+
         var bottomLeft = Camera.main.ViewportToWorldPoint(Vector2.zero);
         var topRight = Camera.main.ViewportToWorldPoint(Vector2.one);
         worldCoords = new WorldCoords(

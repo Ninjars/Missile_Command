@@ -37,9 +37,10 @@ public class Explosion : MonoBehaviour {
     }
     private float startTime;
 
-    public void boom(Vector2 position) {
+    public void boom(Vector2 position, Color color) {
         transform.position = new Vector3(position.x, position.y, layerZ);
         discShape.Radius = 0;
+        discShape.Color = color;
         circleCollider.radius = 0;
         startTime = Time.time;
         gameObject.SetActive(true);
