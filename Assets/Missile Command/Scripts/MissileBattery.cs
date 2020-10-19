@@ -11,6 +11,7 @@ public class MissileBattery : MonoBehaviour {
     public Explosion explosionPrefab;
     public int maxMissiles = 10;
     public int missilesStored = 10;
+    public float missileLaunchOffset = 0.3f;
 
     public int ammoPerRow = 10;
     public float maxXAmmoOffset = 0.5f;
@@ -50,7 +51,7 @@ public class MissileBattery : MonoBehaviour {
 
         missilesStored--;
         var missile = ObjectPoolManager.Instance.getObjectInstance(missilePrefab).GetComponent<Missile>();
-        missile.launch(transform.position, new Vector2(x, y));
+        missile.launch(transform.position + Vector3.up * missileLaunchOffset, new Vector2(x, y));
 
         updateAmmoIndicators();
         return true;
@@ -104,7 +105,6 @@ public class MissileBattery : MonoBehaviour {
     }
 
     private void regenerateAmmoIndicators() {
-        Debug.Log($"regenerateAmmoIndicators()");
         foreach (var obj in ammoIndicators) {
             GameObject.Destroy(obj.gameObject);
         }
