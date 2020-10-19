@@ -5,6 +5,7 @@ using UnityEngine;
 public class BackdropGenerator : MonoBehaviour {
     public int backdropZ;
     public float yOffset;
+    public float minHeightFactor = 0.1f;
 
     [Tooltip("Number of backdrop layers")]
     public RangeIntData layers;
@@ -47,7 +48,7 @@ public class BackdropGenerator : MonoBehaviour {
         points.Add(new Vector2(worldCoords.worldRight, originY));
         points.Add(new Vector2(worldCoords.worldLeft, originY));
 
-        float minY = maxHeight * 0.1f;
+        float minY = maxHeight * minHeightFactor;
         PerlinProvider perlin = new PerlinProvider(maxHeight - minY, Random.value * 100, 0.8f, 0.2f, 2f);
 
         points.Add(new Vector2(worldCoords.worldLeft, originY + minY + perlin.get(worldCoords.worldLeft)));
