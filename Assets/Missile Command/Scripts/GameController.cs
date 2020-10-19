@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerSpawner), typeof(ObjectPoolManager), typeof(LevelManager))]
 [RequireComponent(typeof(AttackController), typeof(EvacuationController), typeof(UiController))]
+[RequireComponent(typeof(BackdropGenerator))]
 public class GameController : MonoBehaviour {
     private UiController uiController;
     private PlayerSpawner playerSpawner;
@@ -12,6 +13,7 @@ public class GameController : MonoBehaviour {
     private LevelManager levelManager;
     private AttackController attackController;
     private EvacuationController evacuationController;
+    private BackdropGenerator backdropGenerator;
     [Tooltip("Percentage of the population that will be evacuated by the end of the game if no cities are destroyed")]
     public float evacuationFactor = 0.5f;
 
@@ -32,6 +34,7 @@ public class GameController : MonoBehaviour {
         attackController = GetComponent<AttackController>();
         evacuationController = GetComponent<EvacuationController>();
         uiController = GetComponent<UiController>();
+        backdropGenerator = GetComponent<BackdropGenerator>();
 
         Camera.main.backgroundColor = Colors.Instance.skyColor.from;
 
@@ -167,6 +170,7 @@ public class GameController : MonoBehaviour {
 
     private void startNewGame() {
         clearBoard();
+        backdropGenerator.generateBackground(worldCoords);
 
         gameState = new GameState();
 

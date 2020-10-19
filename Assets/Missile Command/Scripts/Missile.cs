@@ -14,6 +14,8 @@ public class Missile : MonoBehaviour {
     private Colors colors { get { return Colors.Instance; }}
 
     private Rigidbody2D _rb;
+    private LinearTrail trail;
+
     private Rigidbody2D rb {
         get {
             if (_rb == null) {
@@ -43,7 +45,6 @@ public class Missile : MonoBehaviour {
 
     public void launch(Vector2 position, Vector2 target) {
         this.target = target;
-        rb.position = position;
         this.facing = (target - position).normalized;
         transform.position = new Vector3(position.x, position.y, missileLayerZ);
 
@@ -55,7 +56,7 @@ public class Missile : MonoBehaviour {
         gameObject.SetActive(true);
         rb.AddForce(facing * launchImpulse, ForceMode2D.Impulse);
         
-        var trail = ObjectPoolManager.Instance.getObjectInstance(trailSettings.prefab.gameObject).GetComponent<LinearTrail>();
+        trail = ObjectPoolManager.Instance.getObjectInstance(trailSettings.prefab.gameObject).GetComponent<LinearTrail>();
         trail.initialise(gameObject, trailSettings, colors.missileTrailColor);
     }
 
@@ -74,5 +75,9 @@ public class Missile : MonoBehaviour {
     private void OnDisable() {
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0;
+        if (trail != null) {
+            trail.onSubjectDisabled();
+            trail = null;
+        }
     }
 }

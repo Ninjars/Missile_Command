@@ -309,11 +309,10 @@ MonoBehaviour:
   loadedIndicator: {fileID: 3628875260165961224}
   explosionPrefab: {fileID: 6328716267540692050, guid: 85ffbe0a51fa2214cac7fbe633aa8ce0,
     type: 3}
-  aliveColor: {r: 1, g: 1, b: 1, a: 1}
-  deadColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
   maxMissiles: 10
   missilesStored: 10
   ammoPerRow: 10
   maxXAmmoOffset: 0.5
+  yAmmoOffset: 0.1
   ammoPadding: 0.05
-  fullAmmoHeight: 0.4
+  fullAmmoHeight: 0.1

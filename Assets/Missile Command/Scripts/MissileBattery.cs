@@ -11,9 +11,11 @@ public class MissileBattery : MonoBehaviour {
     public Explosion explosionPrefab;
     public int maxMissiles = 10;
     public int missilesStored = 10;
+    public float missileLaunchOffset = 0.3f;
 
     public int ammoPerRow = 10;
     public float maxXAmmoOffset = 0.5f;
+    public float yAmmoOffset = 0.1f;
     public float ammoPadding = 0.01f;
     public float fullAmmoHeight = 0.4f;
 
@@ -49,7 +51,7 @@ public class MissileBattery : MonoBehaviour {
 
         missilesStored--;
         var missile = ObjectPoolManager.Instance.getObjectInstance(missilePrefab).GetComponent<Missile>();
-        missile.launch(transform.position, new Vector2(x, y));
+        missile.launch(transform.position + Vector3.up * missileLaunchOffset, new Vector2(x, y));
 
         updateAmmoIndicators();
         return true;
@@ -103,7 +105,6 @@ public class MissileBattery : MonoBehaviour {
     }
 
     private void regenerateAmmoIndicators() {
-        Debug.Log($"regenerateAmmoIndicators()");
         foreach (var obj in ammoIndicators) {
             GameObject.Destroy(obj.gameObject);
         }
@@ -118,7 +119,7 @@ public class MissileBattery : MonoBehaviour {
     private Rectangle createAmmoIndicator(float width, int column, int row, bool compressed) {
         float height = compressed ? fullAmmoHeight / 2f : fullAmmoHeight;
         float x = -maxXAmmoOffset + column * (width + ammoPadding);
-        float y = -1 * (ammoPadding + (height * 0.5f) + row * (height + ammoPadding));
+        float y = yAmmoOffset - height - row * (height + ammoPadding);
 
         Rectangle indicator = GameObject.Instantiate(ammoIndicatorPrefab, transform, false).GetComponent<Rectangle>();
         indicator.transform.position = transform.position + new Vector3(x, y, 0);

@@ -32,8 +32,9 @@ public class LinearTrail : MonoBehaviour {
         isDecaying = false;
         currentColor = initialColor;
 
-        line.Start = getPosition();
-        line.End = getPosition();
+        Vector3 position = getPosition();
+        line.Start = position;
+        line.End = position;
         line.Color = currentColor;
     }
 
@@ -49,6 +50,8 @@ public class LinearTrail : MonoBehaviour {
         if (isDecaying) {
             float decay = Time.time - decayStart;
             if (decay >= decayTime) {
+                subject = null;
+                _line = null;
                 gameObject.SetActive(false);
                 
             } else {
@@ -56,15 +59,17 @@ public class LinearTrail : MonoBehaviour {
                 line.Color = currentColor;
             }
 
-        } else if (!isDecaying 
-                && (subject == null || (subject != null && !subject.activeInHierarchy)
-        )) {
-            subject = null;
-            isDecaying = true;
-            decayStart = Time.time;
-        
+        } else if (subject == null || !subject.activeInHierarchy) {
+            onSubjectDisabled();
+
         } else {
             line.End = getPosition();
         }
+    }
+
+    internal void onSubjectDisabled() {
+            subject = null;
+            isDecaying = true;
+            decayStart = Time.time;
     }
 }
