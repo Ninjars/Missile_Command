@@ -12,6 +12,7 @@ public class ICBM : MonoBehaviour {
     private Rigidbody2D _rb;
     private Colors colors { get { return Colors.Instance; }}
     private StateUpdater stateUpdater;
+    private LinearTrail trail;
 
     private Rigidbody2D rb {
         get {
@@ -45,7 +46,7 @@ public class ICBM : MonoBehaviour {
         gameObject.SetActive(true);
         rb.AddForce(thrustVector * weaponData.primaryImpulse.evaluate(stageProgress));
 
-        var trail = ObjectPoolManager.Instance.getObjectInstance(trailSettings.prefab.gameObject).GetComponent<LinearTrail>();
+        trail = ObjectPoolManager.Instance.getObjectInstance(trailSettings.prefab.gameObject).GetComponent<LinearTrail>();
         trail.initialise(gameObject, trailSettings, colors.attackTrailColor);
     }
 
@@ -74,5 +75,14 @@ public class ICBM : MonoBehaviour {
 
     private void FixedUpdate() {
         rb.AddForce(thrustVector * thrust, ForceMode2D.Force);
+    }
+
+    private void OnDisable() {
+        rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0;
+        if (trail != null) {
+            trail.onSubjectDisabled();
+            trail = null;
+        }
     }
 }
