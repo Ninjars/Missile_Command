@@ -14,6 +14,7 @@ public class MissileBattery : MonoBehaviour {
 
     public int ammoPerRow = 10;
     public float maxXAmmoOffset = 0.5f;
+    public float yAmmoOffset = 0.1f;
     public float ammoPadding = 0.01f;
     public float fullAmmoHeight = 0.4f;
 
@@ -118,7 +119,7 @@ public class MissileBattery : MonoBehaviour {
     private Rectangle createAmmoIndicator(float width, int column, int row, bool compressed) {
         float height = compressed ? fullAmmoHeight / 2f : fullAmmoHeight;
         float x = -maxXAmmoOffset + column * (width + ammoPadding);
-        float y = -1 * (ammoPadding + (height * 0.5f) + row * (height + ammoPadding));
+        float y = yAmmoOffset - height - row * (height + ammoPadding);
 
         Rectangle indicator = GameObject.Instantiate(ammoIndicatorPrefab, transform, false).GetComponent<Rectangle>();
         indicator.transform.position = transform.position + new Vector3(x, y, 0);
