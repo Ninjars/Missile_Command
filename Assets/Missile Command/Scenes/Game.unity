@@ -1800,7 +1800,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &651650500
 Transform:
   m_ObjectHideFlags: 0
@@ -1822,7 +1822,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 651650499}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3469,7 +3469,7 @@ MonoBehaviour:
   colorEnd: {r: 1, g: 1, b: 1, a: 1}
   start: {x: -10, y: 0, z: 0}
   end: {x: 10, y: 0, z: 0}
-  thickness: 0.5
+  thickness: 0.65
   thicknessSpace: 2
   endCaps: 0
   matchDashSpacingToSize: 1
@@ -3513,7 +3513,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1309898504
 Transform:
   m_ObjectHideFlags: 0
@@ -3535,7 +3535,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1309898503}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -3877,7 +3877,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &1365463802
 MeshRenderer:
   m_ObjectHideFlags: 2
@@ -3885,7 +3885,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1365463801}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4988,6 +4988,7 @@ GameObject:
   - component: {fileID: 1839267178}
   - component: {fileID: 1839267180}
   - component: {fileID: 1839267181}
+  - component: {fileID: 1839267182}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -5010,7 +5011,7 @@ MonoBehaviour:
   batteryPrefab: {fileID: -698992362079301448, guid: 1d19f6c677048401f8f4508578f3f110,
     type: 3}
   batteryCount: 3
-  batteryYPos: 0.1
+  batteryYPos: 0.125
   batteryZPos: 5
   cityPrefab: {fileID: -707621967015038596, guid: 1757962d31ae64e58a3987d214f35739,
     type: 3}
@@ -5201,6 +5202,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorPalette: {fileID: 11400000, guid: f5afc0ab9ba4ee34681715664d52a877, type: 2}
+--- !u!114 &1839267182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839267171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c64e494f37f7c564c8da911dee49c442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backdropZ: 50
+  yOffset: 0
+  layers:
+    from: 5
+    to: 8
+  heights:
+    from: 3
+    to: 8
+  pointsFrequency:
+    from: 9
+    to: 15
 --- !u!1 &1853862028
 GameObject:
   m_ObjectHideFlags: 0
@@ -5658,7 +5682,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1921181808
 Transform:
   m_ObjectHideFlags: 0
@@ -5680,7 +5704,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1921181807}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -6357,7 +6381,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2124896682
 Transform:
   m_ObjectHideFlags: 0
@@ -6379,7 +6403,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2124896681}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
