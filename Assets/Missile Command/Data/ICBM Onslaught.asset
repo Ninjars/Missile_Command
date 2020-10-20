@@ -32,3 +32,9 @@ MonoBehaviour:
   primaryAcceleration:
     from: 0
     to: 0
+  mirvChance:
+    from: 1
+    to: 1
+  mirvCount:
+    from: 3
+    to: 5
