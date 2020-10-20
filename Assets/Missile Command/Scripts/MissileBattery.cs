@@ -20,7 +20,7 @@ public class MissileBattery : MonoBehaviour {
     public float fullAmmoHeight = 0.4f;
 
     private Colors colors { get { return Colors.Instance; }}
-    private bool isDestroyed = false;
+    public bool isDestroyed { get; private set; }
     private List<Rectangle> ammoIndicators;
     private Polyline lineShape;
     private ScreenEffectManager _screenEffectManager;
@@ -55,10 +55,6 @@ public class MissileBattery : MonoBehaviour {
 
         updateAmmoIndicators();
         return true;
-    }
-
-    internal bool getIsDestroyed() {
-        return isDestroyed;
     }
 
     internal void destroy() {

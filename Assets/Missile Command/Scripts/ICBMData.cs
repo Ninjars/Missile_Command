@@ -3,12 +3,14 @@
 [CreateAssetMenu(fileName = "ICBM Data", menuName = "Missile Command/ICBM")]
 public class ICBMData : ScriptableObject {
     public ICBM weaponPrefab;
+    public float initialDelay;
+    public TargetWeights targetWeights;
     
     [Tooltip("Number of instances spawned per level")]
     public RangeIntData count;
     
-    [Tooltip("Accuracy of the attack for a given target")]
-    public RangeData accuracy;
+    [Tooltip("Horizontal distance the attack can vary from intended target")]
+    public RangeData maxDeviation;
     
     [Tooltip("Average interval between instance spawns. Larger interval leads to a less dense, longer level.")]
     public RangeData avgInterval;

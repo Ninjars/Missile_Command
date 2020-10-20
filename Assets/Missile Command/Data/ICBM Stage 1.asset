@@ -14,10 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 5888894347606011465, guid: acee917d488bd2546b998b06f6be123d,
     type: 3}
+  initialDelay: 0
+  targetWeights:
+    city: 1
+    battery: 1
+    random: 3
   count:
     from: 10
     to: 30
-  accuracy:
+  maxDeviation:
     from: 5
     to: 1
   avgInterval:
@@ -32,9 +37,9 @@ MonoBehaviour:
   primaryAcceleration:
     from: 0.1
     to: 0.5
-  secondaryImpulse:
+  mirvChance:
     from: 0
     to: 0
-  secondaryAcceleration:
+  mirvCount:
     from: 0
     to: 0

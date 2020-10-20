@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Shapes;
 using UnityEngine;
 
@@ -18,7 +19,8 @@ public class ICBM : MonoBehaviour {
     private WorldCoords worldCoords;
     private StateUpdater stateUpdater;
     private ICBMData weaponData;
-    private float deviance;
+    private Func<Vector2> targetProvider;
+    private float accuracy;
     private LinearTrail trail;
     private float mirvAltitude;
     private int mirvCount;
@@ -37,56 +39,60 @@ public class ICBM : MonoBehaviour {
         WorldCoords worldCoords,
         ICBMData weaponData,
         float stageProgress,
-        Vector2 targetCoords
+        Func<Vector2> targetProvider
     ) {
-        float deviance = UnityEngine.Random.value * weaponData.accuracy.evaluate(stageProgress);
-        if (UnityEngine.Random.value < 0.5f) {
-            deviance = -deviance;
-        }
         configure(
             worldCoords,
             stateUpdater,
             weaponData,
+            targetProvider,
+            accuracy: weaponData.maxDeviation.evaluate(stageProgress),
             thrust: weaponData.primaryAcceleration.evaluate(stageProgress),
             impulse: weaponData.primaryImpulse.evaluate(stageProgress),
-            deviance,
             mirvCount: weaponData.mirvCount.evaluate(stageProgress),
             mirvAltitude: calculateMirvAltitude(worldCoords, weaponData.mirvChance.evaluate(stageProgress))
         );
 
-        launch(
-            calculateSpawnPosition(worldCoords, targetCoords.x),
-            new Vector3(targetCoords.x + deviance, targetCoords.y, layerZ)
-        );
+        Vector2 target = targetProvider.Invoke();
+
+        launch(calculateSpawnPosition(worldCoords, targetPosition.x), target);
     }
 
     private void configure(
         WorldCoords worldCoords,
         StateUpdater stateUpdater,
         ICBMData weaponData,
+        Func<Vector2> targetProvider,
+        float accuracy,
         float thrust,
         float impulse,
-        float deviance,
         int mirvCount,
         float mirvAltitude
     ) {
         this.worldCoords = worldCoords;
         this.stateUpdater = stateUpdater;
         this.weaponData = weaponData;
-        this.deviance = deviance;
+        this.targetProvider = targetProvider;
+        this.accuracy = accuracy;
         this.thrust = thrust;
         this.impulse = impulse;
-        this.mirvAltitude = mirvAltitude;
         this.mirvCount = mirvCount;
+        this.mirvAltitude = mirvAltitude;
     }
 
-    private void launch(Vector3 spawnPosition, Vector3 targetPosition) {
+    private void launch(Vector3 spawnPosition, Vector2 target) {
+        float deviance = UnityEngine.Random.value * accuracy;
+        if (UnityEngine.Random.value < 0.5f) {
+            deviance = -deviance;
+        }
+        this.targetPosition = new Vector3(target.x + deviance, target.y, layerZ);
+
         transform.position = spawnPosition;
         GetComponentInChildren<Polyline>().Color = colors.attackColor;
         gameObject.SetActive(true);
 
-        this.targetPosition = targetPosition;
         this.thrustVector = (targetPosition - spawnPosition).normalized;
+        rb.velocity = Vector2.zero;
         rb.AddForce(thrustVector * impulse);
 
         trail = ObjectPoolManager.Instance.getObjectInstance(trailSettings.prefab.gameObject).GetComponent<LinearTrail>();
@@ -134,21 +140,21 @@ public class ICBM : MonoBehaviour {
     private void Update() {
         if (rb.position.y < mirvAltitude) {
             trail.boostDecayTime();
+            List<Vector2> selectedTargets = new List<Vector2>(mirvCount);
             for (int i = 0; i < mirvCount; i++) {
                 ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(weaponData.weaponPrefab.gameObject).GetComponent<ICBM>();
                 weapon.configure(
                     worldCoords,
                     stateUpdater,
                     weaponData,
-                    thrust,
-                    impulse,
-                    deviance,
-                    0,
-                    -1
+                    targetProvider,
+                    accuracy: accuracy,
+                    thrust: thrust,
+                    impulse: impulse,
+                    mirvCount: 0,
+                    mirvAltitude: -1
                 );
-                Vector3 spawnPosition = transform.position;
-                Vector3 targetPosition = new Vector3(worldCoords.worldLeft + worldCoords.width * UnityEngine.Random.value, 0, layerZ);
-                weapon.launch(spawnPosition, targetPosition);
+                weapon.launch(transform.position, targetProvider.Invoke());
             }
             gameObject.SetActive(false);
         }
@@ -162,4 +168,9 @@ public class ICBM : MonoBehaviour {
             trail = null;
         }
     }
+
+    // private void OnDrawGizmos() {
+    //     Debug.DrawLine(rb.position, (Vector2) targetPosition, Color.red);
+    //     Debug.DrawLine(rb.position, (Vector3) rb.position + thrustVector * 2, Color.green);
+    // }
 }
