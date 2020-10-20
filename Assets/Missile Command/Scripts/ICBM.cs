@@ -1,4 +1,6 @@
-﻿using Shapes;
+﻿using System;
+using System.Collections.Generic;
+using Shapes;
 using UnityEngine;
 
 public class ICBM : MonoBehaviour {
@@ -8,11 +10,20 @@ public class ICBM : MonoBehaviour {
     public TrailSettings trailSettings;
 
     private float thrust;
+    private float impulse;
+    private Vector3 targetPosition;
     private Vector3 thrustVector;
     private Rigidbody2D _rb;
-    private Colors colors { get { return Colors.Instance; }}
+    private Colors colors { get { return Colors.Instance; } }
+
+    private WorldCoords worldCoords;
     private StateUpdater stateUpdater;
+    private ICBMData weaponData;
+    private Func<Vector2> targetProvider;
+    private float accuracy;
     private LinearTrail trail;
+    private float mirvAltitude;
+    private int mirvCount;
 
     private Rigidbody2D rb {
         get {
@@ -28,26 +39,75 @@ public class ICBM : MonoBehaviour {
         WorldCoords worldCoords,
         ICBMData weaponData,
         float stageProgress,
-        Vector2 targetCoords
+        Func<Vector2> targetProvider
     ) {
+        configure(
+            worldCoords,
+            stateUpdater,
+            weaponData,
+            targetProvider,
+            accuracy: weaponData.maxDeviation.evaluate(stageProgress),
+            thrust: weaponData.primaryAcceleration.evaluate(stageProgress),
+            impulse: weaponData.primaryImpulse.evaluate(stageProgress),
+            mirvCount: weaponData.mirvCount.evaluate(stageProgress),
+            mirvAltitude: calculateMirvAltitude(worldCoords, weaponData.mirvChance.evaluate(stageProgress))
+        );
+
+        Vector2 target = targetProvider.Invoke();
+
+        launch(calculateSpawnPosition(worldCoords, targetPosition.x), target);
+    }
+
+    private void configure(
+        WorldCoords worldCoords,
+        StateUpdater stateUpdater,
+        ICBMData weaponData,
+        Func<Vector2> targetProvider,
+        float accuracy,
+        float thrust,
+        float impulse,
+        int mirvCount,
+        float mirvAltitude
+    ) {
+        this.worldCoords = worldCoords;
         this.stateUpdater = stateUpdater;
-        Vector3 spawnPosition = calculateSpawnPosition(worldCoords, targetCoords.x);
-        float deviance = UnityEngine.Random.value * weaponData.accuracy.evaluate(stageProgress);
+        this.weaponData = weaponData;
+        this.targetProvider = targetProvider;
+        this.accuracy = accuracy;
+        this.thrust = thrust;
+        this.impulse = impulse;
+        this.mirvCount = mirvCount;
+        this.mirvAltitude = mirvAltitude;
+    }
+
+    private void launch(Vector3 spawnPosition, Vector2 target) {
+        float deviance = UnityEngine.Random.value * accuracy;
         if (UnityEngine.Random.value < 0.5f) {
             deviance = -deviance;
         }
-        this.thrust = weaponData.primaryAcceleration.evaluate(stageProgress);
-        Vector3 targetPosition = new Vector3(targetCoords.x + deviance, targetCoords.y, layerZ);
-        this.thrustVector = (targetPosition - spawnPosition).normalized;
+        this.targetPosition = new Vector3(target.x + deviance, target.y, layerZ);
+
         transform.position = spawnPosition;
-
         GetComponentInChildren<Polyline>().Color = colors.attackColor;
-
         gameObject.SetActive(true);
-        rb.AddForce(thrustVector * weaponData.primaryImpulse.evaluate(stageProgress));
+
+        this.thrustVector = (targetPosition - spawnPosition).normalized;
+        rb.velocity = Vector2.zero;
+        rb.AddForce(thrustVector * impulse);
 
         trail = ObjectPoolManager.Instance.getObjectInstance(trailSettings.prefab.gameObject).GetComponent<LinearTrail>();
         trail.initialise(gameObject, trailSettings, colors.attackTrailColor);
+    }
+
+    private float calculateMirvAltitude(WorldCoords worldCoords, float chance) {
+        if (UnityEngine.Random.value > chance) {
+            return -1;
+        } else {
+            float dy = worldCoords.worldTop - worldCoords.groundY;
+            float min = worldCoords.groundY + dy * 0.33f;
+            float max = worldCoords.worldTop - dy * 0.05f;
+            return min + UnityEngine.Random.value * (max - min);
+        }
     }
 
     private Vector3 calculateSpawnPosition(WorldCoords worldCoords, float targetX) {
@@ -57,7 +117,7 @@ public class ICBM : MonoBehaviour {
         } else {
             x = worldCoords.worldRight + worldSpawnBuffer;
         }
-        return new Vector3(x * UnityEngine.Random.value, worldCoords.worldTop+worldSpawnBuffer, layerZ);
+        return new Vector3(x * UnityEngine.Random.value, worldCoords.worldTop + worldSpawnBuffer, layerZ);
     }
 
     private void explode() {
@@ -77,6 +137,29 @@ public class ICBM : MonoBehaviour {
         rb.AddForce(thrustVector * thrust, ForceMode2D.Force);
     }
 
+    private void Update() {
+        if (rb.position.y < mirvAltitude) {
+            trail.boostDecayTime();
+            List<Vector2> selectedTargets = new List<Vector2>(mirvCount);
+            for (int i = 0; i < mirvCount; i++) {
+                ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(weaponData.weaponPrefab.gameObject).GetComponent<ICBM>();
+                weapon.configure(
+                    worldCoords,
+                    stateUpdater,
+                    weaponData,
+                    targetProvider,
+                    accuracy: accuracy,
+                    thrust: thrust,
+                    impulse: impulse,
+                    mirvCount: 0,
+                    mirvAltitude: -1
+                );
+                weapon.launch(transform.position, targetProvider.Invoke());
+            }
+            gameObject.SetActive(false);
+        }
+    }
+
     private void OnDisable() {
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0;
@@ -85,4 +168,9 @@ public class ICBM : MonoBehaviour {
             trail = null;
         }
     }
+
+    // private void OnDrawGizmos() {
+    //     Debug.DrawLine(rb.position, (Vector2) targetPosition, Color.red);
+    //     Debug.DrawLine(rb.position, (Vector3) rb.position + thrustVector * 2, Color.green);
+    // }
 }

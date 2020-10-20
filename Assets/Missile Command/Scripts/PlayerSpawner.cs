@@ -17,8 +17,7 @@ public class PlayerSpawner : MonoBehaviour {
         List<MissileBattery> missileBatteries = new List<MissileBattery>();
         List<City> cities = new List<City>();
 
-        float worldWidth = worldCoords.worldRight - worldCoords.worldLeft;
-        float batterySpacing = worldWidth / (batteryCount + 1f);
+        float batterySpacing = worldCoords.width / (batteryCount + 1f);
         float cityOffset = batterySpacing / 3f;
 
         long evacuationRate = calcEvacRate(batteryCount * 2, numberOfLevels, evacuationFactor);
