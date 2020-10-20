@@ -105,7 +105,7 @@ public class ICBM : MonoBehaviour {
         } else {
             float dy = worldCoords.worldTop - worldCoords.groundY;
             float min = worldCoords.groundY + dy * 0.33f;
-            float max = worldCoords.worldTop - dy * 0.33f;
+            float max = worldCoords.worldTop - dy * 0.05f;
             return min + UnityEngine.Random.value * (max - min);
         }
     }
