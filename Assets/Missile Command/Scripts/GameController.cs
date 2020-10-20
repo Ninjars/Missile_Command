@@ -179,7 +179,7 @@ public class GameController : MonoBehaviour {
         gameState.cities = spawnedPlayerData.cities;
         
         gameState.onGameBegin();
-        evacuationController.initialise(gameState);
+        evacuationController.initialise(gameState, worldCoords);
         uiController.setGameState(gameState);
     }
 

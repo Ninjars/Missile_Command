@@ -5168,6 +5168,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20b804540095e314d861ff7bb5505f8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  evacuatorPrefab: {fileID: 56856062, guid: dff39786350a2c14caaf891c38415ccb, type: 3}
+  evacuatorYOffset: -0.1
 --- !u!114 &1839267180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5216,6 +5218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backdropZ: 50
   yOffset: 0
+  minHeightFactor: 0.1
   layers:
     from: 5
     to: 8

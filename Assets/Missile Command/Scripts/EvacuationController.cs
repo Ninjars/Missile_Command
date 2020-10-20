@@ -4,7 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EvacuationController : MonoBehaviour {
+    public Evacuator evacuatorPrefab;
+    public float evacuatorYOffset;
+
     private GameState gameState;
+    private WorldCoords worldCoords;
+
     private List<City> cities {
         get {
             return gameState.cities;
@@ -12,9 +17,10 @@ public class EvacuationController : MonoBehaviour {
     }
     private int currentCityIndex;
 
-    internal void initialise(GameState gameState) {
+    internal void initialise(GameState gameState, WorldCoords worldCoords) {
         currentCityIndex = 0;
         this.gameState = gameState;
+        this.worldCoords = worldCoords;
     }
 
     internal void performEvacuation() {
@@ -30,8 +36,13 @@ public class EvacuationController : MonoBehaviour {
         }
 
         long evacCount = evacCity.evacuate();
-        gameState.onPopulationEvacuated(evacCount);
-        // TODO: visual indicating evacuation amount and location
-        Debug.Log($"{evacCity.gameObject.name} evacuated {evacCount}; {evacCity.population} remaining");
+        Evacuator evacuator = ObjectPoolManager.Instance.getObjectInstance(evacuatorPrefab.gameObject).GetComponent<Evacuator>();
+        evacuator.dispatch(
+            worldCoords,
+            new Vector2(evacCity.transform.position.x, evacuatorYOffset),
+            (evacueeCount) => gameState.onPopulationEvacuated(evacueeCount),
+            (evacueeCount) => gameState.onPopulationLost(evacueeCount),
+            evacCount
+        );
     }
 }
