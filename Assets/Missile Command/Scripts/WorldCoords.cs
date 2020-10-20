@@ -5,6 +5,7 @@
     public readonly float worldTop;
     public readonly float groundY;
     public float centerX { get { return (worldRight + worldLeft) / 2f; } }
+    public float width { get { return (worldRight - worldLeft); }}
 
     public WorldCoords(
         float worldLeft,

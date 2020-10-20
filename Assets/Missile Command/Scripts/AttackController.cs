@@ -104,7 +104,7 @@ public class AttackController : MonoBehaviour {
         }
 
         return new Vector2(
-            UnityEngine.Random.value * (worldCoords.worldRight - worldCoords.worldLeft) + worldCoords.worldLeft,
+            UnityEngine.Random.value * worldCoords.width + worldCoords.worldLeft,
             worldCoords.groundY
         );
     }

@@ -53,7 +53,7 @@ public class BackdropGenerator : MonoBehaviour {
 
         points.Add(new Vector2(worldCoords.worldLeft, originY + minY + perlin.get(worldCoords.worldLeft)));
 
-        float averagePointGap = (worldCoords.worldRight - worldCoords.worldLeft) / (float) (pointCount);
+        float averagePointGap = worldCoords.width / (float) (pointCount);
         for (int i = 1; i < pointCount - 1; i++) {
             var x = worldCoords.worldLeft + (i * averagePointGap);
             points.Add(new Vector2(x, originY + minY + perlin.get(x)));
