@@ -72,4 +72,8 @@ public class LinearTrail : MonoBehaviour {
             isDecaying = true;
             decayStart = Time.time;
     }
+
+    internal void boostDecayTime() {
+        decayTime *= 2;
+    }
 }

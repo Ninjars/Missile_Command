@@ -133,6 +133,7 @@ public class ICBM : MonoBehaviour {
 
     private void Update() {
         if (rb.position.y < mirvAltitude) {
+            trail.boostDecayTime();
             for (int i = 0; i < mirvCount; i++) {
                 ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(weaponData.weaponPrefab.gameObject).GetComponent<ICBM>();
                 weapon.configure(
