@@ -9,7 +9,6 @@ public class City : MonoBehaviour {
     public Explosion explosionPrefab;
 
     public long population { get; private set; }
-    private long evacuationRate;
     private StateUpdater stateUpdater;
     private Colors colors { get { return Colors.Instance; }}
 
@@ -27,28 +26,27 @@ public class City : MonoBehaviour {
         return !isDestroyed && population > 0;
     }
 
-    public void initialise(StateUpdater stateUpdater, long population, long evacuationRate) {
+    public void initialise(StateUpdater stateUpdater, long population) {
         this.stateUpdater = stateUpdater;
         this.population = population;
-        this.evacuationRate = evacuationRate;
 
         aliveVisuals.GetComponent<Polyline>().Color = colors.cityColor;
         deadVisuals.GetComponent<Polyline>().Color = colors.deadBuildingColor;
     }
 
-    public long evacuate() {
+    public long evacuate(long evacuationCountMax) {
         if (isDestroyed) {
             return 0;
 
-        } else if (population <= evacuationRate) {
+        } else if (population <= evacuationCountMax) {
             var evacCount = population;
             population = 0;
             aliveVisuals.GetComponent<Polyline>().Color = colors.deadBuildingColor;
             return evacCount;
 
         } else {
-            population -= evacuationRate;
-            return evacuationRate;
+            population -= evacuationCountMax;
+            return evacuationCountMax;
         }
     }
 

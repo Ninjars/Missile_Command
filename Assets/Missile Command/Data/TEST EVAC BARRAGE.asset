@@ -10,36 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f277a3635cb3b247b73dc17ef0d71a0, type: 3}
-  m_Name: ICBM Onslaught
+  m_Name: TEST EVAC BARRAGE
   m_EditorClassIdentifier: 
   weaponPrefab: {fileID: 5888894347606011465, guid: acee917d488bd2546b998b06f6be123d,
     type: 3}
   initialDelay: 0
   targetWeights:
-    city: 3
-    battery: 2
+    city: 0
+    battery: 0
     random: 1
   count:
-    from: 30
-    to: 50
+    from: 10
+    to: 10
   maxDeviation:
-    from: 3
-    to: 3
+    from: 0
+    to: 0
   avgInterval:
-    from: 1
-    to: 0.2
+    from: 0
+    to: 0
   intervalVariance:
-    from: 1
-    to: 0.5
+    from: 0
+    to: 0
   primaryImpulse:
     from: 50
-    to: 80
+    to: 50
   primaryAcceleration:
     from: 0
     to: 0
   mirvChance:
-    from: 0.1
-    to: 0.5
+    from: 1
+    to: 1
   mirvCount:
-    from: 2
+    from: 4
     to: 4

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameState : StateUpdater {
@@ -32,11 +33,16 @@ public class GameState : StateUpdater {
         }
     }
     public long populationEvacuated { get; private set; }
+    public long citiesPopulation { get { return cities.Aggregate(0L, (acc, city) => acc + city.population); } }
     public long populationDead { get; private set; }
+    public float evacEventInterval { get; private set; }
+    public long evacEventCount { get; private set; }
     private float levelEndMin;
 
-    public GameState() {
+    public GameState(float evacEventsPerMin, long evacEventCount) {
         currentMode = GameMode.MAIN_MENU;
+        this.evacEventInterval = evacEventsPerMin * 60f;
+        this.evacEventCount = evacEventCount;
     }
 
     public void onPopulationEvacuated(long count) {

@@ -39,7 +39,7 @@ public class AttackController : MonoBehaviour {
                 )
             ));
         }
-        stateUpdater.setLevelEnd(Time.time + accumulatedTime);
+        stateUpdater.setLevelEnd(Time.time + accumulatedTime + 1f);
     }
 
     internal void stopAttacks() {
