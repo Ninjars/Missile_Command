@@ -9,18 +9,16 @@ public class PlayerSpawner : MonoBehaviour {
     public float batteryZPos;
 
     public City cityPrefab;
-    public long cityPopulation = 1000000;
     public float cityYPos;
     public float cityZPos;
 
-    public SpawnData performInitialSpawn(StateUpdater stateUpdater, WorldCoords worldCoords, int numberOfLevels, float evacuationFactor) {
+    public SpawnData performInitialSpawn(StateUpdater stateUpdater, WorldCoords worldCoords, int numberOfLevels, long initialPopulation) {
         List<MissileBattery> missileBatteries = new List<MissileBattery>();
         List<City> cities = new List<City>();
 
         float batterySpacing = worldCoords.width / (batteryCount + 1f);
         float cityOffset = batterySpacing / 3f;
 
-        long evacuationRate = calcEvacRate(batteryCount * 2, numberOfLevels, evacuationFactor);
         for (int i = 0; i < batteryCount; i++) {
             var batteryPosition = batterySpacing * (i + 1) + worldCoords.worldLeft;
             var missileBattery = GameObject.Instantiate(batteryPrefab);
@@ -30,21 +28,16 @@ public class PlayerSpawner : MonoBehaviour {
 
             var cityA = instantiateCity(batteryPosition - cityOffset);
             cityA.gameObject.name = $"City {i}A";
-            cityA.initialise(stateUpdater, cityPopulation, evacuationRate);
+            cityA.initialise(stateUpdater, initialPopulation);
             cities.Add(cityA);
 
             var cityB = instantiateCity(batteryPosition + cityOffset);
             cityB.gameObject.name = $"City {i}B";
-            cityB.initialise(stateUpdater, cityPopulation, evacuationRate);
+            cityB.initialise(stateUpdater, initialPopulation);
             cities.Add(cityB);
         }
 
         return new SpawnData(missileBatteries, cities);
-    }
-    
-    private long calcEvacRate(int cityCount, int numberOfLevels, float evacuationFactor) {
-        int numberOfEvacuationsPerCity = numberOfLevels / cityCount;
-        return (long) Math.Ceiling(cityPopulation / numberOfEvacuationsPerCity * evacuationFactor);
     }
 
     private City instantiateCity(float xPos) {

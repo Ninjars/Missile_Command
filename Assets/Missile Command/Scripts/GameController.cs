@@ -14,8 +14,11 @@ public class GameController : MonoBehaviour {
     private AttackController attackController;
     private EvacuationController evacuationController;
     private BackdropGenerator backdropGenerator;
-    [Tooltip("Percentage of the population that will be evacuated by the end of the game if no cities are destroyed")]
-    public float evacuationFactor = 0.5f;
+    [Tooltip("Initial evacuation events per minute")]
+    public float baseEvacRate = 1f;
+    [Tooltip("Initial evacuees per event")]
+    public long baseEvacuees = 100;
+    public long initialCityPopulation = 1000000;
 
     public InputActionMap inGameInput;
 
@@ -52,7 +55,7 @@ public class GameController : MonoBehaviour {
         inGameInput["Fire 2"].performed += fireTwo;
         inGameInput["Fire 3"].performed += fireThree;
 
-        gameState = new GameState();
+        gameState = new GameState(baseEvacRate, baseEvacuees);
     }
 
     private void Update() {
@@ -74,6 +77,7 @@ public class GameController : MonoBehaviour {
             case GameMode.PRE_LEVEL: {
                 startNextLevel();
                 inGameInput.Enable();
+                evacuationController.beginEvacuations();
                 gameState.onLevelBegin();
                 break;
             }
@@ -91,7 +95,7 @@ public class GameController : MonoBehaviour {
             }
             case GameMode.POST_LEVEL: {
                 levelManager.onLevelCompleted();
-                evacuationController.performEvacuation();
+                evacuationController.suspendEvacuations();
                 inGameInput.Disable();
 
                 if (levelManager.allStagesCompleted) {
@@ -104,12 +108,14 @@ public class GameController : MonoBehaviour {
             case GameMode.GAME_LOST: {
                 inGameInput.Disable();
                 attackController.stopAttacks();
+                evacuationController.suspendEvacuations();
                 uiController.setUiMode(UiMode.LOSE_SCREEN);
                 break;
             }
             case GameMode.GAME_WON: {
                 inGameInput.Disable();
                 attackController.stopAttacks();
+                evacuationController.suspendEvacuations();
                 uiController.setUiMode(UiMode.WIN_SCREEN);
                 break;
             }
@@ -160,7 +166,7 @@ public class GameController : MonoBehaviour {
     public void onUiMainMenu() {
         attackController.stopAttacks();
         clearBoard();
-        gameState = new GameState();
+        gameState = new GameState(baseEvacRate, baseEvacuees);
     }
 
     public void onUiRestart() {
@@ -172,9 +178,9 @@ public class GameController : MonoBehaviour {
         clearBoard();
         backdropGenerator.generateBackground(worldCoords);
 
-        gameState = new GameState();
+        gameState = new GameState(baseEvacRate, baseEvacuees);
 
-        var spawnedPlayerData = playerSpawner.performInitialSpawn(gameState, worldCoords, levelManager.getTotalLevels(), evacuationFactor);
+        var spawnedPlayerData = playerSpawner.performInitialSpawn(gameState, worldCoords, levelManager.getTotalLevels(), initialCityPopulation);
         gameState.missileBatteries = spawnedPlayerData.missileBatteries;
         gameState.cities = spawnedPlayerData.cities;
         

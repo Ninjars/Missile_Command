@@ -5015,7 +5015,6 @@ MonoBehaviour:
   batteryZPos: 5
   cityPrefab: {fileID: -707621967015038596, guid: 1757962d31ae64e58a3987d214f35739,
     type: 3}
-  cityPopulation: 1000000
   cityYPos: 0.2
   cityZPos: 10
 --- !u!4 &1839267173
@@ -5044,7 +5043,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06a9601d8d4774623a38e84d50503836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  evacuationFactor: 0.5
+  baseEvacRate: 6
+  baseEvacuees: 100
+  initialCityPopulation: 1000000
   inGameInput:
     m_Name: In Game Input
     m_Id: b49f8741-bbfe-4ca5-a6b6-448b27aeaed8
@@ -5170,6 +5171,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   evacuatorPrefab: {fileID: 56856062, guid: dff39786350a2c14caaf891c38415ccb, type: 3}
   evacuatorYOffset: -0.1
+  evacIntervalVariance: 0.33
+  evacCountVariance: 0.33
 --- !u!114 &1839267180
 MonoBehaviour:
   m_ObjectHideFlags: 0
