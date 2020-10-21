@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameState : StateUpdater {
@@ -32,6 +33,7 @@ public class GameState : StateUpdater {
         }
     }
     public long populationEvacuated { get; private set; }
+    public long citiesPopulation { get { return cities.Aggregate(0L, (acc, city) => acc + city.population); } }
     public long populationDead { get; private set; }
     public float evacEventInterval { get; private set; }
     public long evacEventCount { get; private set; }

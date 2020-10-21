@@ -45,7 +45,7 @@ public class UiController : MonoBehaviour {
                 show(losePanel);
 
                 loseWaves.text = $"{gameState.levelsCompleted}";
-                loseSurvivors.text = $"{gameState.populationEvacuated}";
+                loseSurvivors.text = $"{gameState.populationEvacuated + gameState.citiesPopulation}";
                 loseDead.text = $"{gameState.populationDead}";
                 break;
             }
@@ -55,7 +55,7 @@ public class UiController : MonoBehaviour {
                 hide(losePanel);
 
                 winWaves.text = $"{gameState.levelsCompleted}";
-                winSurvivors.text = $"{gameState.populationEvacuated}";
+                winSurvivors.text = $"{gameState.populationEvacuated + gameState.citiesPopulation}";
                 winDead.text = $"{gameState.populationDead}";
                 break;
             }
