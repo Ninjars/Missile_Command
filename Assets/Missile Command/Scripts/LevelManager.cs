@@ -18,6 +18,7 @@ public class LevelManager : MonoBehaviour {
         StageData currentStageData = stageData[currentStage];
         if (stageLevel >= currentStageData.levels) {
             currentStage++;
+            stageLevel = 0;
         }
         _allStagesCompleted = currentStage >= stageData.Count;
     }
