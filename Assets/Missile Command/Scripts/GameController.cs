@@ -94,12 +94,17 @@ public class GameController : MonoBehaviour {
                 break;
             }
             case GameMode.POST_LEVEL: {
+                inGameInput.Disable();
                 levelManager.onLevelCompleted();
                 evacuationController.suspendEvacuations();
-                inGameInput.Disable();
 
                 if (levelManager.allStagesCompleted) {
                     gameState.onGameEnded(true);
+                    
+                } else if (levelManager.beginningNewStage) {
+                    clearEvacuators();
+                    gameState.onLevelPrepare();
+
                 } else {
                     gameState.onLevelPrepare();
                 }
@@ -109,6 +114,7 @@ public class GameController : MonoBehaviour {
                 inGameInput.Disable();
                 attackController.stopAttacks();
                 evacuationController.suspendEvacuations();
+                clearEvacuators();
                 uiController.setUiMode(UiMode.LOSE_SCREEN);
                 break;
             }
@@ -116,6 +122,7 @@ public class GameController : MonoBehaviour {
                 inGameInput.Disable();
                 attackController.stopAttacks();
                 evacuationController.suspendEvacuations();
+                clearEvacuators();
                 uiController.setUiMode(UiMode.WIN_SCREEN);
                 break;
             }
@@ -204,6 +211,7 @@ public class GameController : MonoBehaviour {
         var allObjects = GameObject.FindObjectsOfType<GameObject>();
         clearAttacks(allObjects);
         clearExplosions(allObjects);
+        clearEvacuators();
     }
 
     private void clearAttacks(GameObject[] objects) {
@@ -219,6 +227,13 @@ public class GameController : MonoBehaviour {
             if (obj.layer == LayerMask.NameToLayer("Explosions")) {
                 obj.SetActive(false);
             }
+        }
+    }
+
+    private void clearEvacuators() {
+        foreach (var evacuatorObj in GameObject.FindGameObjectsWithTag("Evacuator")) {
+            Evacuator evacuator = evacuatorObj.GetComponent<Evacuator>();
+            evacuator.deliver();
         }
     }
 }

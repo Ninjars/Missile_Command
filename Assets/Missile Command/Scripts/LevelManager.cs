@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour {
     private LevelData? currentLevelData;
     private bool _allStagesCompleted = false;
     public bool allStagesCompleted { get { return _allStagesCompleted; } }
+    public bool beginningNewStage { get { return stageLevel == 0; } }
 
     public void onLevelCompleted() {
         currentLevelData = null;

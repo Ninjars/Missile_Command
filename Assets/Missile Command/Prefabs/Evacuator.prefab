@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 56856062}
   m_Layer: 14
   m_Name: Evacuator
-  m_TagString: Untagged
+  m_TagString: Evacuator
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

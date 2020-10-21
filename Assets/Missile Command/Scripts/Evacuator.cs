@@ -59,9 +59,13 @@ public class Evacuator : MonoBehaviour {
 
     private void Update() {
         if (rb.position.x < worldCoords.worldLeft - 0.5f || rb.position.x > worldCoords.worldRight + 0.5f) {
-            onEvacComplete(evacueeCount);
-            gameObject.SetActive(false);
+            deliver();
         }
+    }
+
+    internal void deliver() {
+        onEvacComplete(evacueeCount);
+        gameObject.SetActive(false);
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
