@@ -62,6 +62,18 @@ public class GameController : MonoBehaviour {
         updateStateMachine();
     }
 
+    private void showAllCityUi() {
+        foreach (var city in gameState.cities) {
+            city.showUi();
+        }
+    }
+
+    private void hideAllCityUi() {
+        foreach (var city in gameState.cities) {
+            city.fadeOutUi();
+        }
+    }
+
     private void updateStateMachine() {
         switch (gameState.currentMode) {
             case GameMode.MAIN_MENU: {
@@ -72,6 +84,7 @@ public class GameController : MonoBehaviour {
             case GameMode.START_GAME: {
                 uiController.setUiMode(UiMode.IN_GAME);
                 gameState.onLevelPrepare();
+                showAllCityUi();
                 break;
             }
             case GameMode.PRE_LEVEL: {
@@ -79,6 +92,7 @@ public class GameController : MonoBehaviour {
                 inGameInput.Enable();
                 evacuationController.beginEvacuations();
                 gameState.onLevelBegin();
+                hideAllCityUi();
                 break;
             }
             case GameMode.IN_LEVEL: {
@@ -103,6 +117,7 @@ public class GameController : MonoBehaviour {
                     
                 } else if (levelManager.beginningNewStage) {
                     clearEvacuators();
+                    showAllCityUi();
                     gameState.onLevelPrepare();
 
                 } else {
