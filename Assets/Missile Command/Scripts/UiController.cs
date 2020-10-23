@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class UiController : MonoBehaviour {
     public RectTransform mainMenuPanel;
+    public RectTransform inGamePanel;
     public RectTransform winPanel;
     public TextMeshProUGUI winWaves;
     public TextMeshProUGUI winSurvivors;
@@ -16,11 +17,13 @@ public class UiController : MonoBehaviour {
     public TextMeshProUGUI loseSurvivors;
     public TextMeshProUGUI loseDead;
 
+
     private GameState gameState;
     private UiMode currentMode;
 
     internal void setGameState(GameState gameState) {
         this.gameState = gameState;
+        inGamePanel.GetComponent<InGameUI>().setGameState(gameState);
     }
 
     public void setUiMode(UiMode mode) {
@@ -29,18 +32,21 @@ public class UiController : MonoBehaviour {
         switch (mode) {
             case UiMode.MAIN_MENU: {
                 show(mainMenuPanel);
+                hide(inGamePanel);
                 hide(winPanel);
                 hide(losePanel);
                 break;
             }
             case UiMode.IN_GAME: {
                 hide(mainMenuPanel);
+                show(inGamePanel);
                 hide(winPanel);
                 hide(losePanel);
                 break;
             }
             case UiMode.LOSE_SCREEN: {
                 hide(mainMenuPanel);
+                hide(inGamePanel);
                 hide(winPanel);
                 show(losePanel);
 
@@ -51,6 +57,7 @@ public class UiController : MonoBehaviour {
             }
             case UiMode.WIN_SCREEN: {
                 hide(mainMenuPanel);
+                hide(inGamePanel);
                 show(winPanel);
                 hide(losePanel);
 
