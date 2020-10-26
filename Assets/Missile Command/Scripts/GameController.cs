@@ -63,14 +63,24 @@ public class GameController : MonoBehaviour {
     }
 
     private void showAllCityUi() {
+        if (gameState.cities == null) return;
         foreach (var city in gameState.cities) {
             city.showUi();
         }
     }
 
     private void hideAllCityUi() {
+        if (gameState.cities == null) return;
         foreach (var city in gameState.cities) {
             city.fadeOutUi();
+        }
+    }
+
+
+    private void clearAllCityUi() {
+        if (gameState.cities == null) return;
+        foreach (var city in gameState.cities) {
+            city.hideUi();
         }
     }
 
@@ -79,6 +89,7 @@ public class GameController : MonoBehaviour {
             case GameMode.MAIN_MENU: {
                 inGameInput.Disable();
                 uiController.setUiMode(UiMode.MAIN_MENU);
+                clearAllCityUi();
                 break;
             }
             case GameMode.START_GAME: {
@@ -130,6 +141,7 @@ public class GameController : MonoBehaviour {
                 attackController.stopAttacks();
                 evacuationController.suspendEvacuations();
                 clearEvacuators();
+                showAllCityUi();
                 uiController.setUiMode(UiMode.LOSE_SCREEN);
                 break;
             }
@@ -138,6 +150,7 @@ public class GameController : MonoBehaviour {
                 attackController.stopAttacks();
                 evacuationController.suspendEvacuations();
                 clearEvacuators();
+                showAllCityUi();
                 uiController.setUiMode(UiMode.WIN_SCREEN);
                 break;
             }

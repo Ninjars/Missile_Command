@@ -56,7 +56,11 @@ public class City : MonoBehaviour {
         cityPopulationView.color = color;
         cityPopulationView.text = isDestroyed ? "DEAD" : $"{population}";
         textUi.SetActive(true);
+    }
 
+    public void hideUi() {
+        isFadingUi = false;
+        textUi.SetActive(false);
     }
 
     public void fadeOutUi() {
