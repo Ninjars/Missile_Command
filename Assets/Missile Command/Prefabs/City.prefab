@@ -480,7 +480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d33afd1cd76764de99798bda454457b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiFadeDuration: 10
+  uiFadeDuration: 15
   isDestroyed: 0
   aliveVisuals: {fileID: 7928599694638219702}
   deadVisuals: {fileID: 2401830601307375502}
