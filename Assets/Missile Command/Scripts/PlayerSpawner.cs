@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviour {
@@ -14,30 +15,33 @@ public class PlayerSpawner : MonoBehaviour {
 
     public SpawnData performInitialSpawn(StateUpdater stateUpdater, WorldCoords worldCoords, int numberOfLevels, long initialPopulation) {
         List<MissileBattery> missileBatteries = new List<MissileBattery>();
-        List<City> cities = new List<City>();
 
-        float batterySpacing = worldCoords.width / (batteryCount + 1f);
+        float batterySpacing = worldCoords.width / batteryCount;
         float cityOffset = batterySpacing / 3f;
 
+        List<float> citySpawnPositions = new List<float>(batteryCount * 2);
+
         for (int i = 0; i < batteryCount; i++) {
-            var batteryPosition = batterySpacing * (i + 1) + worldCoords.worldLeft;
+            var batteryPosition = batterySpacing * (i + 0.5f) + worldCoords.worldLeft;
             var missileBattery = GameObject.Instantiate(batteryPrefab);
             missileBattery.transform.position = new Vector3(batteryPosition, batteryYPos, batteryZPos);
             missileBattery.gameObject.name = $"MissileBattery {i}";
             missileBatteries.Add(missileBattery);
 
-            var cityA = instantiateCity(batteryPosition - cityOffset);
-            cityA.gameObject.name = $"City {i}A";
-            cityA.initialise(stateUpdater, initialPopulation);
-            cities.Add(cityA);
-
-            var cityB = instantiateCity(batteryPosition + cityOffset);
-            cityB.gameObject.name = $"City {i}B";
-            cityB.initialise(stateUpdater, initialPopulation);
-            cities.Add(cityB);
+            citySpawnPositions.Add(batteryPosition - cityOffset);
+            citySpawnPositions.Add(batteryPosition + cityOffset);
         }
 
-        return new SpawnData(missileBatteries, cities);
+        CityNameData cityNameData = CityDataProvider.getCityNames(citySpawnPositions.Count);
+        List<City> cities = new List<City>(citySpawnPositions.Count);
+        for (int i = 0; i < citySpawnPositions.Count; i++) {
+            var city = instantiateCity(citySpawnPositions[i]);
+            city.gameObject.name = cityNameData.cityNames[i];
+            city.initialise(stateUpdater, initialPopulation);
+            cities.Add(city);
+        }
+
+        return new SpawnData(missileBatteries, cities, cityNameData.countryName);
     }
 
     private City instantiateCity(float xPos) {
@@ -50,9 +54,11 @@ public class PlayerSpawner : MonoBehaviour {
 public class SpawnData {
     public readonly List<MissileBattery> missileBatteries;
     public readonly List<City> cities;
+    public readonly string countryName;
 
-    public SpawnData(List<MissileBattery> missileBatteries, List<City> cities) {
+    public SpawnData(List<MissileBattery> missileBatteries, List<City> cities, string countryName) {
         this.missileBatteries = missileBatteries;
         this.cities = cities;
+        this.countryName = countryName;
     }
 }

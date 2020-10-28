@@ -14,7 +14,7 @@ public class InGameUI : MonoBehaviour {
 
     void Update() {
         if (gameState != null) {
-            safeTextView.text = $"Safe: {gameState.populationEvacuated}";
+            safeTextView.text = $"SAFE {gameState.populationEvacuated}";
         }
     }
 

@@ -1,0 +1,5 @@
+City name data comes from https://datahub.io/core/world-cities
+
+License :
+All data is licensed under the Creative Common Attribution License as is the original data from geonames. This means you have to credit geonames when using the data. And while no credit is formally required a link back or credit to Lexman and the Open Knowledge Foundation is much appreciated.
+Source: Geonames [http://www.geonames.org/]

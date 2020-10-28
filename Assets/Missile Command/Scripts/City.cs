@@ -1,17 +1,25 @@
 ﻿using System.Collections;
 using Shapes;
+using TMPro;
 using UnityEngine;
 
 public class City : MonoBehaviour {
+    public float uiFadeDuration = 2f;
     public bool isDestroyed = false;
     public GameObject aliveVisuals;
     public GameObject deadVisuals;
+    public GameObject textUi;
+    public TextMeshProUGUI cityNameView;
+    public TextMeshProUGUI cityPopulationView;
     public Explosion explosionPrefab;
 
     public long population { get; private set; }
     private StateUpdater stateUpdater;
-    private Colors colors { get { return Colors.Instance; }}
-
+    private Colors colors { get { return Colors.Instance; } }
+    private Triangle markerTriangle;
+    private CanvasGroup textCanvasGroup;
+    private bool isFadingUi;
+    private float fadeStart;
     private ScreenEffectManager _screenEffectManager;
     private ScreenEffectManager screenEffectManager {
         get {
@@ -30,8 +38,51 @@ public class City : MonoBehaviour {
         this.stateUpdater = stateUpdater;
         this.population = population;
 
+        cityNameView.text = gameObject.name;
+        cityPopulationView.text = $"{population}";
+
         aliveVisuals.GetComponent<Polyline>().Color = colors.cityColor;
+        markerTriangle = textUi.GetComponent<Triangle>();
+        textCanvasGroup = textUi.GetComponentInChildren<CanvasGroup>();
         deadVisuals.GetComponent<Polyline>().Color = colors.deadBuildingColor;
+    }
+
+    public void showUi() {
+        isFadingUi = false;
+        textCanvasGroup.alpha = 1;
+        Color color = isDestroyed ? colors.deadBuildingColor : colors.cityColor;
+        markerTriangle.Color = color;
+        cityNameView.color = color;
+        cityPopulationView.color = color;
+        cityPopulationView.text = isDestroyed ? "DEAD" : $"{population}";
+        textUi.SetActive(true);
+    }
+
+    public void hideUi() {
+        isFadingUi = false;
+        textUi.SetActive(false);
+    }
+
+    public void fadeOutUi() {
+        if (!textUi.activeInHierarchy) return;
+        isFadingUi = true;
+        fadeStart = Time.time;
+    }
+
+    private void Update() {
+        if (isFadingUi) {
+            float fraction = (Time.time - fadeStart) / uiFadeDuration;
+            if (fraction <= 1) {
+                Color color = markerTriangle.Color;
+                color.a = Mathf.Lerp(color.a, 0, fraction * fraction);
+                markerTriangle.Color = color;
+                textCanvasGroup.alpha = color.a;
+
+            } else {
+                textUi.SetActive(false);
+                isFadingUi = false;
+            }
+        }
     }
 
     public long evacuate(long evacuationCountMax) {
@@ -68,6 +119,11 @@ public class City : MonoBehaviour {
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
         explosion.boom(transform.position, colors.buildingExplodeColor);
         StartCoroutine(setDeadVisuals());
+
+        if (isFadingUi) {
+            showUi();
+            fadeOutUi();
+        }
     }
 
     private IEnumerator setDeadVisuals() {
