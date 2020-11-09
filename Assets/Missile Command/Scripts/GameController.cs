@@ -173,6 +173,7 @@ public class GameController : MonoBehaviour {
             gameState.cities,
             gameState.missileBatteries,
             levelData.weaponData,
+            levelData.stageDuration,
             levelData.stageProgress
         );
     }

@@ -7,10 +7,7 @@ public class WeaponData : ScriptableObject {
     
     [Tooltip("Number of instances spawned per level")]
     public RangeIntData count;
-    
-    [Tooltip("Average interval between instance spawns. Larger interval leads to a less dense, longer level.")]
-    public RangeData avgInterval;
 
-    [Tooltip("Variance between spawn intervals. Smaller means more regular spawning.")]
+    [Tooltip("Variance between spawn intervals. Smaller means more regular spawning. Normalised to even spacing over level time.")]
     public RangeData intervalVariance;
 }

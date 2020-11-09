@@ -10,10 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6e2e974db858d34ab67d6c00bb0b2da, type: 3}
-  m_Name: Stage 1
+  m_Name: Stage 2
   m_EditorClassIdentifier: 
-  title: Stage 1
+  title: Stage 2
   levels: 5
+  levelDuration:
+    from: 20
+    to: 10
   weaponData:
   - {fileID: 11400000, guid: 2cca46ca945ef20498bb62a58aa529ff, type: 2}
   - {fileID: 11400000, guid: e0c4816f17e764c47822c3a99a8dba34, type: 2}
+  - {fileID: 11400000, guid: 2cca46ca945ef20498bb62a58aa529ff, type: 2}
+  - {fileID: 11400000, guid: 1aaba8410ea3f9040b4fe1a1997de06b, type: 2}

@@ -14,28 +14,23 @@ public class AttackController : MonoBehaviour {
         List<City> cities,
         List<MissileBattery> missileBatteries,
         List<WeaponData> weaponDatas,
+        float stageDuration,
         float stageProgress
     ) {
         clearCurrentAttacks();
 
-        float maxAccumulatedTime = 0;
         foreach (var weaponData in weaponDatas) {
-            float accumulatedTime = 0;
             int attackCount = weaponData.count.evaluate(stageProgress);
+            float baseInterval = stageDuration / attackCount;
             for (int i = 0; i < attackCount; i++) {
-                float attackInterval = 0;
-                if (i == 0) {
-                    attackInterval += weaponData.initialDelay;
-                }
-                attackInterval += getAttackInterval(stageProgress, weaponData.avgInterval, weaponData.intervalVariance);
-                accumulatedTime += attackInterval;
-
+                float timeToAttack = weaponData.initialDelay + i * baseInterval + getAttackVariance(stageProgress, baseInterval, weaponData.intervalVariance);
+                timeToAttack = Mathf.Min(timeToAttack, stageDuration + baseInterval);
                 IEnumerator attack = null;
                 if (weaponData is ICBMData) {
                     attack = attackUtil.scheduleIcbmAttack(
                         stateUpdater,
                         worldCoords,
-                        accumulatedTime,
+                        timeToAttack,
                         (ICBMData)weaponData,
                         stageProgress,
                         () => getTargetPosition(worldCoords, weaponData.targetWeights, cities, missileBatteries)
@@ -48,9 +43,8 @@ public class AttackController : MonoBehaviour {
                     currentAttacks.Add(StartCoroutine(attack));
                 }
             }
-            maxAccumulatedTime = Mathf.Max(maxAccumulatedTime, accumulatedTime);
         }
-        stateUpdater.setLevelEnd(Time.time + maxAccumulatedTime + 1f);
+        stateUpdater.setLevelEnd(Time.time + stageDuration);
     }
 
     internal void stopAttacks() {
@@ -68,11 +62,10 @@ public class AttackController : MonoBehaviour {
         currentAttacks.Clear();
     }
 
-    private static float getAttackInterval(float stageProgress, RangeData avgInterval, RangeData intervalVariance) {
-        float baseInterval = avgInterval.evaluate(stageProgress);
-        float maxStageIntervalVariance = intervalVariance.evaluate(stageProgress);
-        float variance = maxStageIntervalVariance * UnityEngine.Random.value * 2 - maxStageIntervalVariance;
-        return baseInterval + variance;
+    private static float getAttackVariance(float stageProgress, float baseInterval, RangeData intervalVariance) {
+        float maxVariance = intervalVariance.evaluate(stageProgress) * baseInterval;
+        float variance = maxVariance * UnityEngine.Random.value * 2 - maxVariance;
+        return variance;
     }
 
     private Vector2 getTargetPosition(
