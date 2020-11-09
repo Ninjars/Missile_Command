@@ -6,40 +6,51 @@ using UnityEngine;
 
 public class AttackController : MonoBehaviour {
     private List<Coroutine> currentAttacks;
+    private AttackUtil attackUtil = new AttackUtil();
 
     internal void scheduleAttackEvents(
         StateUpdater stateUpdater,
         WorldCoords worldCoords,
         List<City> cities,
         List<MissileBattery> missileBatteries,
-        ICBMData icbmData,
+        List<WeaponData> weaponDatas,
         float stageProgress
     ) {
         clearCurrentAttacks();
 
-        float accumulatedTime = 0;
-        int attackCount = icbmData.count.evaluate(stageProgress);
-        for (int i = 0; i < attackCount; i++) {
-            float attackInterval;
-            if (i == 0) {
-                attackInterval = icbmData.initialDelay;
-            } else {
-                attackInterval = getAttackInterval(stageProgress, icbmData.avgInterval, icbmData.intervalVariance);
+        float maxAccumulatedTime = 0;
+        foreach (var weaponData in weaponDatas) {
+            float accumulatedTime = 0;
+            int attackCount = weaponData.count.evaluate(stageProgress);
+            for (int i = 0; i < attackCount; i++) {
+                float attackInterval = 0;
+                if (i == 0) {
+                    attackInterval += weaponData.initialDelay;
+                }
+                attackInterval += getAttackInterval(stageProgress, weaponData.avgInterval, weaponData.intervalVariance);
+                accumulatedTime += attackInterval;
+
+                IEnumerator attack = null;
+                if (weaponData is ICBMData) {
+                    attack = attackUtil.scheduleIcbmAttack(
+                        stateUpdater,
+                        worldCoords,
+                        accumulatedTime,
+                        (ICBMData)weaponData,
+                        stageProgress,
+                        () => getTargetPosition(worldCoords, weaponData.targetWeights, cities, missileBatteries)
+                    );
+                }
+
+                if (attack == null) {
+                    throw new InvalidOperationException($"Unhandled WeaponData type: {weaponData}");
+                } else {
+                    currentAttacks.Add(StartCoroutine(attack));
+                }
             }
-            accumulatedTime += attackInterval;
-            currentAttacks.Add(StartCoroutine(
-                scheduleAttack(
-                    stateUpdater,
-                    worldCoords,
-                    cities,
-                    missileBatteries,
-                    accumulatedTime,
-                    icbmData,
-                    stageProgress
-                )
-            ));
+            maxAccumulatedTime = Mathf.Max(maxAccumulatedTime, accumulatedTime);
         }
-        stateUpdater.setLevelEnd(Time.time + accumulatedTime + 1f);
+        stateUpdater.setLevelEnd(Time.time + maxAccumulatedTime + 1f);
     }
 
     internal void stopAttacks() {
@@ -57,33 +68,11 @@ public class AttackController : MonoBehaviour {
         currentAttacks.Clear();
     }
 
-    private float getAttackInterval(float stageProgress, RangeData avgInterval, RangeData intervalVariance) {
+    private static float getAttackInterval(float stageProgress, RangeData avgInterval, RangeData intervalVariance) {
         float baseInterval = avgInterval.evaluate(stageProgress);
         float maxStageIntervalVariance = intervalVariance.evaluate(stageProgress);
         float variance = maxStageIntervalVariance * UnityEngine.Random.value * 2 - maxStageIntervalVariance;
         return baseInterval + variance;
-    }
-
-    private IEnumerator scheduleAttack(
-        StateUpdater stateUpdater,
-        WorldCoords worldCoords,
-        List<City> cities,
-        List<MissileBattery> missileBatteries,
-        float delay,
-        ICBMData icbmData,
-        float stageProgress
-    ) {
-        yield return new WaitForSeconds(delay);
-
-        ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(icbmData.weaponPrefab.gameObject).GetComponent<ICBM>();
-        
-        weapon.launch(
-            stateUpdater,
-            worldCoords,
-            icbmData,
-            stageProgress,
-            () => getTargetPosition(worldCoords, icbmData.targetWeights, cities, missileBatteries)
-        );
     }
 
     private Vector2 getTargetPosition(
@@ -95,27 +84,27 @@ public class AttackController : MonoBehaviour {
         TargetType targetType = targetWeights.getTargetType(UnityEngine.Random.value);
         switch (targetType) {
             case TargetType.CITY: {
-                City city = getTargetableCity(cities);
-                if (city == null) {
-                    return getRandomTargetPoint(worldCoords);
-                } else {
-                    return city.transform.position;
+                    City city = getTargetableCity(cities);
+                    if (city == null) {
+                        return getRandomTargetPoint(worldCoords);
+                    } else {
+                        return city.transform.position;
+                    }
                 }
-            }
             case TargetType.BATTERY: {
-                MissileBattery battery = getTargetableBattery(missileBatteries);
-                if (battery == null) {
-                    return getRandomTargetPoint(worldCoords);
-                } else {
-                    return battery.transform.position;
+                    MissileBattery battery = getTargetableBattery(missileBatteries);
+                    if (battery == null) {
+                        return getRandomTargetPoint(worldCoords);
+                    } else {
+                        return battery.transform.position;
+                    }
                 }
-            }
             case TargetType.RANDOM: {
-                return getRandomTargetPoint(worldCoords);
-            }
+                    return getRandomTargetPoint(worldCoords);
+                }
             default: {
-                throw new InvalidOperationException($"unhandled case {targetType}");
-            }
+                    throw new InvalidOperationException($"unhandled case {targetType}");
+                }
         }
     }
 
