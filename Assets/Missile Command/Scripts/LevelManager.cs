@@ -41,18 +41,20 @@ public class LevelManager : MonoBehaviour {
 
     private LevelData createLevelData(StageData currentData, float stageProgress) {
         var message = stageProgress == 0 ? currentData.title : null;
-        return new LevelData(message, stageProgress, currentData.icbmData);
+        return new LevelData(message, stageProgress, currentData.levelDuration.evaluate(stageProgress), currentData.weaponData);
     }
 }
 
 public struct LevelData {
     public readonly string message;
     public readonly float stageProgress;
-    public readonly ICBMData icbmData;
+    public readonly float stageDuration;
+    public readonly List<WeaponData> weaponData;
 
-    public LevelData(string message, float stageProgress, ICBMData icbmData) {
+    public LevelData(string message, float stageProgress, float stageDuration, List<WeaponData> weaponData) {
         this.message = message;
         this.stageProgress = stageProgress;
-        this.icbmData = icbmData;
+        this.stageDuration = stageDuration;
+        this.weaponData = weaponData;
     }
 }

@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6e2e974db858d34ab67d6c00bb0b2da, type: 3}
   m_Name: Stage 1
   m_EditorClassIdentifier: 
-  title: 
-  levels: 10
-  icbmData: {fileID: 11400000, guid: 07ce864de5e7af643a21aefc23d4b1d8, type: 2}
+  title: Stage 1
+  levels: 5
+  levelDuration:
+    from: 15
+    to: 15
+  weaponData:
+  - {fileID: 11400000, guid: 2cca46ca945ef20498bb62a58aa529ff, type: 2}
+  - {fileID: 11400000, guid: e0c4816f17e764c47822c3a99a8dba34, type: 2}
