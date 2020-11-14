@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f277a3635cb3b247b73dc17ef0d71a0, type: 3}
   m_Name: TEST MIRV
   m_EditorClassIdentifier: 
-  weaponPrefab: {fileID: 5888894347606011465, guid: acee917d488bd2546b998b06f6be123d,
-    type: 3}
   initialDelay: 0
   targetWeights:
     city: 4
@@ -22,13 +20,12 @@ MonoBehaviour:
   count:
     from: 10
     to: 10
-  accuracy:
+  intervalVariance:
     from: 0
     to: 0
-  avgInterval:
-    from: 8
-    to: 8
-  intervalVariance:
+  weaponPrefab: {fileID: 5888894347606011465, guid: acee917d488bd2546b998b06f6be123d,
+    type: 3}
+  maxDeviation:
     from: 0
     to: 0
   primaryImpulse:
