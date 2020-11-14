@@ -6,7 +6,6 @@ public class Bomber : MonoBehaviour {
     public float layerZ = 6;
 
     public Explosion explosionPrefab;
-    public TrailSettings trailSettings;
 
     private float chargeTime;
     private float evasionSpeed;
@@ -21,7 +20,6 @@ public class Bomber : MonoBehaviour {
     private Func<Vector2> targetProvider;
 
     private Rigidbody2D _rb;
-    private LinearTrail trail;
 
     private Rigidbody2D rb {
         get {
@@ -57,9 +55,6 @@ public class Bomber : MonoBehaviour {
 
         rb.velocity = velocity;
         rb.angularVelocity = 0;
-
-        trail = ObjectPoolManager.Instance.getObjectInstance(trailSettings.prefab.gameObject).GetComponent<LinearTrail>();
-        trail.initialise(gameObject, trailSettings, colors.attackTrailColor);
     }
 
     private void Update() {
@@ -86,9 +81,5 @@ public class Bomber : MonoBehaviour {
     private void OnDisable() {
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0;
-        if (trail != null) {
-            trail.onSubjectDisabled();
-            trail = null;
-        }
     }
 }
