@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackUtil {
@@ -31,13 +30,13 @@ public class AttackUtil {
         float delay,
         BomberData weaponData,
         float stageProgress,
-        Func<Vector2> targetProvider
+        Func<Vector3, Vector2> targetProvider
     ) {
         int bomberCount = weaponData.bombersPerWing.evaluate(stageProgress);
         float altitude = calculateBomberAltitude(worldCoords);
         float x = UnityEngine.Random.value <= 0.5f
-                ? worldCoords.worldLeft - 1
-                : worldCoords.worldRight + 1;
+                ? worldCoords.worldLeft - weaponData.weaponPrefab.worldSpawnBuffer
+                : worldCoords.worldRight + weaponData.weaponPrefab.worldSpawnBuffer;
         return spawnBombers(
             stateUpdater,
             worldCoords,
@@ -57,7 +56,7 @@ public class AttackUtil {
         float delay,
         BomberData weaponData,
         float stageProgress,
-        Func<Vector2> targetProvider,
+        Func<Vector3, Vector2> targetProvider,
         int bomberCount,
         float x,
         float altitude
@@ -83,7 +82,7 @@ public class AttackUtil {
         WorldCoords worldCoords,
         BomberData weaponData,
         float stageProgress,
-        Func<Vector2> targetProvider,
+        Func<Vector3, Vector2> targetProvider,
         float x, 
         float y
     ) {

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Bomber : MonoBehaviour {
@@ -10,14 +12,15 @@ public class Bomber : MonoBehaviour {
     private float chargeTime;
     private float evasionSpeed;
     private float speed;
-    private float shotDeviation;
     private Vector2 velocity;
     private Colors colors { get { return Colors.Instance; } }
 
     private WorldCoords worldCoords;
     private StateUpdater stateUpdater;
-    private BomberData weaponData;
-    private Func<Vector2> targetProvider;
+    private Func<Vector3, Vector2> targetProvider;
+    private float stageProgress;
+    private ICBMData bombAttackData;
+    private Coroutine attackRoutine;
 
     private Rigidbody2D _rb;
 
@@ -35,16 +38,18 @@ public class Bomber : MonoBehaviour {
         WorldCoords worldCoords,
         BomberData weaponData,
         float stageProgress,
-        Func<Vector2> targetProvider,
+        Func<Vector3, Vector2> targetProvider,
         float x,
         float y
     ) {
         this.stateUpdater = stateUpdater;
-        this.weaponData = weaponData;
         this.targetProvider = targetProvider;
+        this.stageProgress = stageProgress;
+        this.worldCoords = worldCoords;
         this.chargeTime = weaponData.chargeTime.evaluate(stageProgress);
         this.evasionSpeed = weaponData.evasionSpeed.evaluate(stageProgress);
         this.speed = weaponData.speed.evaluate(stageProgress);
+        this.bombAttackData = weaponData.bombAttackData;
         
         velocity = x < worldCoords.centerX 
                 ? new Vector2(speed, 0)
@@ -55,13 +60,41 @@ public class Bomber : MonoBehaviour {
 
         rb.velocity = velocity;
         rb.angularVelocity = 0;
+
+        attackRoutine = StartCoroutine(attackLoop());
+    }
+
+    private IEnumerator attackLoop() {
+        while (gameObject.activeInHierarchy) {
+            yield return new WaitForSeconds(chargeTime);
+            
+            Debug.Log($"Checking to attack: worldLeft: {worldCoords.worldLeft} worldRight: {worldCoords.worldRight} position: {transform.position.x}");
+        
+            if (transform.position.x > worldCoords.worldLeft && transform.position.x < worldCoords.worldRight) {
+                float xVel = rb.velocity.x > 0 ? 1 : -1;
+                launchAttack(new Vector3(transform.position.x, transform.position.y, xVel), targetProvider(transform.position));
+            }
+        }
+    }
+
+    private void launchAttack(Vector3 launchPosition, Vector2 targetPosition) {
+        ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(bombAttackData.weaponPrefab.gameObject).GetComponent<ICBM>();
+        weapon.launch(
+            stateUpdater,
+            worldCoords,
+            bombAttackData,
+            stageProgress,
+            launchPosition,
+            () => targetPosition
+        );
     }
 
     private void Update() {
-        if (transform.position.x < worldCoords.worldLeft - 1) {
+        Debug.Log($"Update: worldLeft: {worldCoords.worldLeft} worldRight: {worldCoords.worldRight} position: {transform.position.x}");
+        if (transform.position.x < worldCoords.worldLeft - worldSpawnBuffer) {
             rb.velocity = new Vector2(speed, 0);
 
-        } else if (transform.position.x > worldCoords.worldRight + 1) {
+        } else if (transform.position.x > worldCoords.worldRight + worldSpawnBuffer) {
             rb.velocity = new Vector2(-speed, 0);
         }
     }
@@ -81,5 +114,8 @@ public class Bomber : MonoBehaviour {
     private void OnDisable() {
         rb.velocity = Vector2.zero;
         rb.angularVelocity = 0;
+        if (attackRoutine != null) {
+            StopCoroutine(attackRoutine);
+        }
     }
 }
