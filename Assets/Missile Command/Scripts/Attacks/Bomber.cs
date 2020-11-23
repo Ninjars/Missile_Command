@@ -65,14 +65,16 @@ public class Bomber : MonoBehaviour {
     }
 
     private IEnumerator attackLoop() {
+        yield return new WaitForSeconds(chargeTime);
         while (gameObject.activeInHierarchy) {
-            yield return new WaitForSeconds(chargeTime);
-            
-            Debug.Log($"Checking to attack: worldLeft: {worldCoords.worldLeft} worldRight: {worldCoords.worldRight} position: {transform.position.x}");
-        
             if (transform.position.x > worldCoords.worldLeft && transform.position.x < worldCoords.worldRight) {
                 float xVel = rb.velocity.x > 0 ? 1 : -1;
-                launchAttack(new Vector3(transform.position.x, transform.position.y, xVel), targetProvider(transform.position));
+                launchAttack(new Vector3(transform.position.x, transform.position.y, xVel), targetProvider(new Vector3(transform.position.x, transform.position.y, xVel)));
+                yield return new WaitForSeconds(chargeTime);
+
+            } else {
+                // wait until back on screen
+                yield return new WaitForSeconds(0.1f);
             }
         }
     }
