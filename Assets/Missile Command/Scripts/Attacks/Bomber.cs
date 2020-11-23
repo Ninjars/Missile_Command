@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Shapes;
 using UnityEngine;
 
 public class Bomber : MonoBehaviour {
@@ -51,6 +52,8 @@ public class Bomber : MonoBehaviour {
         this.speed = weaponData.speed.evaluate(stageProgress);
         this.bombAttackData = weaponData.bombAttackData;
         
+        Polyline visuals = GetComponentInChildren<Polyline>();
+        visuals.Color = colors.attackColor;
         velocity = x < worldCoords.centerX 
                 ? new Vector2(speed, 0)
                 : new Vector2(-speed, 0);
