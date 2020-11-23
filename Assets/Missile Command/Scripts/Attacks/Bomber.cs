@@ -22,7 +22,15 @@ public class Bomber : MonoBehaviour {
     private float stageProgress;
     private ICBMData bombAttackData;
     private Coroutine attackRoutine;
-    private Transform visualsTransform;
+    private Polyline _visuals;
+    private Polyline visuals {
+        get {
+            if (_visuals == null) {
+                _visuals = GetComponentInChildren<Polyline>();
+            }
+            return _visuals;
+        }
+    }
 
     private Rigidbody2D _rb;
 
@@ -53,17 +61,13 @@ public class Bomber : MonoBehaviour {
         this.speed = weaponData.speed.evaluate(stageProgress);
         this.bombAttackData = weaponData.bombAttackData;
         
-        Polyline visuals = GetComponentInChildren<Polyline>();
-        visualsTransform = visuals.transform;
-        visuals.Color = colors.attackColor;
-        
         velocity = x < worldCoords.centerX 
                 ? new Vector2(speed, 0)
                 : new Vector2(-speed, 0);
-
                 
         transform.rotation = Quaternion.Euler(0, 0, x < worldCoords.centerX ? -90 : 90);
 
+        visuals.Color = colors.attackColor;
         transform.position = new Vector3(x, y, layerZ);
         gameObject.SetActive(true);
 
