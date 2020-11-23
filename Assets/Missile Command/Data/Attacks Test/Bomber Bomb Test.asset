@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialDelay: 0
   targetWeights:
-    city: 0
+    city: 1
     battery: 0
     random: 0
   count:
