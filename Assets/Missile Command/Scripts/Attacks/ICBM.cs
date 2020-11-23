@@ -41,7 +41,6 @@ public class ICBM : MonoBehaviour {
         float stageProgress,
         Func<Vector2> targetProvider
     ) {
-
         launch(
             stateUpdater,
             worldCoords,
@@ -73,7 +72,7 @@ public class ICBM : MonoBehaviour {
             mirvAltitude: calculateMirvAltitude(worldCoords, weaponData.mirvChance.evaluate(stageProgress))
         );
 
-        launch(launchPosition, targetPosition);
+        launch(launchPosition, target);
     }
 
     private void configure(
