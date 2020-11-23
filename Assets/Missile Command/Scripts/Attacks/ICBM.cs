@@ -111,6 +111,8 @@ public class ICBM : MonoBehaviour {
         this.thrustVector = (targetPosition - transform.position).normalized;
         rb.velocity = Vector2.zero;
         rb.AddForce(thrustVector * impulse);
+        
+        transform.rotation = Quaternion.AngleAxis(Vector3.SignedAngle(Vector3.up, rb.velocity, Vector3.back), Vector3.back);
 
         trail = ObjectPoolManager.Instance.getObjectInstance(trailSettings.prefab.gameObject).GetComponent<LinearTrail>();
         trail.initialise(gameObject, trailSettings, colors.attackTrailColor);
