@@ -90,7 +90,6 @@ public class Bomber : MonoBehaviour {
     }
 
     private void Update() {
-        Debug.Log($"Update: worldLeft: {worldCoords.worldLeft} worldRight: {worldCoords.worldRight} position: {transform.position.x}");
         if (transform.position.x < worldCoords.worldLeft - worldSpawnBuffer) {
             rb.velocity = new Vector2(speed, 0);
 
