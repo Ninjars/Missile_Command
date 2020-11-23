@@ -41,6 +41,25 @@ public class ICBM : MonoBehaviour {
         float stageProgress,
         Func<Vector2> targetProvider
     ) {
+        launch(
+            stateUpdater,
+            worldCoords,
+            weaponData,
+            stageProgress,
+            calculateSpawnPosition(worldCoords, targetPosition.x),
+            targetProvider
+        );
+    }
+
+    public void launch(
+        StateUpdater stateUpdater,
+        WorldCoords worldCoords,
+        ICBMData weaponData,
+        float stageProgress,
+        Vector2 launchPosition,
+        Func<Vector2> targetProvider
+    ) {
+        Vector2 target = targetProvider.Invoke();
         configure(
             worldCoords,
             stateUpdater,
@@ -53,9 +72,7 @@ public class ICBM : MonoBehaviour {
             mirvAltitude: calculateMirvAltitude(worldCoords, weaponData.mirvChance.evaluate(stageProgress))
         );
 
-        Vector2 target = targetProvider.Invoke();
-
-        launch(calculateSpawnPosition(worldCoords, targetPosition.x), target);
+        launch(launchPosition, target);
     }
 
     private void configure(
@@ -80,20 +97,22 @@ public class ICBM : MonoBehaviour {
         this.mirvAltitude = mirvAltitude;
     }
 
-    private void launch(Vector3 spawnPosition, Vector2 target) {
+    private void launch(Vector2 spawnPosition, Vector2 target) {
         float deviance = UnityEngine.Random.value * accuracy;
         if (UnityEngine.Random.value < 0.5f) {
             deviance = -deviance;
         }
         this.targetPosition = new Vector3(target.x + deviance, target.y, layerZ);
 
-        transform.position = spawnPosition;
+        transform.position = new Vector3(spawnPosition.x, spawnPosition.y, layerZ);
         GetComponentInChildren<Polyline>().Color = colors.attackColor;
         gameObject.SetActive(true);
 
-        this.thrustVector = (targetPosition - spawnPosition).normalized;
+        this.thrustVector = (targetPosition - transform.position).normalized;
         rb.velocity = Vector2.zero;
         rb.AddForce(thrustVector * impulse);
+        
+        transform.rotation = Quaternion.AngleAxis(Vector3.SignedAngle(Vector3.up, rb.velocity, Vector3.back), Vector3.back);
 
         trail = ObjectPoolManager.Instance.getObjectInstance(trailSettings.prefab.gameObject).GetComponent<LinearTrail>();
         trail.initialise(gameObject, trailSettings, colors.attackTrailColor);
@@ -110,14 +129,14 @@ public class ICBM : MonoBehaviour {
         }
     }
 
-    private Vector3 calculateSpawnPosition(WorldCoords worldCoords, float targetX) {
+    private Vector2 calculateSpawnPosition(WorldCoords worldCoords, float targetX) {
         float x;
         if (targetX > worldCoords.centerX) {
             x = worldCoords.worldLeft - worldSpawnBuffer;
         } else {
             x = worldCoords.worldRight + worldSpawnBuffer;
         }
-        return new Vector3(x * UnityEngine.Random.value, worldCoords.worldTop + worldSpawnBuffer, layerZ);
+        return new Vector2(x * UnityEngine.Random.value, worldCoords.worldTop + worldSpawnBuffer);
     }
 
     private void explode() {

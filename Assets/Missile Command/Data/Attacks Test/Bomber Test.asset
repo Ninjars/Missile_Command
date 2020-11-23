@@ -9,34 +9,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f277a3635cb3b247b73dc17ef0d71a0, type: 3}
-  m_Name: TEST EVAC
+  m_Script: {fileID: 11500000, guid: 125590f5310de4f4899354de66ee2d9e, type: 3}
+  m_Name: Bomber Test
   m_EditorClassIdentifier: 
   initialDelay: 0
   targetWeights:
-    city: 0
+    city: 1
     battery: 0
-    random: 1
+    random: 0
   count:
     from: 1
-    to: 1
+    to: 5
   intervalVariance:
     from: 0
     to: 0
-  weaponPrefab: {fileID: 5888894347606011465, guid: acee917d488bd2546b998b06f6be123d,
+  weaponPrefab: {fileID: 8779594394452551350, guid: 22341750fdff99a44944085c989e321d,
     type: 3}
-  maxDeviation:
-    from: 0
-    to: 0
-  primaryImpulse:
-    from: 50
-    to: 50
-  primaryAcceleration:
-    from: 0
-    to: 0
-  mirvChance:
-    from: 0
-    to: 0
-  mirvCount:
+  bombAttackData: {fileID: 11400000, guid: caff97fb4bae3f64596ea1f86fe5c481, type: 2}
+  bombersPerWing:
+    from: 1
+    to: 1
+  chargeTime:
+    from: 2
+    to: 2
+  speed:
+    from: 3
+    to: 3
+  evasionSpeed:
     from: 0
     to: 0

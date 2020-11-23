@@ -35,6 +35,21 @@ public class AttackController : MonoBehaviour {
                         stageProgress,
                         () => getTargetPosition(worldCoords, weaponData.targetWeights, cities, missileBatteries)
                     );
+                } else if (weaponData is BomberData) {
+                    attack = attackUtil.scheduleBomberAttack(
+                        stateUpdater,
+                        worldCoords,
+                        timeToAttack,
+                        (BomberData)weaponData,
+                        stageProgress,
+                        (currentPositionAndVector) => getBomberTarget(
+                            worldCoords,
+                            currentPositionAndVector,
+                            ((BomberData)weaponData).bombAttackData.targetWeights,
+                            cities,
+                            missileBatteries
+                        )
+                    );
                 }
 
                 if (attack == null) {
@@ -121,6 +136,110 @@ public class AttackController : MonoBehaviour {
             worldCoords.groundY
         );
     }
+
+    private Vector2 getBomberTarget(
+        WorldCoords worldCoords,
+        Vector3 currentPositionAndVector,
+        TargetWeights targetWeights,
+        List<City> cities,
+        List<MissileBattery> missileBatteries
+    ) {
+        TargetType targetType = targetWeights.getTargetType(UnityEngine.Random.value);
+        float currentX = currentPositionAndVector.x;
+        bool isTravellingRight = currentPositionAndVector.z > 0;
+        switch (targetType) {
+            case TargetType.CITY: {
+                    City city = getNextCity(cities, currentX, isTravellingRight);
+                    if (city == null) {
+                        return getRandomBomberTarget(worldCoords, currentX, isTravellingRight);
+                    } else {
+                        return city.transform.position;
+                    }
+                }
+            case TargetType.BATTERY: {
+                    MissileBattery battery = getNextBattery(missileBatteries, currentX, isTravellingRight);
+                    if (battery == null) {
+                        return getRandomBomberTarget(worldCoords, currentX, isTravellingRight);
+                    } else {
+                        return battery.transform.position;
+                    }
+                }
+            case TargetType.RANDOM: {
+                    return getRandomBomberTarget(worldCoords, currentX, isTravellingRight);
+                }
+            default: {
+                    throw new InvalidOperationException($"unhandled case {targetType}");
+                }
+        }
+    }
+
+    private City getNextCity(List<City> cities, float currentX, bool travellingRight) {
+        City best = null;
+        foreach (var city in cities) {
+            if (travellingRight) {
+                if (city.transform.position.x > currentX && !city.isDestroyed) {
+                    if (best == null) {
+                        best = city;
+                    } else if (city.transform.position.x < best.transform.position.x) {
+                        best = city;
+                    } else {
+                        return best;
+                    }
+                }
+            } else {
+                if (city.transform.position.x < currentX && !city.isDestroyed) {
+                    if (best == null) {
+                        best = city;
+                    } else if (city.transform.position.x > best.transform.position.x) {
+                        best = city;
+                    } else {
+                        return best;
+                    }
+                }
+            }
+        }
+        return best;
+    }
+
+    private MissileBattery getNextBattery(List<MissileBattery> batteries, float currentX, bool travellingRight) {
+        MissileBattery best = null;
+        foreach (var battery in batteries) {
+            if (travellingRight) {
+                if (battery.transform.position.x > currentX && !battery.isDestroyed) {
+                    if (best == null) {
+                        best = battery;
+                    } else if (battery.transform.position.x < best.transform.position.x) {
+                        best = battery;
+                    } else {
+                        return best;
+                    }
+                }
+            } else if (battery.transform.position.x < currentX && !battery.isDestroyed) {
+                    if (best == null) {
+                        best = battery;
+                    } else if (battery.transform.position.x > best.transform.position.x) {
+                        best = battery;
+                    } else {
+                        return best;
+                    }
+            }
+        }
+        return best;
+    }
+
+    private Vector2 getRandomBomberTarget(WorldCoords worldCoords, float currentX, bool travellingRight) {
+        if (travellingRight) {
+            return new Vector2(
+                currentX + UnityEngine.Random.value * (worldCoords.worldRight - currentX),
+                worldCoords.groundY
+            );
+        } else {
+            return new Vector2(
+                currentX - UnityEngine.Random.value * (currentX - worldCoords.worldLeft),
+                worldCoords.groundY
+            );
+        }
+    }
 }
 
 [Serializable]
@@ -130,6 +249,8 @@ public struct TargetWeights {
     private float sum { get { return city + battery + random; } }
 
     public TargetType getTargetType(float value) {
+        if (sum == 0) return TargetType.RANDOM;
+
         if (value <= city / sum) {
             return TargetType.CITY;
         } else if (value <= battery / sum) {
