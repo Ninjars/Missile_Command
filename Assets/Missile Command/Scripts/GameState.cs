@@ -41,8 +41,8 @@ public class GameState : StateUpdater {
 
     public GameState(float evacEventsPerMin, long evacEventCount) {
         currentMode = GameMode.MAIN_MENU;
-        this.evacEventInterval = evacEventsPerMin * 60f;
         this.evacEventCount = evacEventCount;
+        this.evacEventInterval = evacEventsPerMin / 60f;
     }
 
     public void onPopulationEvacuated(long count) {
