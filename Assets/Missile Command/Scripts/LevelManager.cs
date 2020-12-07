@@ -13,6 +13,11 @@ public class LevelManager : MonoBehaviour {
     public bool allStagesCompleted { get { return _allStagesCompleted; } }
     public bool beginningNewStage { get { return stageLevel == 0; } }
 
+    public void reset() {
+        currentStage = 0;
+        stageLevel = 0;
+    }
+
     public void onLevelCompleted() {
         currentLevelData = null;
         stageLevel++;

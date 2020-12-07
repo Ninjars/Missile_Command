@@ -94,6 +94,7 @@ public class GameController : MonoBehaviour {
             }
             case GameMode.START_GAME: {
                 uiController.setUiMode(UiMode.IN_GAME);
+                levelManager.reset();
                 gameState.onLevelPrepare();
                 showAllCityUi();
                 break;
