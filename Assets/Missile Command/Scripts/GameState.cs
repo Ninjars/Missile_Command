@@ -75,6 +75,17 @@ public class GameState : StateUpdater {
 
     public void onLevelCompleted() {
         Debug.Log("GameState.onLevelCompleted()");
+        currentMode = GameMode.END_LEVEL;
+    }
+
+    public void onLevelEnding() {
+        Debug.Log("GameState.onLevelEnding()");
+        currentMode = GameMode.LEVEL_ENDING;
+    }
+
+
+    public void onLevelEnded() {
+        Debug.Log("GameState.onLevelEnded()");
         currentMode = GameMode.POST_LEVEL;
         levelsCompleted++;
     }
@@ -90,6 +101,8 @@ public enum GameMode {
     START_GAME,
     PRE_LEVEL,
     IN_LEVEL,
+    END_LEVEL,
+    LEVEL_ENDING,
     POST_LEVEL,
     GAME_WON,
     GAME_LOST,

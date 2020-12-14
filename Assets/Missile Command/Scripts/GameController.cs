@@ -120,11 +120,21 @@ public class GameController : MonoBehaviour {
                 }
                 break;
             }
-            case GameMode.POST_LEVEL: {
+            case GameMode.END_LEVEL: {
                 inGameInput.Disable();
-                levelManager.onLevelCompleted();
+                boostEvacuators();
                 evacuationController.completeEvacuations();
-
+                gameState.onLevelEnding();
+                break;
+            }
+            case GameMode.LEVEL_ENDING: {
+                if (GameObject.FindGameObjectWithTag("Evacuator") == null) {
+                    gameState.onLevelEnded();
+                }
+                break;
+            }
+            case GameMode.POST_LEVEL: {
+                levelManager.onLevelCompleted();
                 if (levelManager.allStagesCompleted) {
                     gameState.onGameEnded(true);
                     
@@ -141,7 +151,7 @@ public class GameController : MonoBehaviour {
             case GameMode.GAME_LOST: {
                 inGameInput.Disable();
                 attackController.stopAttacks();
-                evacuationController.completeEvacuations();
+                evacuationController.clear();
                 clearEvacuators();
                 showAllCityUi();
                 uiController.setUiMode(UiMode.LOSE_SCREEN);
@@ -150,7 +160,7 @@ public class GameController : MonoBehaviour {
             case GameMode.GAME_WON: {
                 inGameInput.Disable();
                 attackController.stopAttacks();
-                evacuationController.completeEvacuations();
+                evacuationController.clear();
                 clearEvacuators();
                 showAllCityUi();
                 uiController.setUiMode(UiMode.WIN_SCREEN);
@@ -265,6 +275,13 @@ public class GameController : MonoBehaviour {
             if (obj.layer == LayerMask.NameToLayer("Explosions")) {
                 obj.SetActive(false);
             }
+        }
+    }
+
+    private void boostEvacuators() {
+        foreach (var evacuatorObj in GameObject.FindGameObjectsWithTag("Evacuator")) {
+            Evacuator evacuator = evacuatorObj.GetComponent<Evacuator>();
+            evacuator.boost();
         }
     }
 

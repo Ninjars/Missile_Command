@@ -28,27 +28,34 @@ public class EvacuationController : MonoBehaviour {
         this.worldCoords = worldCoords;
     }
 
-    internal void beginEvacuations() {
-        foreach (var city in cities) {
-            if (!city.isDestroyed) city.populateEvacuees(worldCoords);
-        }
-        evacuating = true;
-        evacLoop = StartCoroutine(startEvacuationLoop(gameState.evacEventInterval));
-    }
-
-    internal void completeEvacuations() {
+    internal void clear() {
+        currentCityIndex = 0;
         evacuating = false;
         if (evacLoop != null) {
             StopCoroutine(evacLoop);
         }
     }
 
-    private IEnumerator startEvacuationLoop(float averageInterval) {
+    internal void beginEvacuations() {
+        foreach (var city in cities) {
+            if (!city.isDestroyed) city.populateEvacuees(worldCoords);
+        }
+        evacuating = true;
+        evacLoop = StartCoroutine(startEvacuationLoop(gameState.evacEventInterval, evacIntervalVariance, false));
+    }
+
+    internal void completeEvacuations() {
+        if (evacLoop != null) {
+            StopCoroutine(evacLoop);
+        }
+        evacLoop = StartCoroutine(startEvacuationLoop(0.1f, 0, true));
+    }
+
+    private IEnumerator startEvacuationLoop(float averageInterval, float intervalVariance, bool boosted) {
         while (evacuating) {
-            performEvacuation();
-            var wait = getVariated(averageInterval, evacIntervalVariance);
-            Debug.Log($"> waiting for avg {averageInterval} variance {evacIntervalVariance} {wait}");
+            var wait = getVariated(averageInterval, intervalVariance);
             yield return new WaitForSeconds(wait);
+            evacuating = performEvacuation(boosted);
         }
     }
 
@@ -57,7 +64,7 @@ public class EvacuationController : MonoBehaviour {
         return value - val + 2 * UnityEngine.Random.value * val;
     }
 
-    private void performEvacuation() {
+    private bool performEvacuation(bool boosted) {
         Debug.Log("performEvacuation()");
         City evacCity = null;
         int initialIndex = currentCityIndex;
@@ -68,12 +75,14 @@ public class EvacuationController : MonoBehaviour {
         }
         Debug.Log($"> evacCity: {evacCity}");
         if (evacCity == null || !evacCity.canEvacuate()) {
-            return;
+            return false;
         }
 
         evacCity.evacuate(
             (evacueeCount) => gameState.onPopulationEvacuated(evacueeCount),
-            (evacueeCount) => gameState.onPopulationLost(evacueeCount)
+            (evacueeCount) => gameState.onPopulationLost(evacueeCount),
+            boosted
         );
+        return true;
     }
 }

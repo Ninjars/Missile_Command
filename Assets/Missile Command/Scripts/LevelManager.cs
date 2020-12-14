@@ -5,8 +5,8 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour {
     public List<StageData> stageData;
 
-    public int currentStage;
-    public int stageLevel;
+    private int currentStage;
+    private int stageLevel;
 
     private LevelData? currentLevelData;
     private bool _allStagesCompleted = false;
@@ -20,6 +20,11 @@ public class LevelManager : MonoBehaviour {
 
     public void onLevelCompleted() {
         currentLevelData = null;
+        if (currentStage >= stageData.Count) {
+            Debug.LogError($"unable to start stage {currentStage}; exceeds scheduled stages. Should have ended the game.");
+            _allStagesCompleted = true;
+            return;
+        }
         stageLevel++;
         StageData currentStageData = stageData[currentStage];
         if (stageLevel >= currentStageData.levels) {

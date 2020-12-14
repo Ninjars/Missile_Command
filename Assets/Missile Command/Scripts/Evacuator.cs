@@ -6,9 +6,11 @@ using UnityEngine;
 public class Evacuator : MonoBehaviour {
     public float zPos = 0;
     public float impulse = 10f;
+    public float boostFactor = 5;
     public float descendToWorldY = -0.1f;
 
     private bool evacuating = false;
+    private bool boosted = false;
     private WorldCoords worldCoords;
     private Action<long> onEvacComplete;
     private Action<long> onKilled;
@@ -32,6 +34,7 @@ public class Evacuator : MonoBehaviour {
         this.worldCoords = worldCoords;
         this.evacueeCount = evacueeCount;
         evacuating = false;
+        boosted = false;
         transform.position = (Vector3) startPosition + Vector3.forward * zPos;
 
         rb.isKinematic = true;
@@ -40,27 +43,35 @@ public class Evacuator : MonoBehaviour {
 
     internal void dispatch(
         Action<long> onEvacComplete,
-        Action<long> onKilled
+        Action<long> onKilled,
+        bool boosted
     ) {
         this.onEvacComplete = onEvacComplete;
         this.onKilled = onKilled;
         evacuating = true;
-        propel(Vector2.down * impulse);
+        this.boosted = boosted;
+        propel(Vector2.down);
     }
 
-    private void propel(Vector2 impulse) {
+    private void propel(Vector2 direction) {
         rb.isKinematic = false;
         rb.angularVelocity = 0;
         rb.velocity = Vector2.zero;
-        rb.AddForce(impulse);
+        var speed = boosted ? impulse * boostFactor : impulse;
+        rb.AddForce(direction * speed);
     }
 
     private Vector2 calcXImpulse(WorldCoords worldCoords, Vector2 position) {
         if (position.x <= worldCoords.centerX) {
-            return Vector2.right * impulse;
+            return Vector2.right;
         } else {
-            return Vector2.left * impulse;
+            return Vector2.left;
         }
+    }
+
+    public void boost() {
+        boosted = true;
+        rb.velocity = rb.velocity * boostFactor;
     }
 
     private void Update() {
@@ -72,8 +83,8 @@ public class Evacuator : MonoBehaviour {
         } else if (rb.position.y < worldCoords.worldBottom) {
             deliver();
 
-        } else if (Mathf.Abs(rb.position.x) < 0.01f) {
-            propel(Vector2.down * impulse);
+        } else if (Mathf.Abs(rb.position.x) < 0.05f) {
+            propel(Vector2.down);
         }
     }
 

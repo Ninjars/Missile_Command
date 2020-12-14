@@ -94,7 +94,8 @@ public class City : MonoBehaviour {
 
     public long evacuate(
         Action<long> onEvacComplete,
-        Action<long> onKilled
+        Action<long> onKilled,
+        bool boosted
     ) {
         if (isDestroyed || !evacuationStats.canEvacuate()) {
             return 0;
@@ -109,7 +110,8 @@ public class City : MonoBehaviour {
         evacuators.RemoveAt(0);
         evacuator.dispatch(
             onEvacComplete,
-            onKilled
+            onKilled,
+            boosted
         );
 
         if (population <= 0) {
