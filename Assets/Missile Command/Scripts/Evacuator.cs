@@ -6,8 +6,11 @@ using UnityEngine;
 public class Evacuator : MonoBehaviour {
     public float zPos = 0;
     public float impulse = 10f;
+    public float boostFactor = 5;
+    public float descendToWorldY = -0.1f;
 
-    
+    private bool evacuating = false;
+    private bool boosted = false;
     private WorldCoords worldCoords;
     private Action<long> onEvacComplete;
     private Action<long> onKilled;
@@ -23,53 +26,86 @@ public class Evacuator : MonoBehaviour {
         }
     }
 
-    internal void dispatch(
-        WorldCoords worldCoords, 
-        Vector2 startPosition, 
-        Action<long> onEvacComplete, 
-        Action<long> onKilled, 
+    internal void spawn(
+        WorldCoords worldCoords,
+        Vector2 startPosition,
         long evacueeCount
     ) {
         this.worldCoords = worldCoords;
-        this.onEvacComplete = onEvacComplete;
-        this.onKilled = onKilled;
         this.evacueeCount = evacueeCount;
+        evacuating = false;
+        boosted = false;
         transform.position = (Vector3) startPosition + Vector3.forward * zPos;
 
-        Vector2 impulse = calcInitialImpulse(worldCoords, startPosition);
-        if (impulse.x < 0) {
-            transform.localScale = new Vector3(-1, 1, 1);
-        } else {
-            transform.localScale = Vector3.one;
-        }
-
+        rb.isKinematic = true;
         gameObject.SetActive(true);
-        rb.angularVelocity = 0;
-        rb.velocity = Vector2.zero;
-        rb.AddForce(impulse);
     }
 
-    private Vector2 calcInitialImpulse(WorldCoords worldCoords, Vector2 position) {
+    internal void dispatch(
+        Action<long> onEvacComplete,
+        Action<long> onKilled,
+        bool boosted
+    ) {
+        this.onEvacComplete = onEvacComplete;
+        this.onKilled = onKilled;
+        evacuating = true;
+        this.boosted = boosted;
+        propel(Vector2.down);
+    }
+
+    private void propel(Vector2 direction) {
+        rb.isKinematic = false;
+        rb.angularVelocity = 0;
+        rb.velocity = Vector2.zero;
+        var speed = boosted ? impulse * boostFactor : impulse;
+        rb.AddForce(direction * speed);
+    }
+
+    private Vector2 calcXImpulse(WorldCoords worldCoords, Vector2 position) {
         if (position.x <= worldCoords.centerX) {
-            return Vector2.left * impulse;
+            return Vector2.right;
         } else {
-            return Vector2.right * impulse;
+            return Vector2.left;
         }
+    }
+
+    public void boost() {
+        boosted = true;
+        rb.velocity = rb.velocity * boostFactor;
     }
 
     private void Update() {
-        if (rb.position.x < worldCoords.worldLeft - 0.5f || rb.position.x > worldCoords.worldRight + 0.5f) {
+        if (!evacuating) return;
+
+        if (rb.velocity.y < 0 && rb.position.y < descendToWorldY) {
+            propel(calcXImpulse(worldCoords, rb.position));
+
+        } else if (rb.position.y < worldCoords.worldBottom) {
             deliver();
+
+        } else if (Mathf.Abs(rb.position.x) < 0.05f) {
+            propel(Vector2.down);
         }
     }
 
+    void OnDisable() {
+        onEvacComplete = null;
+        onKilled = null;
+    }
+
     internal void deliver() {
-        onEvacComplete(evacueeCount);
+        if (onEvacComplete != null) {
+            onEvacComplete(evacueeCount);
+        }
         gameObject.SetActive(false);
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        onKilled(evacueeCount);
+        if (!evacuating) return;
+        
+        if (onKilled != null) {
+            onKilled(evacueeCount);
+        }
         gameObject.SetActive(false);
     }
 }

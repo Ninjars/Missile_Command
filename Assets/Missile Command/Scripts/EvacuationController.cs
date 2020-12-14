@@ -9,8 +9,6 @@ public class EvacuationController : MonoBehaviour {
 
     [Range(0, 1)]
     public float evacIntervalVariance = 0.33f;
-    [Range(0, 1)]
-    public float evacCountVariance = 0.33f;
 
     private GameState gameState;
     private WorldCoords worldCoords;
@@ -30,22 +28,34 @@ public class EvacuationController : MonoBehaviour {
         this.worldCoords = worldCoords;
     }
 
-    internal void beginEvacuations() {
-        evacuating = true;
-        evacLoop = StartCoroutine(startEvacuationLoop(gameState.evacEventInterval, gameState.evacEventCount));
-    }
-
-    internal void suspendEvacuations() {
+    internal void clear() {
+        currentCityIndex = 0;
         evacuating = false;
         if (evacLoop != null) {
             StopCoroutine(evacLoop);
         }
     }
 
-    private IEnumerator startEvacuationLoop(float averageInterval, long averageCount) {
+    internal void beginEvacuations() {
+        foreach (var city in cities) {
+            if (!city.isDestroyed) city.populateEvacuees(worldCoords);
+        }
+        evacuating = true;
+        evacLoop = StartCoroutine(startEvacuationLoop(gameState.evacEventInterval, evacIntervalVariance, false));
+    }
+
+    internal void completeEvacuations() {
+        if (evacLoop != null) {
+            StopCoroutine(evacLoop);
+        }
+        evacLoop = StartCoroutine(startEvacuationLoop(0.1f, 0, true));
+    }
+
+    private IEnumerator startEvacuationLoop(float averageInterval, float intervalVariance, bool boosted) {
         while (evacuating) {
-            performEvacuation((long) getVariated(averageCount, evacCountVariance));
-            yield return new WaitForSeconds(getVariated(averageInterval, evacIntervalVariance));
+            var wait = getVariated(averageInterval, intervalVariance);
+            yield return new WaitForSeconds(wait);
+            evacuating = performEvacuation(boosted);
         }
     }
 
@@ -54,7 +64,8 @@ public class EvacuationController : MonoBehaviour {
         return value - val + 2 * UnityEngine.Random.value * val;
     }
 
-    private void performEvacuation(long maxEvacCount) {
+    private bool performEvacuation(bool boosted) {
+        Debug.Log("performEvacuation()");
         City evacCity = null;
         int initialIndex = currentCityIndex;
         for (int i = 0; i < cities.Count; i++) {
@@ -62,18 +73,16 @@ public class EvacuationController : MonoBehaviour {
             currentCityIndex++;
             if (evacCity.canEvacuate()) break;
         }
+        Debug.Log($"> evacCity: {evacCity}");
         if (evacCity == null || !evacCity.canEvacuate()) {
-            return;
+            return false;
         }
 
-        long evacCount = evacCity.evacuate(maxEvacCount);
-        Evacuator evacuator = ObjectPoolManager.Instance.getObjectInstance(evacuatorPrefab.gameObject).GetComponent<Evacuator>();
-        evacuator.dispatch(
-            worldCoords,
-            new Vector2(evacCity.transform.position.x, evacuatorYOffset),
+        evacCity.evacuate(
             (evacueeCount) => gameState.onPopulationEvacuated(evacueeCount),
             (evacueeCount) => gameState.onPopulationLost(evacueeCount),
-            evacCount
+            boosted
         );
+        return true;
     }
 }

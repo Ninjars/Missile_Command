@@ -36,13 +36,11 @@ public class GameState : StateUpdater {
     public long citiesPopulation { get { return cities.Aggregate(0L, (acc, city) => acc + city.population); } }
     public long populationDead { get; private set; }
     public float evacEventInterval { get; private set; }
-    public long evacEventCount { get; private set; }
     private float levelEndMin;
 
-    public GameState(float evacEventsPerMin, long evacEventCount) {
+    public GameState(float evacEventsPerMin) {
         currentMode = GameMode.MAIN_MENU;
-        this.evacEventInterval = evacEventsPerMin * 60f;
-        this.evacEventCount = evacEventCount;
+        this.evacEventInterval = evacEventsPerMin / 60f;
     }
 
     public void onPopulationEvacuated(long count) {
@@ -77,6 +75,17 @@ public class GameState : StateUpdater {
 
     public void onLevelCompleted() {
         Debug.Log("GameState.onLevelCompleted()");
+        currentMode = GameMode.END_LEVEL;
+    }
+
+    public void onLevelEnding() {
+        Debug.Log("GameState.onLevelEnding()");
+        currentMode = GameMode.LEVEL_ENDING;
+    }
+
+
+    public void onLevelEnded() {
+        Debug.Log("GameState.onLevelEnded()");
         currentMode = GameMode.POST_LEVEL;
         levelsCompleted++;
     }
@@ -92,6 +101,8 @@ public enum GameMode {
     START_GAME,
     PRE_LEVEL,
     IN_LEVEL,
+    END_LEVEL,
+    LEVEL_ENDING,
     POST_LEVEL,
     GAME_WON,
     GAME_LOST,

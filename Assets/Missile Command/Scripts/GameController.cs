@@ -17,7 +17,8 @@ public class GameController : MonoBehaviour {
     [Tooltip("Initial evacuation events per minute")]
     public float baseEvacRate = 1f;
     [Tooltip("Initial evacuees per event")]
-    public long baseEvacuees = 100;
+    public long basePopPerEvacEvent = 100;
+    public int baseEvacEventsPerLevel = 3;
     public long initialCityPopulation = 1000000;
 
     public InputActionMap inGameInput;
@@ -55,7 +56,7 @@ public class GameController : MonoBehaviour {
         inGameInput["Fire 2"].performed += fireTwo;
         inGameInput["Fire 3"].performed += fireThree;
 
-        gameState = new GameState(baseEvacRate, baseEvacuees);
+        gameState = new GameState(baseEvacRate);
     }
 
     private void Update() {
@@ -94,6 +95,7 @@ public class GameController : MonoBehaviour {
             }
             case GameMode.START_GAME: {
                 uiController.setUiMode(UiMode.IN_GAME);
+                levelManager.reset();
                 gameState.onLevelPrepare();
                 showAllCityUi();
                 break;
@@ -118,11 +120,21 @@ public class GameController : MonoBehaviour {
                 }
                 break;
             }
-            case GameMode.POST_LEVEL: {
+            case GameMode.END_LEVEL: {
                 inGameInput.Disable();
+                boostEvacuators();
+                evacuationController.completeEvacuations();
+                gameState.onLevelEnding();
+                break;
+            }
+            case GameMode.LEVEL_ENDING: {
+                if (GameObject.FindGameObjectWithTag("Evacuator") == null) {
+                    gameState.onLevelEnded();
+                }
+                break;
+            }
+            case GameMode.POST_LEVEL: {
                 levelManager.onLevelCompleted();
-                evacuationController.suspendEvacuations();
-
                 if (levelManager.allStagesCompleted) {
                     gameState.onGameEnded(true);
                     
@@ -139,7 +151,7 @@ public class GameController : MonoBehaviour {
             case GameMode.GAME_LOST: {
                 inGameInput.Disable();
                 attackController.stopAttacks();
-                evacuationController.suspendEvacuations();
+                evacuationController.clear();
                 clearEvacuators();
                 showAllCityUi();
                 uiController.setUiMode(UiMode.LOSE_SCREEN);
@@ -148,7 +160,7 @@ public class GameController : MonoBehaviour {
             case GameMode.GAME_WON: {
                 inGameInput.Disable();
                 attackController.stopAttacks();
-                evacuationController.suspendEvacuations();
+                evacuationController.clear();
                 clearEvacuators();
                 showAllCityUi();
                 uiController.setUiMode(UiMode.WIN_SCREEN);
@@ -202,7 +214,7 @@ public class GameController : MonoBehaviour {
     public void onUiMainMenu() {
         attackController.stopAttacks();
         clearBoard();
-        gameState = new GameState(baseEvacRate, baseEvacuees);
+        gameState = new GameState(baseEvacRate);
     }
 
     public void onUiRestart() {
@@ -214,9 +226,16 @@ public class GameController : MonoBehaviour {
         clearBoard();
         backdropGenerator.generateBackground(worldCoords);
 
-        gameState = new GameState(baseEvacRate, baseEvacuees);
+        gameState = new GameState(baseEvacRate);
 
-        var spawnedPlayerData = playerSpawner.performInitialSpawn(gameState, worldCoords, levelManager.getTotalLevels(), initialCityPopulation);
+        var spawnedPlayerData = playerSpawner.performInitialSpawn(
+            gameState,
+            worldCoords,
+            levelManager.getTotalLevels(),
+            initialCityPopulation,
+            baseEvacEventsPerLevel,
+            basePopPerEvacEvent
+        );
         gameState.missileBatteries = spawnedPlayerData.missileBatteries;
         gameState.cities = spawnedPlayerData.cities;
         
@@ -256,6 +275,13 @@ public class GameController : MonoBehaviour {
             if (obj.layer == LayerMask.NameToLayer("Explosions")) {
                 obj.SetActive(false);
             }
+        }
+    }
+
+    private void boostEvacuators() {
+        foreach (var evacuatorObj in GameObject.FindGameObjectsWithTag("Evacuator")) {
+            Evacuator evacuator = evacuatorObj.GetComponent<Evacuator>();
+            evacuator.boost();
         }
     }
 
