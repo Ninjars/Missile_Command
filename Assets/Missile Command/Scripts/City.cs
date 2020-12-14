@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Shapes;
 using TMPro;
 using UnityEngine;
@@ -9,12 +11,17 @@ public class City : MonoBehaviour {
     public GameObject aliveVisuals;
     public GameObject deadVisuals;
     public GameObject textUi;
+    public Line popBracketLine;
+    public Evacuator evacuatorPrefab;
     public TextMeshProUGUI cityNameView;
     public TextMeshProUGUI cityPopulationView;
     public Explosion explosionPrefab;
+    public float evacuatorYOffset = 0.1f;
+    public float evacuatorXSpacing = 0.11f;
 
     public long population { get; private set; }
     private StateUpdater stateUpdater;
+    private CityEvacuationStats evacuationStats;
     private Colors colors { get { return Colors.Instance; } }
     private Triangle markerTriangle;
     private CanvasGroup textCanvasGroup;
@@ -29,19 +36,19 @@ public class City : MonoBehaviour {
             return _screenEffectManager;
         }
     }
+    private List<Evacuator> evacuators;
 
-    internal bool canEvacuate() {
-        return !isDestroyed && population > 0;
-    }
-
-    public void initialise(StateUpdater stateUpdater, long population) {
+    public void initialise(StateUpdater stateUpdater, long population, int evacEventCount, long popPerEvac) {
         this.stateUpdater = stateUpdater;
         this.population = population;
+        this.evacuationStats = new CityEvacuationStats(evacEventCount, popPerEvac);
+        evacuators = new List<Evacuator>();
 
         cityNameView.text = gameObject.name;
         cityPopulationView.text = $"{population}";
 
         aliveVisuals.GetComponent<Polyline>().Color = colors.cityColor;
+        popBracketLine.Color = colors.cityColor;
         markerTriangle = textUi.GetComponent<Triangle>();
         textCanvasGroup = textUi.GetComponentInChildren<CanvasGroup>();
         deadVisuals.GetComponent<Polyline>().Color = colors.deadBuildingColor;
@@ -85,20 +92,60 @@ public class City : MonoBehaviour {
         }
     }
 
-    public long evacuate(long evacuationCountMax) {
-        if (isDestroyed) {
+    public long evacuate(
+        Action<long> onEvacComplete,
+        Action<long> onKilled
+    ) {
+        if (isDestroyed || !evacuationStats.canEvacuate()) {
             return 0;
-
-        } else if (population <= evacuationCountMax) {
-            var evacCount = population;
-            population = 0;
-            aliveVisuals.GetComponent<Polyline>().Color = colors.deadBuildingColor;
-            return evacCount;
-
-        } else {
-            population -= evacuationCountMax;
-            return evacuationCountMax;
         }
+
+        evacuationStats.evacuationPerformed();
+
+        long evacCount = population < evacuationStats.popPerEvent ? population : evacuationStats.popPerEvent;
+        population -= evacCount;
+
+        var evacuator = evacuators[0];
+        evacuators.RemoveAt(0);
+        evacuator.dispatch(
+            onEvacComplete,
+            onKilled
+        );
+
+        if (population <= 0) {
+            aliveVisuals.GetComponent<Polyline>().Color = colors.deadBuildingColor;
+            popBracketLine.Color = colors.deadBuildingColor;
+        }
+        
+        return evacCount;
+    }
+
+    internal void populateEvacuees(WorldCoords worldCoords) {
+        evacuationStats.refresh();
+
+        foreach (var evacuator in evacuators) {
+            evacuator.gameObject.SetActive(false);
+        }
+        evacuators.Clear();
+        
+        var evacuatorPool = ObjectPoolManager.Instance.getObjectPool(evacuatorPrefab.gameObject);
+        var totalWidth = evacuatorXSpacing * (evacuationStats.eventsPerLevel - 1);
+        var xOrigin = -totalWidth * 0.5f;
+        for (int i = 0; i < evacuationStats.eventsPerLevel; i++) {
+            Evacuator evac = evacuatorPool.getObjectInstance().GetComponent<Evacuator>();
+            evac.spawn(
+                worldCoords,
+                transform.position + Vector3.up * evacuatorYOffset + Vector3.right * (xOrigin + i * evacuatorXSpacing),
+                evacuationStats.popPerEvent
+            );
+            evacuators.Add(evac);
+        }
+        // reverse list to make it easier to read off right-most item
+        evacuators.Reverse();
+    }
+
+    internal bool canEvacuate() {
+        return !isDestroyed && population > 0 && evacuationStats.canEvacuate();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
@@ -115,6 +162,7 @@ public class City : MonoBehaviour {
         population = 0;
         isDestroyed = true;
         screenEffectManager.onCityNukeHit(1f);
+        evacuationStats.clear();
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
         explosion.boom(transform.position, colors.buildingExplodeColor);
@@ -131,5 +179,33 @@ public class City : MonoBehaviour {
 
         aliveVisuals.SetActive(false);
         deadVisuals.SetActive(true);
+        popBracketLine.Color = colors.deadBuildingColor;
+    }
+}
+
+public class CityEvacuationStats {
+    public int eventsPerLevel { get; private set; }
+    public long popPerEvent { get; private set; }
+    public int eventsRemaining { get; private set; }
+
+    public CityEvacuationStats(int eventsPerLevel, long popPerEvent) {
+        this.eventsPerLevel = eventsPerLevel;
+        this.popPerEvent = popPerEvent;
+    }
+
+    public void refresh() {
+        eventsRemaining = eventsPerLevel;
+    }
+
+    public bool canEvacuate() {
+        return eventsRemaining > 0;
+    }
+
+    public void evacuationPerformed() {
+        eventsRemaining--;
+    }
+
+    public void clear() {
+        eventsRemaining = 0;
     }
 }

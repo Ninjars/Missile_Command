@@ -13,7 +13,14 @@ public class PlayerSpawner : MonoBehaviour {
     public float cityYPos;
     public float cityZPos;
 
-    public SpawnData performInitialSpawn(StateUpdater stateUpdater, WorldCoords worldCoords, int numberOfLevels, long initialPopulation) {
+    public SpawnData performInitialSpawn(
+            StateUpdater stateUpdater,
+            WorldCoords worldCoords,
+            int numberOfLevels,
+            long initialPopulation,
+            int evacationsPerLevel,
+            long popPerEvent
+        ) {
         List<MissileBattery> missileBatteries = new List<MissileBattery>();
 
         float batterySpacing = worldCoords.width / batteryCount;
@@ -37,7 +44,7 @@ public class PlayerSpawner : MonoBehaviour {
         for (int i = 0; i < citySpawnPositions.Count; i++) {
             var city = instantiateCity(citySpawnPositions[i]);
             city.gameObject.name = cityNameData.cityNames[i];
-            city.initialise(stateUpdater, initialPopulation);
+            city.initialise(stateUpdater, initialPopulation, evacationsPerLevel, popPerEvent);
             cities.Add(city);
         }
 

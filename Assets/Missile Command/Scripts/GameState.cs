@@ -36,12 +36,10 @@ public class GameState : StateUpdater {
     public long citiesPopulation { get { return cities.Aggregate(0L, (acc, city) => acc + city.population); } }
     public long populationDead { get; private set; }
     public float evacEventInterval { get; private set; }
-    public long evacEventCount { get; private set; }
     private float levelEndMin;
 
-    public GameState(float evacEventsPerMin, long evacEventCount) {
+    public GameState(float evacEventsPerMin) {
         currentMode = GameMode.MAIN_MENU;
-        this.evacEventCount = evacEventCount;
         this.evacEventInterval = evacEventsPerMin / 60f;
     }
 
