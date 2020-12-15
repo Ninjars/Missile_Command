@@ -15,7 +15,7 @@ MonoBehaviour:
   title: Bomber Test
   levels: 5
   levelDuration:
-    from: 15
-    to: 15
+    from: 5
+    to: 5
   weaponData:
   - {fileID: 11400000, guid: 1edc93a744afd564cbc52f9a86cec34e, type: 2}
