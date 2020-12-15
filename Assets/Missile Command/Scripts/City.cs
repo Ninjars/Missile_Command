@@ -168,6 +168,9 @@ public class City : MonoBehaviour {
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
         explosion.boom(transform.position, colors.buildingExplodeColor);
+        foreach (var evacuator in evacuators) {
+            evacuator.gameObject.SetActive(false);
+        }
         StartCoroutine(setDeadVisuals());
 
         if (isFadingUi) {

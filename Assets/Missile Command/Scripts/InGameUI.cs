@@ -15,10 +15,7 @@ public class InGameUI : MonoBehaviour {
     void Update() {
         if (gameState != null) {
             safeTextView.text = $"SAFE {gameState.populationEvacuated}";
+            waveCount.text = $"{gameState.levelsCompleted + 1}";
         }
-    }
-
-    private void OnEnable() {
-        waveCount.text = $"{gameState.levelsCompleted + 1}";
     }
 }
