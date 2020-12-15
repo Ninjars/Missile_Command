@@ -74,16 +74,22 @@ public class Evacuator : MonoBehaviour {
         rb.velocity = rb.velocity * boostFactor;
     }
 
-    private void Update() {
+    private void FixedUpdate() {
         if (!evacuating) return;
 
-        if (rb.velocity.y < 0 && rb.position.y < descendToWorldY) {
+        if (rb.position.x != worldCoords.centerX && rb.velocity.y < 0 && rb.position.y <= descendToWorldY) {
+            rb.position = new Vector2(rb.position.x, descendToWorldY);
             propel(calcXImpulse(worldCoords, rb.position));
 
         } else if (rb.position.y < worldCoords.worldBottom) {
             deliver();
 
-        } else if (Mathf.Abs(rb.position.x) < 0.05f) {
+        } else if (rb.velocity.x < 0 && rb.position.x < worldCoords.centerX) {
+            rb.position = new Vector2(worldCoords.centerX, rb.position.y);
+            propel(Vector2.down);
+
+        } else if (rb.velocity.x > 0 && rb.position.x > worldCoords.centerX) {
+            rb.position = new Vector2(worldCoords.centerX, rb.position.y);
             propel(Vector2.down);
         }
     }

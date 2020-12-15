@@ -200,4 +200,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zPos: 0
   impulse: 10
+  boostFactor: 15
   descendToWorldY: -0.125
