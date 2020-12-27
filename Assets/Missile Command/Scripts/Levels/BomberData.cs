@@ -16,6 +16,9 @@ public class BomberData : WeaponData {
     [Tooltip("Horizontal speed.")]
     public RangeData speed;
 
+    [Tooltip("Altitude range, as factor of full world height. 1 = world top, 0 = world bottom. Bomber will spawn randomly in this range.")]
+    public RangeData altitude;
+
     [Tooltip("Ability of bomber to avoid explosions.")]
     public RangeData evasionSpeed;
 }

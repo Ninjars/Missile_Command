@@ -10,36 +10,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f277a3635cb3b247b73dc17ef0d71a0, type: 3}
-  m_Name: ICBM MIRV Escalation
+  m_Name: ICBM Barrage 1
   m_EditorClassIdentifier: 
-  initialDelay: 3
+  initialDelay: 0
   targetWeights:
     city: 2
-    battery: 0.5
-    random: 4
+    battery: 1
+    random: 5
   count:
-    from: 5
-    to: 10
-  avgInterval:
-    from: 2
-    to: 0.5
+    from: 10
+    to: 15
   intervalVariance:
-    from: 1
+    from: 0.5
     to: 1
   weaponPrefab: {fileID: 5888894347606011465, guid: acee917d488bd2546b998b06f6be123d,
     type: 3}
   maxDeviation:
-    from: 4
-    to: 3
+    from: 5
+    to: 4
   primaryImpulse:
-    from: 40
-    to: 60
+    from: 30
+    to: 40
   primaryAcceleration:
     from: 0
     to: 0
   mirvChance:
-    from: 0.5
-    to: 0.75
+    from: 0
+    to: 0
   mirvCount:
-    from: 2
-    to: 3
+    from: 0
+    to: 0

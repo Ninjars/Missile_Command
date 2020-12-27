@@ -33,7 +33,7 @@ public class AttackUtil {
         Func<Vector3, Vector2> targetProvider
     ) {
         int bomberCount = weaponData.bombersPerWing.evaluate(stageProgress);
-        float altitude = calculateBomberAltitude(worldCoords);
+        float altitude = calculateBomberAltitude(worldCoords, weaponData.altitude);
         float x = UnityEngine.Random.value <= 0.5f
                 ? worldCoords.worldLeft - weaponData.weaponPrefab.worldSpawnBuffer
                 : worldCoords.worldRight + weaponData.weaponPrefab.worldSpawnBuffer;
@@ -98,10 +98,9 @@ public class AttackUtil {
         );
     }
 
-    private float calculateBomberAltitude(WorldCoords worldCoords) {
+    private float calculateBomberAltitude(WorldCoords worldCoords, RangeData altitude) {
         float dy = worldCoords.worldTop - worldCoords.groundY;
-        float min = worldCoords.groundY + dy * 0.33f;
-        float max = worldCoords.worldTop - dy * 0.45f;
-        return min + UnityEngine.Random.value * (max - min);
+        float altOffset = altitude.evaluate(UnityEngine.Random.value);
+        return worldCoords.groundY + altOffset * dy;
     }
 }

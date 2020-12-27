@@ -10,30 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f277a3635cb3b247b73dc17ef0d71a0, type: 3}
-  m_Name: ICBM Fast Occasional Single
+  m_Name: Bomber Bomb 2
   m_EditorClassIdentifier: 
-  initialDelay: 2
+  initialDelay: 0
   targetWeights:
-    city: 1
-    battery: 3
+    city: 4
+    battery: 0
     random: 1
   count:
-    from: 3
-    to: 8
-  avgInterval:
-    from: 4
-    to: 3
+    from: 0
+    to: 0
   intervalVariance:
-    from: 1
-    to: 1
+    from: 0
+    to: 0
   weaponPrefab: {fileID: 5888894347606011465, guid: acee917d488bd2546b998b06f6be123d,
     type: 3}
   maxDeviation:
-    from: 3
-    to: 3
+    from: 1.5
+    to: 1.5
   primaryImpulse:
-    from: 70
-    to: 70
+    from: 50
+    to: 60
   primaryAcceleration:
     from: 0
     to: 0

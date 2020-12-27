@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55eea20c94fdfb34b9926c3102644b9e, type: 3}
+  m_Name: Standard Stage Progression
+  m_EditorClassIdentifier: 
+  title: Incoming
+  stages:
+  - {fileID: 11400000, guid: 6468f84938cf07242a67db7964d554c2, type: 2}
+  - {fileID: 11400000, guid: 69c2863a014986f42967c66df0762b71, type: 2}
+  - {fileID: 11400000, guid: f45e3c844f7f3c94caba72d423d9e346, type: 2}
+  - {fileID: 11400000, guid: 35440af4d7571254c9998bdd19931834, type: 2}
+  - {fileID: 11400000, guid: 5cab78a155e9019419ed4bae3ba45491, type: 2}

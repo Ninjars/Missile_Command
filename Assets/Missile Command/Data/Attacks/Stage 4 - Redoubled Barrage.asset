@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6e2e974db858d34ab67d6c00bb0b2da, type: 3}
-  m_Name: Stage 2
+  m_Name: Stage 4 - Redoubled Barrage
   m_EditorClassIdentifier: 
-  title: Stage 2
-  levels: 5
+  title: Redoubled Barrage
+  levels: 4
   levelDuration:
-    from: 20
+    from: 15
     to: 10
   weaponData:
-  - {fileID: 11400000, guid: 2cca46ca945ef20498bb62a58aa529ff, type: 2}
+  - {fileID: 11400000, guid: 338ecc16d2eae0f4fbe25496560ddeae, type: 2}
   - {fileID: 11400000, guid: e0c4816f17e764c47822c3a99a8dba34, type: 2}
-  - {fileID: 11400000, guid: 2cca46ca945ef20498bb62a58aa529ff, type: 2}
-  - {fileID: 11400000, guid: 1aaba8410ea3f9040b4fe1a1997de06b, type: 2}
+  - {fileID: 11400000, guid: 5c8b8c3afaf899d42bb3fbb95b7cb3d6, type: 2}
