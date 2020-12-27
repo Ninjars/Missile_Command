@@ -15,9 +15,10 @@ MonoBehaviour:
   title: Hard Rain
   levels: 5
   levelDuration:
-    from: 15
-    to: 10
+    from: 20
+    to: 15
   weaponData:
   - {fileID: 11400000, guid: 338ecc16d2eae0f4fbe25496560ddeae, type: 2}
   - {fileID: 11400000, guid: e0c4816f17e764c47822c3a99a8dba34, type: 2}
   - {fileID: 11400000, guid: 5c8b8c3afaf899d42bb3fbb95b7cb3d6, type: 2}
+  - {fileID: 11400000, guid: bdfd9f382a945e3468d0b47f33eac5ec, type: 2}
