@@ -3,7 +3,8 @@ using System.Linq;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour {
-    public List<StageData> stageData;
+    public StagesList stageData;
+    private List<StageData> stages { get { return stageData.stages; } }
 
     private int currentStage;
     private int stageLevel;
@@ -20,33 +21,33 @@ public class LevelManager : MonoBehaviour {
 
     public void onLevelCompleted() {
         currentLevelData = null;
-        if (currentStage >= stageData.Count) {
+        if (currentStage >= stages.Count) {
             Debug.LogError($"unable to start stage {currentStage}; exceeds scheduled stages. Should have ended the game.");
             _allStagesCompleted = true;
             return;
         }
         stageLevel++;
-        StageData currentStageData = stageData[currentStage];
+        StageData currentStageData = stages[currentStage];
         if (stageLevel >= currentStageData.levels) {
             currentStage++;
             stageLevel = 0;
         }
-        _allStagesCompleted = currentStage >= stageData.Count;
+        _allStagesCompleted = currentStage >= stages.Count;
     }
 
     public LevelData getLevelData() {
         if (currentLevelData.HasValue) {
             return currentLevelData.Value;
         } else {
-            StageData currentData = stageData[currentStage];
-            var levelData = createLevelData(currentData, stageLevel / (float) (currentData.levels - 1));
+            StageData currentData = stages[currentStage];
+            var levelData = createLevelData(currentData, stageLevel / (float)(currentData.levels - 1));
             currentLevelData = levelData;
             return levelData;
         }
     }
 
     public int getTotalLevels() {
-        return stageData.Select(stage => stage.levels).Aggregate(0, (acc, next) => acc + next);
+        return stages.Select(stage => stage.levels).Aggregate(0, (acc, next) => acc + next);
     }
 
     private LevelData createLevelData(StageData currentData, float stageProgress) {
