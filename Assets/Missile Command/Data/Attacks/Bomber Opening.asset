@@ -35,6 +35,9 @@ MonoBehaviour:
   speed:
     from: 1.5
     to: 2.5
+  altitude:
+    from: 0.5
+    to: 0.8
   evasionSpeed:
     from: 0
     to: 0
