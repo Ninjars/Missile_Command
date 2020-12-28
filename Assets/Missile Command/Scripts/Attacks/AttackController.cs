@@ -7,6 +7,7 @@ using UnityEngine;
 public class AttackController : MonoBehaviour {
     private List<Coroutine> currentAttacks;
     private AttackUtil attackUtil = new AttackUtil();
+    public int pendingAttackCount;
 
     internal void scheduleAttackEvents(
         StateUpdater stateUpdater,
@@ -21,6 +22,7 @@ public class AttackController : MonoBehaviour {
 
         foreach (var weaponData in weaponDatas) {
             int attackCount = weaponData.count.evaluate(stageProgress);
+            pendingAttackCount += attackCount;
             float baseInterval = stageDuration / attackCount;
             for (int i = 0; i < attackCount; i++) {
                 float timeToAttack = weaponData.initialDelay + i * baseInterval + getAttackVariance(stageProgress, baseInterval, weaponData.intervalVariance);
@@ -33,6 +35,7 @@ public class AttackController : MonoBehaviour {
                         timeToAttack,
                         (ICBMData)weaponData,
                         stageProgress,
+                        () => { pendingAttackCount--; },
                         () => getTargetPosition(worldCoords, weaponData.targetWeights, cities, missileBatteries)
                     );
                 } else if (weaponData is BomberData) {
@@ -42,6 +45,7 @@ public class AttackController : MonoBehaviour {
                         timeToAttack,
                         (BomberData)weaponData,
                         stageProgress,
+                        () => { pendingAttackCount--; },
                         (currentPositionAndVector) => getBomberTarget(
                             worldCoords,
                             currentPositionAndVector,
@@ -59,7 +63,6 @@ public class AttackController : MonoBehaviour {
                 }
             }
         }
-        stateUpdater.setLevelEnd(Time.time + stageDuration);
     }
 
     internal void stopAttacks() {
@@ -67,6 +70,7 @@ public class AttackController : MonoBehaviour {
     }
 
     private void clearCurrentAttacks() {
+        pendingAttackCount = 0;
         if (currentAttacks == null) {
             currentAttacks = new List<Coroutine>();
             return;
@@ -171,6 +175,10 @@ public class AttackController : MonoBehaviour {
                     throw new InvalidOperationException($"unhandled case {targetType}");
                 }
         }
+    }
+
+    internal bool allAttacksLaunched() {
+        return pendingAttackCount == 0;
     }
 
     private City getNextCity(List<City> cities, float currentX, bool travellingRight) {

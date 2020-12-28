@@ -170,7 +170,7 @@ public class GameController : MonoBehaviour {
     }
 
     private bool hasLevelEnded() {
-        return gameState.canEndLevel(Time.time) && GameObject.FindGameObjectsWithTag("Attack").Length == 0;
+        return attackController.allAttacksLaunched() && GameObject.FindGameObjectsWithTag("Attack").Length == 0;
     }
 
     private void startNextLevel() {
