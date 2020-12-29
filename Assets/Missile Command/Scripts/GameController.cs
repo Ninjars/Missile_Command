@@ -32,6 +32,11 @@ public class GameController : MonoBehaviour {
     private Vector2 clickDownPosition = Vector2.zero;
 
     private void Awake() {
+#if UNITY_EDITOR
+        Debug.unityLogger.logEnabled = true;
+#else
+        Debug.unityLogger.logEnabled = false;
+#endif
         playerSpawner = GetComponent<PlayerSpawner>();
         objectPoolManager = GetComponent<ObjectPoolManager>();
         levelManager = GetComponent<LevelManager>();
