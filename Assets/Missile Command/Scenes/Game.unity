@@ -5593,6 +5593,10 @@ MonoBehaviour:
   loseWaves: {fileID: 100528670}
   loseSurvivors: {fileID: 1083094029}
   loseDead: {fileID: 60939971}
+  upgradePanel: {fileID: 2044207244}
+  upgradeButton1: {fileID: 661531602}
+  upgradeButton2: {fileID: 690825479}
+  upgradeButton3: {fileID: 56609715}
 --- !u!114 &1839267181
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,6 +15,11 @@ public class UiController : MonoBehaviour {
     public TextMeshProUGUI loseSurvivors;
     public TextMeshProUGUI loseDead;
 
+    public RectTransform upgradePanel;
+    public UpgradeButton upgradeButton1;
+    public UpgradeButton upgradeButton2;
+    public UpgradeButton upgradeButton3;
+
     private GameState gameState;
     private UiMode currentMode;
     private Colors colors { get { return Colors.Instance; } }
@@ -24,28 +29,44 @@ public class UiController : MonoBehaviour {
         inGamePanel.GetComponent<InGameUI>().setGameState(gameState);
     }
 
+    private void hideAllPanels() {
+        hide(mainMenuPanel);
+        hide(inGamePanel);
+        hide(winPanel);
+        hide(losePanel);
+        hide(upgradePanel);
+    }
+
+    private void hideNonGamePanels() {
+        hide(mainMenuPanel);
+        hide(winPanel);
+        hide(losePanel);
+        hide(upgradePanel);
+    }
+
     public void setUiMode(UiMode mode) {
         if (currentMode == mode) return;
         this.currentMode = mode;
         switch (mode) {
             case UiMode.MAIN_MENU: {
+                hideAllPanels();
                 show(mainMenuPanel);
-                hide(inGamePanel);
-                hide(winPanel);
-                hide(losePanel);
                 break;
             }
             case UiMode.IN_GAME: {
-                hide(mainMenuPanel);
+                hideNonGamePanels();
                 show(inGamePanel);
-                hide(winPanel);
-                hide(losePanel);
+                break;
+            }
+            case UiMode.LEVEL_END: {
+                hideNonGamePanels();
+                show(upgradePanel);
+
+                // TODO: show upgrades for the buttons
                 break;
             }
             case UiMode.LOSE_SCREEN: {
-                hide(mainMenuPanel);
-                hide(inGamePanel);
-                hide(winPanel);
+                hideAllPanels();
                 show(losePanel);
 
                 loseWaves.text = $"{gameState.levelsCompleted}";
@@ -54,10 +75,8 @@ public class UiController : MonoBehaviour {
                 break;
             }
             case UiMode.WIN_SCREEN: {
-                hide(mainMenuPanel);
-                hide(inGamePanel);
+                hideAllPanels();
                 show(winPanel);
-                hide(losePanel);
 
                 winWaves.text = $"{gameState.levelsCompleted}";
                 winSurvivors.text = $"{gameState.populationEvacuated + gameState.citiesPopulation}";
@@ -87,6 +106,7 @@ public enum UiMode {
     PRE_INIT,
     MAIN_MENU,
     IN_GAME,
+    LEVEL_END,
     LOSE_SCREEN,
     WIN_SCREEN,
 }
