@@ -9,5 +9,5 @@ EditorBuildSettings:
     path: Assets/Missile Command/Scenes/Game.unity
     guid: d6b76469cbb2d4ce898592c3b5e640f5
   m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: 311c460d9fda62e4ba82de85c915598b,
+    com.unity.input.settings: {fileID: 11400000, guid: f6d969a90bf2cf34fb03cdfccdcdfaab,
       type: 2}

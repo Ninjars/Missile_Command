@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1a57c335497964c8472942019dfdb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshOutOfDate: 1
   blendMode: 1
   scaleMode: 0
   color: {r: 1, g: 1, b: 1, a: 1}
@@ -101,7 +102,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -968232359
+  m_SortingLayerID: 1202964201
   m_SortingLayer: 5
   m_SortingOrder: 0
 --- !u!1 &3858774587663556759
@@ -149,6 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cb1cf2193571cf41b51b8f61d4c9c14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshOutOfDate: 1
   blendMode: 1
   scaleMode: 0
   color: {r: 1, g: 1, b: 1, a: 1}
@@ -177,7 +179,6 @@ MonoBehaviour:
   - point: {x: 0.95, y: -0.40000004, z: 0}
     color: {r: 1, g: 1, b: 1, a: 1}
     thickness: 1
-  meshOutOfDate: 0
   geometry: 1
   joins: 1
   closed: 0
@@ -227,7 +228,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -968232359
+  m_SortingLayerID: 1202964201
   m_SortingLayer: 5
   m_SortingOrder: 0
 --- !u!1 &6384799763597019998
@@ -311,6 +312,7 @@ MonoBehaviour:
     type: 3}
   maxMissiles: 10
   missilesStored: 10
+  missileLaunchOffset: 0.3
   ammoPerRow: 10
   maxXAmmoOffset: 0.5
   yAmmoOffset: 0.1
