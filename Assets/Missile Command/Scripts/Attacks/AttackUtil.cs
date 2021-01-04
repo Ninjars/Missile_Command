@@ -9,6 +9,7 @@ public class AttackUtil {
         float delay,
         ICBMData icbmData,
         float stageProgress,
+        Action onLaunchCallback,
         Func<Vector2> targetProvider
     ) {
         yield return new WaitForSeconds(delay);
@@ -22,6 +23,7 @@ public class AttackUtil {
             stageProgress,
             targetProvider
         );
+        onLaunchCallback();
     }
 
     public IEnumerator scheduleBomberAttack(
@@ -30,6 +32,7 @@ public class AttackUtil {
         float delay,
         BomberData weaponData,
         float stageProgress,
+        Action onLaunchCallback,
         Func<Vector3, Vector2> targetProvider
     ) {
         int bomberCount = weaponData.bombersPerWing.evaluate(stageProgress);
@@ -43,6 +46,7 @@ public class AttackUtil {
             delay,
             weaponData,
             stageProgress,
+            onLaunchCallback,
             targetProvider,
             bomberCount,
             x,
@@ -56,6 +60,7 @@ public class AttackUtil {
         float delay,
         BomberData weaponData,
         float stageProgress,
+        Action onLaunchCallback,
         Func<Vector3, Vector2> targetProvider,
         int bomberCount,
         float x,
@@ -75,6 +80,7 @@ public class AttackUtil {
             );
             yield return new WaitForSeconds(1);
         }
+        onLaunchCallback();
     }
 
     private void spawnBomber(

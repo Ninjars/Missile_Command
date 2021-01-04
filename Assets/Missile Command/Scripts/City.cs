@@ -11,7 +11,6 @@ public class City : MonoBehaviour {
     public GameObject aliveVisuals;
     public GameObject deadVisuals;
     public GameObject textUi;
-    public Line popBracketLine;
     public Evacuator evacuatorPrefab;
     public TextMeshProUGUI cityNameView;
     public TextMeshProUGUI cityPopulationView;
@@ -48,7 +47,6 @@ public class City : MonoBehaviour {
         cityPopulationView.text = $"{population}";
 
         aliveVisuals.GetComponent<Polyline>().Color = colors.cityColor;
-        popBracketLine.Color = colors.cityColor;
         markerTriangle = textUi.GetComponent<Triangle>();
         textCanvasGroup = textUi.GetComponentInChildren<CanvasGroup>();
         deadVisuals.GetComponent<Polyline>().Color = colors.deadBuildingColor;
@@ -116,7 +114,6 @@ public class City : MonoBehaviour {
 
         if (population <= 0) {
             aliveVisuals.GetComponent<Polyline>().Color = colors.deadBuildingColor;
-            popBracketLine.Color = colors.deadBuildingColor;
         }
         
         return evacCount;
@@ -184,7 +181,6 @@ public class City : MonoBehaviour {
 
         aliveVisuals.SetActive(false);
         deadVisuals.SetActive(true);
-        popBracketLine.Color = colors.deadBuildingColor;
     }
 }
 

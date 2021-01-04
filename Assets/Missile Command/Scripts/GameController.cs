@@ -32,6 +32,11 @@ public class GameController : MonoBehaviour {
     private Vector2 clickDownPosition = Vector2.zero;
 
     private void Awake() {
+#if UNITY_EDITOR
+        Debug.unityLogger.logEnabled = true;
+#else
+        Debug.unityLogger.logEnabled = false;
+#endif
         playerSpawner = GetComponent<PlayerSpawner>();
         objectPoolManager = GetComponent<ObjectPoolManager>();
         levelManager = GetComponent<LevelManager>();
@@ -47,7 +52,7 @@ public class GameController : MonoBehaviour {
         worldCoords = new WorldCoords(
             bottomLeft.x,
             topRight.x,
-            bottomLeft.y, 
+            bottomLeft.y,
             topRight.y,
             0
         );
@@ -88,89 +93,89 @@ public class GameController : MonoBehaviour {
     private void updateStateMachine() {
         switch (gameState.currentMode) {
             case GameMode.MAIN_MENU: {
-                inGameInput.Disable();
-                uiController.setUiMode(UiMode.MAIN_MENU);
-                clearAllCityUi();
-                break;
-            }
+                    inGameInput.Disable();
+                    uiController.setUiMode(UiMode.MAIN_MENU);
+                    clearAllCityUi();
+                    break;
+                }
             case GameMode.START_GAME: {
-                uiController.setUiMode(UiMode.IN_GAME);
-                levelManager.reset();
-                gameState.onLevelPrepare();
-                showAllCityUi();
-                break;
-            }
+                    uiController.setUiMode(UiMode.IN_GAME);
+                    levelManager.reset();
+                    gameState.onLevelPrepare();
+                    showAllCityUi();
+                    break;
+                }
             case GameMode.PRE_LEVEL: {
-                startNextLevel();
-                inGameInput.Enable();
-                evacuationController.beginEvacuations();
-                gameState.onLevelBegin();
-                hideAllCityUi();
-                break;
-            }
+                    startNextLevel();
+                    inGameInput.Enable();
+                    evacuationController.beginEvacuations();
+                    gameState.onLevelBegin();
+                    hideAllCityUi();
+                    break;
+                }
             case GameMode.IN_LEVEL: {
-                if (gameState.hasLost) {
-                    gameState.onGameEnded(false);
+                    if (gameState.hasLost) {
+                        gameState.onGameEnded(false);
 
-                } else if (gameState.hasWon) {
-                    gameState.onGameEnded(true);
+                    } else if (gameState.hasWon) {
+                        gameState.onGameEnded(true);
 
-                } else if (hasLevelEnded()) {
-                    gameState.onLevelCompleted();
+                    } else if (hasLevelEnded()) {
+                        gameState.onLevelCompleted();
+                    }
+                    break;
                 }
-                break;
-            }
             case GameMode.END_LEVEL: {
-                inGameInput.Disable();
-                boostEvacuators();
-                evacuationController.completeEvacuations();
-                gameState.onLevelEnding();
-                break;
-            }
-            case GameMode.LEVEL_ENDING: {
-                if (GameObject.FindGameObjectWithTag("Evacuator") == null) {
-                    gameState.onLevelEnded();
+                    inGameInput.Disable();
+                    boostEvacuators();
+                    evacuationController.completeEvacuations();
+                    gameState.onLevelEnding();
+                    break;
                 }
-                break;
-            }
+            case GameMode.LEVEL_ENDING: {
+                    if (GameObject.FindGameObjectWithTag("Evacuator") == null) {
+                        gameState.onLevelEnded();
+                    }
+                    break;
+                }
             case GameMode.POST_LEVEL: {
-                levelManager.onLevelCompleted();
-                if (levelManager.allStagesCompleted) {
-                    gameState.onGameEnded(true);
-                    
-                } else if (levelManager.beginningNewStage) {
+                    levelManager.onLevelCompleted();
+                    if (levelManager.allStagesCompleted) {
+                        gameState.onGameEnded(true);
+
+                    } else if (levelManager.beginningNewStage) {
+                        clearEvacuators();
+                        showAllCityUi();
+                        gameState.onLevelPrepare();
+
+                    } else {
+                        gameState.onLevelPrepare();
+                    }
+                    break;
+                }
+            case GameMode.GAME_LOST: {
+                    inGameInput.Disable();
+                    attackController.stopAttacks();
+                    evacuationController.clear();
                     clearEvacuators();
                     showAllCityUi();
-                    gameState.onLevelPrepare();
-
-                } else {
-                    gameState.onLevelPrepare();
+                    uiController.setUiMode(UiMode.LOSE_SCREEN);
+                    break;
                 }
-                break;
-            }
-            case GameMode.GAME_LOST: {
-                inGameInput.Disable();
-                attackController.stopAttacks();
-                evacuationController.clear();
-                clearEvacuators();
-                showAllCityUi();
-                uiController.setUiMode(UiMode.LOSE_SCREEN);
-                break;
-            }
             case GameMode.GAME_WON: {
-                inGameInput.Disable();
-                attackController.stopAttacks();
-                evacuationController.clear();
-                clearEvacuators();
-                showAllCityUi();
-                uiController.setUiMode(UiMode.WIN_SCREEN);
-                break;
-            }
+                    inGameInput.Disable();
+                    attackController.stopAttacks();
+                    evacuationController.clear();
+                    clearEvacuators();
+                    showAllCityUi();
+                    uiController.setUiMode(UiMode.WIN_SCREEN);
+                    break;
+                }
         }
     }
 
     private bool hasLevelEnded() {
-        return gameState.canEndLevel(Time.time) && GameObject.FindGameObjectsWithTag("Attack").Length == 0;
+        return attackController.allAttacksLaunched() && GameObject.FindGameObjectsWithTag("Attack").Length == 0;
     }
 
     private void startNextLevel() {
@@ -238,7 +243,7 @@ public class GameController : MonoBehaviour {
         );
         gameState.missileBatteries = spawnedPlayerData.missileBatteries;
         gameState.cities = spawnedPlayerData.cities;
-        
+
         gameState.onGameBegin();
         evacuationController.initialise(gameState, worldCoords);
         uiController.setGameState(gameState);

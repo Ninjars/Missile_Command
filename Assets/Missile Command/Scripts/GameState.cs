@@ -36,7 +36,6 @@ public class GameState : StateUpdater {
     public long citiesPopulation { get { return cities.Aggregate(0L, (acc, city) => acc + city.population); } }
     public long populationDead { get; private set; }
     public float evacEventInterval { get; private set; }
-    private float levelEndMin;
 
     public GameState(float evacEventsPerMin) {
         currentMode = GameMode.MAIN_MENU;
@@ -49,14 +48,6 @@ public class GameState : StateUpdater {
 
     public void onPopulationLost(long count) {
         populationDead += count;
-    }
-
-    public void setLevelEnd(float timeStamp) {
-        levelEndMin = timeStamp;
-    }
-
-    public bool canEndLevel(float currentTime) {
-        return currentTime > levelEndMin;
     }
 
     public void onGameBegin() {
@@ -109,6 +100,5 @@ public enum GameMode {
 }
 
 public interface StateUpdater {
-    void setLevelEnd(float timeStamp);
     void onPopulationLost(long count);
 }
