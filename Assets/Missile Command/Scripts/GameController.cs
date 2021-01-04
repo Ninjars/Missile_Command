@@ -47,6 +47,14 @@ public class GameController : MonoBehaviour {
 
         Camera.main.backgroundColor = Colors.Instance.skyColor.from;
 
+        inGameInput["Fire 1"].performed += fireOne;
+        inGameInput["Fire 2"].performed += fireTwo;
+        inGameInput["Fire 3"].performed += fireThree;
+
+        gameState = new GameState(baseEvacRate);
+    }
+
+    private void Start() {
         var bottomLeft = Camera.main.ViewportToWorldPoint(Vector2.zero);
         var topRight = Camera.main.ViewportToWorldPoint(Vector2.one);
         worldCoords = new WorldCoords(
@@ -56,12 +64,6 @@ public class GameController : MonoBehaviour {
             topRight.y,
             0
         );
-
-        inGameInput["Fire 1"].performed += fireOne;
-        inGameInput["Fire 2"].performed += fireTwo;
-        inGameInput["Fire 3"].performed += fireThree;
-
-        gameState = new GameState(baseEvacRate);
     }
 
     private void Update() {
