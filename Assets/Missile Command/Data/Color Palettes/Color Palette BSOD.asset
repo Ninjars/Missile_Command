@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 040ecbc3ca73ed34d9dab2f9b0cddffa, type: 3}
   m_Name: Color Palette BSOD
   m_EditorClassIdentifier: 
+  text: {r: 1, g: 1, b: 1, a: 1}
+  labelText: {r: 1, g: 1, b: 1, a: 1}
+  labelBackground: {r: 0.08627451, g: 0.105882354, b: 0.34901962, a: 1}
   city: {r: 1, g: 1, b: 1, a: 1}
   battery: {r: 1, g: 1, b: 1, a: 1}
   buildingExplode: {r: 0.81960785, g: 0.12156863, b: 0.20784314, a: 1}

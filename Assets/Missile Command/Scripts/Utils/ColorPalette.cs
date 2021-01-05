@@ -2,6 +2,9 @@
 
 [CreateAssetMenu(fileName = "ColorPalette", menuName = "Missile Command/Color Palette")]
 public class ColorPalette : ScriptableObject {
+    public Color text;
+    public Color labelText;
+    public Color labelBackground;
     public Color city;
     public Color battery;
     public Color buildingExplode;
