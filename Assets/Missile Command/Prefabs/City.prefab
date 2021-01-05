@@ -384,7 +384,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -968232359
+  m_SortingLayerID: 1202964201
   m_SortingLayer: 5
   m_SortingOrder: 0
 --- !u!1 &2937886633512292463
@@ -485,7 +485,6 @@ MonoBehaviour:
   aliveVisuals: {fileID: 7928599694638219702}
   deadVisuals: {fileID: 2401830601307375502}
   textUi: {fileID: 657987381439512223}
-  popBracketLine: {fileID: 0}
   evacuatorPrefab: {fileID: 56856062, guid: dff39786350a2c14caaf891c38415ccb, type: 3}
   cityNameView: {fileID: 3363489715677629952}
   cityPopulationView: {fileID: 4298561842962377644}
@@ -923,6 +922,6 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -968232359
+  m_SortingLayerID: 1202964201
   m_SortingLayer: 5
   m_SortingOrder: 0

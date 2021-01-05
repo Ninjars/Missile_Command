@@ -44,23 +44,26 @@ TagManager:
     uniqueID: 0
     locked: 0
   - name: Background-Sky
-    uniqueID: 3453442129
+    uniqueID: 1925439167
     locked: 0
   - name: Background-Hills
-    uniqueID: 1759716351
+    uniqueID: 8250971
     locked: 0
   - name: Background-Ground
-    uniqueID: 2985458193
+    uniqueID: 1643167379
     locked: 0
   - name: Trails
-    uniqueID: 1023789283
+    uniqueID: 2179093487
     locked: 0
   - name: Structures
-    uniqueID: 3326734937
+    uniqueID: 1202964201
     locked: 0
   - name: Actors
-    uniqueID: 225128591
+    uniqueID: 558557515
     locked: 0
   - name: Effects
-    uniqueID: 1117509583
+    uniqueID: 964189337
+    locked: 0
+  - name: Cursor
+    uniqueID: 3512610263
     locked: 0

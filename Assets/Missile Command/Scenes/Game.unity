@@ -1852,7 +1852,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1309509103
-  m_SortingLayer: 3
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &651650502
 MeshFilter:
@@ -3572,7 +3572,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 225128591
-  m_SortingLayer: 6
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &1112892631
 MeshFilter:
@@ -3837,7 +3837,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1309509103
-  m_SortingLayer: 3
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &1309898506
 MeshFilter:
@@ -3977,28 +3977,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1351095282}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Script: {fileID: 11500000, guid: b11387d1642ad454885951a38e251f6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 0
-  m_Cameras: []
-  m_RendererIndex: -1
-  m_VolumeLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  m_VolumeTrigger: {fileID: 0}
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
-  m_AntialiasingQuality: 2
-  m_StopNaN: 0
-  m_Dithering: 0
-  m_ClearDepth: 1
-  m_RequiresDepthTexture: 0
-  m_RequiresColorTexture: 0
-  m_Version: 2
+  material: {fileID: 2100000, guid: d64a934d23094534f906a306d9d81715, type: 2}
+  chromaticGlitch: 0
+  frameGlitch: 0
+  pixelGlitch: 0
+  FastMode: 0
 --- !u!1 &1354044725
 GameObject:
   m_ObjectHideFlags: 0
@@ -4055,7 +4041,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ENDED
+  m_text: END
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b444312a55d1e814e8fd3b0f3685ff51, type: 2}
   m_sharedMaterial: {fileID: 3666205355396501094, guid: b444312a55d1e814e8fd3b0f3685ff51,
@@ -4189,7 +4175,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1309509103
-  m_SortingLayer: 3
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &1365463803
 MeshFilter:
@@ -5607,6 +5593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc90f55228a36a74ba4775fce8a8e508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pendingAttackCount: 0
 --- !u!114 &1839267178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5619,8 +5606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c57dc2080d266f74591326e0800e4835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  glitchEffectController: {fileID: -6055593531310483686, guid: da00c6b55c6082e4480941f19bc68542,
-    type: 2}
+  glitchEffectController: {fileID: 1351095286}
   distortion: 0
   distortionMaxEffect: 5
   distortionDecayRate: 2
@@ -6210,7 +6196,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1309509103
-  m_SortingLayer: 3
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &1921181810
 MeshFilter:
@@ -6574,7 +6560,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 31
+  m_AdditionalShaderChannelsFlag: 7
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -6912,7 +6898,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1309509103
-  m_SortingLayer: 3
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &2124896684
 MeshFilter:

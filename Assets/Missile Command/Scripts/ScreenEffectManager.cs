@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 public class ScreenEffectManager : MonoBehaviour {
     
-    public ControllableGlitchUrp glitchEffectController;
+    public ControllableGlitch glitchEffectController;
 
     public float distortion;
     public float distortionMaxEffect = 5f;
@@ -19,9 +18,9 @@ public class ScreenEffectManager : MonoBehaviour {
         if (distortion > 0) {
             distortion = Mathf.Max(0, distortion - distortionDecayRate * Time.deltaTime);
         }
-        glitchEffectController.settings.ChromaticGlitch = distortion / distortionMaxEffect;
-        glitchEffectController.settings.FrameGlitch = distortion / distortionMaxEffect;
-        glitchEffectController.settings.PixelGlitch = glitch / glitchMaxEffect;
+        glitchEffectController.chromaticGlitch = distortion / distortionMaxEffect;
+        glitchEffectController.frameGlitch = distortion / distortionMaxEffect;
+        glitchEffectController.pixelGlitch = glitch / glitchMaxEffect;
     }
 
     private void increaseGlitch(float value, float max) {

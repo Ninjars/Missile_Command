@@ -59,6 +59,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ad38a8f0c6def84899724d5320b316a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshOutOfDate: 1
   blendMode: 1
   scaleMode: 0
   color: {r: 1, g: 1, b: 1, a: 1}
@@ -82,6 +83,7 @@ MonoBehaviour:
     size: 4
     offset: 0
     spacing: 4
+    shapeModifier: 1
 --- !u!33 &8614218080608521537
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -126,6 +128,6 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1023789283
+  m_SortingLayerID: -2115873809
   m_SortingLayer: 4
   m_SortingOrder: 0
