@@ -162,6 +162,7 @@ public class GameController : MonoBehaviour {
                     setCursorLinesActive(false);
                     boostEvacuators();
                     evacuationController.completeEvacuations();
+                    showAllCityUi();
                     gameState.onLevelEnding();
                     break;
                 }
@@ -176,11 +177,6 @@ public class GameController : MonoBehaviour {
                     hideAllMissileBatteryLabels();
                     if (levelManager.allStagesCompleted) {
                         gameState.onGameEnded(true);
-
-                    } else if (levelManager.beginningNewStage) {
-                        clearEvacuators();
-                        showAllCityUi();
-                        gameState.onLevelPrepare();
 
                     } else {
                         gameState.onLevelPrepare();
