@@ -55,7 +55,7 @@ public class City : MonoBehaviour {
     public void showUi() {
         isFadingUi = false;
         textCanvasGroup.alpha = 1;
-        Color color = isDestroyed ? colors.deadBuildingColor : colors.cityColor;
+        Color color = isDestroyed ? colors.deadBuildingColor : colors.textColor;
         markerTriangle.Color = color;
         cityNameView.color = color;
         cityPopulationView.color = color;
