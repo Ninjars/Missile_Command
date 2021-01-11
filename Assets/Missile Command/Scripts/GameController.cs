@@ -125,7 +125,6 @@ public class GameController : MonoBehaviour {
                     levelManager.reset();
                     gameState.onLevelPrepare();
                     cursorLines.setBatteries(gameState.missileBatteries);
-                    setCursorLinesActive(true);
                     showAllCityUi();
                     break;
                 }
@@ -136,6 +135,7 @@ public class GameController : MonoBehaviour {
                     gameState.onLevelBegin();
                     hideAllCityUi();
                     if (gameState.levelsCompleted < 3) {
+                        setCursorLinesActive(true);
                         showAllMissileBatteryLabels();
                     }
                     break;
@@ -154,6 +154,7 @@ public class GameController : MonoBehaviour {
                 }
             case GameMode.END_LEVEL: {
                     inGameInput.Disable();
+                    setCursorLinesActive(false);
                     boostEvacuators();
                     evacuationController.completeEvacuations();
                     gameState.onLevelEnding();
