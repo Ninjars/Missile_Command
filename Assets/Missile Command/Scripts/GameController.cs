@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Shapes;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,6 +25,7 @@ public class GameController : MonoBehaviour {
 
     public InputActionMap inGameInput;
     public CursorLines cursorLines;
+    public Line baseLine;
 
     private WorldCoords worldCoords;
     private GameState gameState;
@@ -49,6 +51,7 @@ public class GameController : MonoBehaviour {
         cursorLines.gameObject.SetActive(false);
 
         Camera.main.backgroundColor = Colors.Instance.skyColor.from;
+        baseLine.Color = Colors.Instance.groundLineColor;
 
         inGameInput["Fire 1"].performed += fireOne;
         inGameInput["Fire 2"].performed += fireTwo;

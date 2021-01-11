@@ -16,6 +16,7 @@ public class ColorPalette : ScriptableObject {
     public Color attack;
     public Color attackTrail;
     public Color attackExplode;
+    public Color groundLine;
     public RangeColorData sky;
     public RangeColorData background;
 }

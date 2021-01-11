@@ -29,6 +29,7 @@ public class Colors : MonoBehaviour {
     public Color attackColor { get { return colorPalette.attack; }}
     public Color attackTrailColor { get { return colorPalette.attackTrail; }}
     public Color attackExplodeColor { get { return colorPalette.attackExplode; }}
+    public Color groundLineColor { get { return colorPalette.groundLine; }}
     public RangeColorData skyColor { get { return colorPalette.sky; }}
     public RangeColorData backgroundColor { get { return colorPalette.background; }}
 }
