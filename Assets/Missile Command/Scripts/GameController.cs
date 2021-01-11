@@ -136,13 +136,11 @@ public class GameController : MonoBehaviour {
             case GameMode.PRE_LEVEL: {
                     startNextLevel();
                     inGameInput.Enable();
+                    setCursorLinesActive(true);
+                    showAllMissileBatteryLabels();
                     evacuationController.beginEvacuations();
                     gameState.onLevelBegin();
                     hideAllCityUi();
-                    if (gameState.levelsCompleted < 3) {
-                        setCursorLinesActive(true);
-                        showAllMissileBatteryLabels();
-                    }
                     break;
                 }
             case GameMode.IN_LEVEL: {
@@ -174,7 +172,6 @@ public class GameController : MonoBehaviour {
                 }
             case GameMode.POST_LEVEL: {
                     levelManager.onLevelCompleted();
-                    hideAllMissileBatteryLabels();
                     if (levelManager.allStagesCompleted) {
                         gameState.onGameEnded(true);
 
@@ -188,6 +185,7 @@ public class GameController : MonoBehaviour {
                     attackController.stopAttacks();
                     evacuationController.clear();
                     setCursorLinesActive(false);
+                    hideAllMissileBatteryLabels();
                     clearEvacuators();
                     showAllCityUi();
                     uiController.setUiMode(UiMode.LOSE_SCREEN);
@@ -198,6 +196,7 @@ public class GameController : MonoBehaviour {
                     attackController.stopAttacks();
                     evacuationController.clear();
                     setCursorLinesActive(false);
+                    hideAllMissileBatteryLabels();
                     clearEvacuators();
                     showAllCityUi();
                     uiController.setUiMode(UiMode.WIN_SCREEN);
