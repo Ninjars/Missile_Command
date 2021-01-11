@@ -55,6 +55,9 @@ TagManager:
   - name: Trails
     uniqueID: 2179093487
     locked: 0
+  - name: Cursor Line
+    uniqueID: 3814339547
+    locked: 0
   - name: Structures
     uniqueID: 1202964201
     locked: 0

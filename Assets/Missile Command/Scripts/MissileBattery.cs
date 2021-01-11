@@ -2,13 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using Shapes;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MissileBattery : MonoBehaviour {
     public GameObject missilePrefab;
     public GameObject ammoIndicatorPrefab;
     public GameObject loadedIndicator;
     public Explosion explosionPrefab;
+    public GameObject labelRootObject;
     public int maxMissiles = 10;
     public int missilesStored = 10;
     public float missileLaunchOffset = 0.3f;
@@ -21,6 +24,9 @@ public class MissileBattery : MonoBehaviour {
 
     private Colors colors { get { return Colors.Instance; }}
     public bool isDestroyed { get; private set; }
+    private TextMeshProUGUI labelText;
+    private Image labelBackground;
+    private Triangle labelIndicator;
     private List<Rectangle> ammoIndicators;
     private Polyline lineShape;
     private ScreenEffectManager _screenEffectManager;
@@ -36,6 +42,11 @@ public class MissileBattery : MonoBehaviour {
     private void Awake() {
         ammoIndicators = new List<Rectangle>();
         lineShape = GetComponentInChildren<Polyline>();
+
+        labelIndicator = labelRootObject.GetComponent<Triangle>();
+        labelText = labelRootObject.GetComponentInChildren<TextMeshProUGUI>();
+        labelBackground = labelRootObject.GetComponentInChildren<Image>();
+        labelRootObject.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
@@ -65,6 +76,7 @@ public class MissileBattery : MonoBehaviour {
         missilesStored = 0;
         updateAmmoIndicators();
         screenEffectManager.onBatteryDestroyed();
+        setLabelVisible(false);
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
         explosion.boom(transform.position, colors.buildingExplodeColor);
@@ -83,6 +95,19 @@ public class MissileBattery : MonoBehaviour {
         updateAmmoIndicators();
         lineShape.Color = colors.batteryColor;
         GetComponent<BoxCollider2D>().enabled = true;
+    }
+
+    public void setLabelVisible(bool visible) {
+        if (labelRootObject.activeInHierarchy == visible) return;
+        if (visible) {
+            labelRootObject.SetActive(true);
+            labelText.text = gameObject.name;
+            labelText.color = colors.labelTextColor;
+            labelBackground.color = colors.labelBackgroundColor;
+            labelIndicator.Color = colors.batteryColor;
+        } else {
+            labelRootObject.SetActive(false);
+        }
     }
 
     private void updateAmmoIndicators() {

@@ -10,6 +10,10 @@ public class InGameUI : MonoBehaviour {
 
     internal void setGameState(GameState gameState) {
         this.gameState = gameState;
+        
+        var colors = Colors.Instance;
+        waveCount.color = colors.textColor;
+        safeTextView.color = colors.textColor;
     }
 
     void Update() {

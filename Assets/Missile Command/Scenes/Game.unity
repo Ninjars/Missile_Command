@@ -853,44 +853,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 143723028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b01fef50de04046448865a6d70ddb9b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 385df9080458e4142b9c8091b5d674fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIManagerAsset: {fileID: 11400000, guid: 2a619a9609984be49b53b928dd94e61b, type: 2}
-  buttonType: 3
-  basicFilled: {fileID: 0}
-  basicText: {fileID: 0}
-  basicOnlyIconFilled: {fileID: 0}
-  basicOnlyIconIcon: {fileID: 0}
-  basicWithIconFilled: {fileID: 0}
-  basicWithIconIcon: {fileID: 0}
-  basicWithIconText: {fileID: 0}
-  basicOutlineBorder: {fileID: 1819615792}
-  basicOutlineFilled: {fileID: 1506378983}
-  basicOutlineText: {fileID: 1021445175}
-  basicOutlineTextHighligted: {fileID: 308099195}
-  basicOutlineOOBorder: {fileID: 0}
-  basicOutlineOOFilled: {fileID: 0}
-  basicOutlineOOIcon: {fileID: 0}
-  basicOutlineOOIconHighlighted: {fileID: 0}
-  basicOutlineWOBorder: {fileID: 0}
-  basicOutlineWOFilled: {fileID: 0}
-  basicOutlineWOIcon: {fileID: 0}
-  basicOutlineWOIconHighlighted: {fileID: 0}
-  basicOutlineWOText: {fileID: 0}
-  basicOutlineWOTextHighligted: {fileID: 0}
-  radialOOBackground: {fileID: 0}
-  radialOOIcon: {fileID: 0}
-  radialOutlineOOBorder: {fileID: 0}
-  radialOutlineOOFilled: {fileID: 0}
-  radialOutlineOOIcon: {fileID: 0}
-  radialOutlineOOIconHighlighted: {fileID: 0}
-  roundedBackground: {fileID: 0}
-  roundedText: {fileID: 0}
-  roundedOutlineBorder: {fileID: 0}
-  roundedOutlineFilled: {fileID: 0}
-  roundedOutlineText: {fileID: 0}
-  roundedOutlineTextHighligted: {fileID: 0}
 --- !u!114 &143723031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1723,6 +1688,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 365715734}
   m_CullTransparentMesh: 0
+--- !u!114 &571390035 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6720093789468516840, guid: fa1c21c6b1a7d6348bdd59af25494821,
+    type: 3}
+  m_PrefabInstance: {fileID: 6720093788898515387}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db650fcd6f34b0b4aa6d1d10274f8a5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &603613503
 GameObject:
   m_ObjectHideFlags: 0
@@ -1951,44 +1928,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 680869374}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b01fef50de04046448865a6d70ddb9b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 385df9080458e4142b9c8091b5d674fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIManagerAsset: {fileID: 11400000, guid: 2a619a9609984be49b53b928dd94e61b, type: 2}
-  buttonType: 3
-  basicFilled: {fileID: 0}
-  basicText: {fileID: 0}
-  basicOnlyIconFilled: {fileID: 0}
-  basicOnlyIconIcon: {fileID: 0}
-  basicWithIconFilled: {fileID: 0}
-  basicWithIconIcon: {fileID: 0}
-  basicWithIconText: {fileID: 0}
-  basicOutlineBorder: {fileID: 981880682}
-  basicOutlineFilled: {fileID: 2096820544}
-  basicOutlineText: {fileID: 986168112}
-  basicOutlineTextHighligted: {fileID: 1929687839}
-  basicOutlineOOBorder: {fileID: 0}
-  basicOutlineOOFilled: {fileID: 0}
-  basicOutlineOOIcon: {fileID: 0}
-  basicOutlineOOIconHighlighted: {fileID: 0}
-  basicOutlineWOBorder: {fileID: 0}
-  basicOutlineWOFilled: {fileID: 0}
-  basicOutlineWOIcon: {fileID: 0}
-  basicOutlineWOIconHighlighted: {fileID: 0}
-  basicOutlineWOText: {fileID: 0}
-  basicOutlineWOTextHighligted: {fileID: 0}
-  radialOOBackground: {fileID: 0}
-  radialOOIcon: {fileID: 0}
-  radialOutlineOOBorder: {fileID: 0}
-  radialOutlineOOFilled: {fileID: 0}
-  radialOutlineOOIcon: {fileID: 0}
-  radialOutlineOOIconHighlighted: {fileID: 0}
-  roundedBackground: {fileID: 0}
-  roundedText: {fileID: 0}
-  roundedOutlineBorder: {fileID: 0}
-  roundedOutlineFilled: {fileID: 0}
-  roundedOutlineText: {fileID: 0}
-  roundedOutlineTextHighligted: {fileID: 0}
 --- !u!114 &680869377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2778,7 +2720,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e2253fc5a4b357243ad2021031bd943a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f38987b2f12030947bea58483e18ce1a, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3364,7 +3306,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f03f625cc7127f244a2f4da835b92720, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f38987b2f12030947bea58483e18ce1a, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3606,7 +3548,7 @@ MonoBehaviour:
   colorEnd: {r: 1, g: 1, b: 1, a: 1}
   start: {x: -10, y: 0, z: 0}
   end: {x: 10, y: 0, z: 0}
-  thickness: 0.65
+  thickness: 0.68
   thicknessSpace: 2
   endCaps: 0
   matchDashSpacingToSize: 1
@@ -4351,7 +4293,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e2253fc5a4b357243ad2021031bd943a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f38987b2f12030947bea58483e18ce1a, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4559,7 +4501,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f03f625cc7127f244a2f4da835b92720, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f38987b2f12030947bea58483e18ce1a, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4995,7 +4937,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1594555334
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5410,7 +5352,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e2253fc5a4b357243ad2021031bd943a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f38987b2f12030947bea58483e18ce1a, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5468,7 +5410,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   batteryPrefab: {fileID: -698992362079301448, guid: 1d19f6c677048401f8f4508578f3f110,
     type: 3}
-  batteryCount: 3
   batteryYPos: 0.125
   batteryZPos: 5
   cityPrefab: {fileID: -707621967015038596, guid: 1757962d31ae64e58a3987d214f35739,
@@ -5556,6 +5497,8 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Fire 3
       m_Flags: 0
+  cursorLines: {fileID: 571390035}
+  baseLine: {fileID: 1112892632}
 --- !u!114 &1839267175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5679,14 +5622,14 @@ MonoBehaviour:
   yOffset: 0
   minHeightFactor: 0.1
   layers:
-    from: 5
-    to: 8
+    from: 10
+    to: 10
   heights:
-    from: 3
-    to: 8
+    from: 1
+    to: 5
   pointsFrequency:
-    from: 9
-    to: 15
+    from: 10
+    to: 20
 --- !u!1 &1853862028
 GameObject:
   m_ObjectHideFlags: 0
@@ -5700,7 +5643,6 @@ GameObject:
   - component: {fileID: 1853862034}
   - component: {fileID: 1853862033}
   - component: {fileID: 1853862032}
-  - component: {fileID: 1853862031}
   - component: {fileID: 1853862030}
   m_Layer: 5
   m_Name: Button
@@ -5739,73 +5681,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1853862028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b01fef50de04046448865a6d70ddb9b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 385df9080458e4142b9c8091b5d674fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UIManagerAsset: {fileID: 11400000, guid: 2a619a9609984be49b53b928dd94e61b, type: 2}
-  buttonType: 3
-  basicFilled: {fileID: 0}
-  basicText: {fileID: 0}
-  basicOnlyIconFilled: {fileID: 0}
-  basicOnlyIconIcon: {fileID: 0}
-  basicWithIconFilled: {fileID: 0}
-  basicWithIconIcon: {fileID: 0}
-  basicWithIconText: {fileID: 0}
-  basicOutlineBorder: {fileID: 1426274809}
-  basicOutlineFilled: {fileID: 1066967259}
-  basicOutlineText: {fileID: 872140420}
-  basicOutlineTextHighligted: {fileID: 365715736}
-  basicOutlineOOBorder: {fileID: 0}
-  basicOutlineOOFilled: {fileID: 0}
-  basicOutlineOOIcon: {fileID: 0}
-  basicOutlineOOIconHighlighted: {fileID: 0}
-  basicOutlineWOBorder: {fileID: 0}
-  basicOutlineWOFilled: {fileID: 0}
-  basicOutlineWOIcon: {fileID: 0}
-  basicOutlineWOIconHighlighted: {fileID: 0}
-  basicOutlineWOText: {fileID: 0}
-  basicOutlineWOTextHighligted: {fileID: 0}
-  radialOOBackground: {fileID: 0}
-  radialOOIcon: {fileID: 0}
-  radialOutlineOOBorder: {fileID: 0}
-  radialOutlineOOFilled: {fileID: 0}
-  radialOutlineOOIcon: {fileID: 0}
-  radialOutlineOOIconHighlighted: {fileID: 0}
-  roundedBackground: {fileID: 0}
-  roundedText: {fileID: 0}
-  roundedOutlineBorder: {fileID: 0}
-  roundedOutlineFilled: {fileID: 0}
-  roundedOutlineText: {fileID: 0}
-  roundedOutlineTextHighligted: {fileID: 0}
---- !u!114 &1853862031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1853862028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!95 &1853862032
 Animator:
   serializedVersion: 3
@@ -5819,7 +5697,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 2fa2e87466111d248a120d5382f354fc, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 2
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
@@ -5864,7 +5742,7 @@ MonoBehaviour:
     m_SelectedTrigger: Highlighted
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 1853862031}
+  m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -6560,7 +6438,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 7
+  m_AdditionalShaderChannelsFlag: 31
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -6810,7 +6688,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f03f625cc7127f244a2f4da835b92720, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f38987b2f12030947bea58483e18ce1a, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6945,3 +6823,177 @@ MonoBehaviour:
     offset: 0
     spacing: 0.02777778
     shapeModifier: 1
+--- !u!1001 &6720093788898515387
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6720093787881167365, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: dashStyle.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093787881167365, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: dashStyle.space
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093787881167365, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: dashed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093787881167365, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: thickness
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093787881167366, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093787881167367, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -480627749
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093787881167367, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093788244932144, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: dashStyle.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093788244932144, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: dashStyle.space
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093788244932144, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: dashed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093788244932144, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: thickness
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093788244932145, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093788244932146, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -480627749
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093788244932146, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789468516841, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_Name
+      value: Cursor Lines
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789468516847, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789468516847, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789468516847, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789468516847, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789468516847, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789468516847, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789468516847, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789468516847, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789468516847, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789468516847, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789468516847, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789503156978, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: dashStyle.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789503156978, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: dashStyle.space
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789503156978, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: dashed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789503156978, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: thickness
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789503156979, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789503156988, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -480627749
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789503156988, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fa1c21c6b1a7d6348bdd59af25494821, type: 3}

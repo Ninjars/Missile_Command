@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Shapes;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,6 +24,8 @@ public class GameController : MonoBehaviour {
     public long initialCityPopulation = 1000000;
 
     public InputActionMap inGameInput;
+    public CursorLines cursorLines;
+    public Line baseLine;
 
     private WorldCoords worldCoords;
     private GameState gameState;
@@ -44,8 +48,10 @@ public class GameController : MonoBehaviour {
         evacuationController = GetComponent<EvacuationController>();
         uiController = GetComponent<UiController>();
         backdropGenerator = GetComponent<BackdropGenerator>();
+        cursorLines.gameObject.SetActive(false);
 
         Camera.main.backgroundColor = Colors.Instance.skyColor.from;
+        baseLine.Color = Colors.Instance.groundLineColor;
 
         inGameInput["Fire 1"].performed += fireOne;
         inGameInput["Fire 2"].performed += fireTwo;
@@ -64,10 +70,26 @@ public class GameController : MonoBehaviour {
             topRight.y,
             0
         );
+        baseLine.Start = new Vector2(worldCoords.worldLeft, 0);
+        baseLine.End = new Vector2(worldCoords.worldRight, 0);
     }
 
     private void Update() {
         updateStateMachine();
+    }
+
+    private void showAllMissileBatteryLabels() {
+        if (gameState.missileBatteries == null) return;
+        foreach (var battery in gameState.missileBatteries) {
+            battery.setLabelVisible(true);
+        }
+    }
+
+    private void hideAllMissileBatteryLabels() {
+        if (gameState.missileBatteries == null) return;
+        foreach (var battery in gameState.missileBatteries) {
+            battery.setLabelVisible(false);
+        }
     }
 
     private void showAllCityUi() {
@@ -84,12 +106,15 @@ public class GameController : MonoBehaviour {
         }
     }
 
-
     private void clearAllCityUi() {
         if (gameState.cities == null) return;
         foreach (var city in gameState.cities) {
             city.hideUi();
         }
+    }
+
+    private void setCursorLinesActive(bool active) {
+        cursorLines.gameObject.SetActive(active);
     }
 
     private void updateStateMachine() {
@@ -104,12 +129,15 @@ public class GameController : MonoBehaviour {
                     uiController.setUiMode(UiMode.IN_GAME);
                     levelManager.reset();
                     gameState.onLevelPrepare();
+                    cursorLines.setBatteries(gameState.missileBatteries);
                     showAllCityUi();
                     break;
                 }
             case GameMode.PRE_LEVEL: {
                     startNextLevel();
                     inGameInput.Enable();
+                    setCursorLinesActive(true);
+                    showAllMissileBatteryLabels();
                     evacuationController.beginEvacuations();
                     gameState.onLevelBegin();
                     hideAllCityUi();
@@ -129,8 +157,10 @@ public class GameController : MonoBehaviour {
                 }
             case GameMode.END_LEVEL: {
                     inGameInput.Disable();
+                    setCursorLinesActive(false);
                     boostEvacuators();
                     evacuationController.completeEvacuations();
+                    showAllCityUi();
                     gameState.onLevelEnding();
                     break;
                 }
@@ -145,11 +175,6 @@ public class GameController : MonoBehaviour {
                     if (levelManager.allStagesCompleted) {
                         gameState.onGameEnded(true);
 
-                    } else if (levelManager.beginningNewStage) {
-                        clearEvacuators();
-                        showAllCityUi();
-                        gameState.onLevelPrepare();
-
                     } else {
                         gameState.onLevelPrepare();
                     }
@@ -159,6 +184,8 @@ public class GameController : MonoBehaviour {
                     inGameInput.Disable();
                     attackController.stopAttacks();
                     evacuationController.clear();
+                    setCursorLinesActive(false);
+                    hideAllMissileBatteryLabels();
                     clearEvacuators();
                     showAllCityUi();
                     uiController.setUiMode(UiMode.LOSE_SCREEN);
@@ -168,6 +195,8 @@ public class GameController : MonoBehaviour {
                     inGameInput.Disable();
                     attackController.stopAttacks();
                     evacuationController.clear();
+                    setCursorLinesActive(false);
+                    hideAllMissileBatteryLabels();
                     clearEvacuators();
                     showAllCityUi();
                     uiController.setUiMode(UiMode.WIN_SCREEN);

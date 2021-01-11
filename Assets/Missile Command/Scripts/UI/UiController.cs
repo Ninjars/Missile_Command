@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 public class UiController : MonoBehaviour {
     public RectTransform mainMenuPanel;
     public RectTransform inGamePanel;
+
     public RectTransform winPanel;
     public TextMeshProUGUI winWaves;
     public TextMeshProUGUI winSurvivors;
@@ -17,9 +15,9 @@ public class UiController : MonoBehaviour {
     public TextMeshProUGUI loseSurvivors;
     public TextMeshProUGUI loseDead;
 
-
     private GameState gameState;
     private UiMode currentMode;
+    private Colors colors { get { return Colors.Instance; } }
 
     internal void setGameState(GameState gameState) {
         this.gameState = gameState;
@@ -71,6 +69,13 @@ public class UiController : MonoBehaviour {
 
     private void show(RectTransform panel) {
         panel.gameObject.SetActive(true);
+
+        foreach (var textElement in panel.GetComponentsInChildren<TextMeshProUGUI>()) {
+            textElement.color = colors.textColor;
+        }
+        foreach (var button in panel.GetComponentsInChildren<ButtonColourManager>()) {
+            button.updateColors();
+        }
     }
 
     private void hide(RectTransform panel) {

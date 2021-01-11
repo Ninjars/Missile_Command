@@ -26,7 +26,7 @@ public class BackdropGenerator : MonoBehaviour {
 
         int numberOfLayers = layers.evaluate(Random.value);
         float pointFrequency = pointsFrequency.evaluate(Random.value);
-        for (int i = 0; i < numberOfLayers; i++) {
+        for (int i = 1; i <= numberOfLayers; i++) {
             float layerFactor = i / (float) numberOfLayers;
             Polygon layer = createLayer(
                 worldCoords, 
@@ -44,22 +44,19 @@ public class BackdropGenerator : MonoBehaviour {
         polygon.FillType = FillType.LinearGradient;
 
         float originY = worldCoords.groundY + yOffset;
-        List<Vector2> points = new List<Vector2>();
-        points.Add(new Vector2(worldCoords.worldRight, originY));
-        points.Add(new Vector2(worldCoords.worldLeft, originY));
-
         float minY = maxHeight * minHeightFactor;
-        PerlinProvider perlin = new PerlinProvider(maxHeight - minY, Random.value * 100, 0.8f, 0.2f, 2f);
-
-        points.Add(new Vector2(worldCoords.worldLeft, originY + minY + perlin.get(worldCoords.worldLeft)));
+        PerlinProvider perlin = new PerlinProvider(maxHeight, Random.value * 100, 0.8f, 0.2f, 2f);
+        List<Vector2> points = new List<Vector2>();
+        points.Add(new Vector2(worldCoords.worldLeft, originY + minY + perlin.get(worldCoords.worldLeft) * maxHeight));
+        points.Add(new Vector2(worldCoords.worldLeft, originY));
+        points.Add(new Vector2(worldCoords.worldRight, originY));
+        points.Add(new Vector2(worldCoords.worldRight, originY + minY + perlin.get(worldCoords.worldRight) * maxHeight));
 
         float averagePointGap = worldCoords.width / (float) (pointCount);
         for (int i = 1; i < pointCount - 1; i++) {
-            var x = worldCoords.worldLeft + (i * averagePointGap);
-            points.Add(new Vector2(x, originY + minY + perlin.get(x)));
+            var x = worldCoords.worldRight - (i * averagePointGap);
+            points.Add(new Vector2(x, originY + minY + (perlin.get(x) * maxHeight)));
         }
-
-        points.Add(new Vector2(worldCoords.worldRight, originY + minY + perlin.get(worldCoords.worldRight)));
 
         polygon.points = points;
         polygon.FillColorStart = color;
@@ -67,6 +64,7 @@ public class BackdropGenerator : MonoBehaviour {
         polygon.FillLinearStart = new Vector2(0, originY + maxHeight * 0.75f);
         polygon.FillLinearEnd = new Vector2(0, originY);
         polygon.meshOutOfDate = true;
+        polygon.Triangulation = PolygonTriangulation.EarClipping;
 
         return polygon;
     }

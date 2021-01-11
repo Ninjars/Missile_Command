@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviour {
     public MissileBattery batteryPrefab;
-    public int batteryCount;
     public float batteryYPos;
     public float batteryZPos;
 
     public City cityPrefab;
     public float cityYPos;
     public float cityZPos;
+
+    private string[] missileBatteryLabels = new string[]{"A", "S", "D"};
 
     public SpawnData performInitialSpawn(
             StateUpdater stateUpdater,
@@ -23,6 +24,7 @@ public class PlayerSpawner : MonoBehaviour {
         ) {
         List<MissileBattery> missileBatteries = new List<MissileBattery>();
 
+        int batteryCount = 3;
         float batterySpacing = worldCoords.width / batteryCount;
         float cityOffset = batterySpacing / 3f;
 
@@ -32,7 +34,7 @@ public class PlayerSpawner : MonoBehaviour {
             var batteryPosition = batterySpacing * (i + 0.5f) + worldCoords.worldLeft;
             var missileBattery = GameObject.Instantiate(batteryPrefab);
             missileBattery.transform.position = new Vector3(batteryPosition, batteryYPos, batteryZPos);
-            missileBattery.gameObject.name = $"MissileBattery {i}";
+            missileBattery.gameObject.name = missileBatteryLabels[i];
             missileBatteries.Add(missileBattery);
 
             citySpawnPositions.Add(batteryPosition - cityOffset);
