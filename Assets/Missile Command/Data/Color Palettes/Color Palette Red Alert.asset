@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Color Palette Red Alert
   m_EditorClassIdentifier: 
   text: {r: 1, g: 1, b: 1, a: 1}
-  labelText: {r: 0.11372549, g: 0.101960786, b: 0.101960786, a: 1}
-  labelBackground: {r: 0.7058824, g: 0.7058824, b: 0.7058824, a: 0.95686275}
+  labelText: {r: 0.14901961, g: 0.14901961, b: 0.14901961, a: 1}
+  labelBackground: {r: 1, g: 1, b: 1, a: 1}
   city: {r: 1, g: 1, b: 1, a: 1}
   battery: {r: 1, g: 1, b: 1, a: 1}
   buildingExplode: {r: 1, g: 0.48235294, b: 0, a: 1}
