@@ -17,6 +17,8 @@ public class LevelManager : MonoBehaviour {
     public void reset() {
         currentStage = 0;
         stageLevel = 0;
+        _allStagesCompleted = false;
+        currentLevelData = null;
     }
 
     public void onLevelCompleted() {
