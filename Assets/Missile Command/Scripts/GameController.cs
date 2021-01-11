@@ -70,6 +70,8 @@ public class GameController : MonoBehaviour {
             topRight.y,
             0
         );
+        baseLine.Start = new Vector2(worldCoords.worldLeft, 0);
+        baseLine.End = new Vector2(worldCoords.worldRight, 0);
     }
 
     private void Update() {
