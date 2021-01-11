@@ -41,25 +41,6 @@ public class ICBM : MonoBehaviour {
         float stageProgress,
         Func<Vector2> targetProvider
     ) {
-        launch(
-            stateUpdater,
-            worldCoords,
-            weaponData,
-            stageProgress,
-            calculateSpawnPosition(worldCoords, targetPosition.x),
-            targetProvider
-        );
-    }
-
-    public void launch(
-        StateUpdater stateUpdater,
-        WorldCoords worldCoords,
-        ICBMData weaponData,
-        float stageProgress,
-        Vector2 launchPosition,
-        Func<Vector2> targetProvider
-    ) {
-        Vector2 target = targetProvider.Invoke();
         configure(
             worldCoords,
             stateUpdater,
@@ -71,7 +52,30 @@ public class ICBM : MonoBehaviour {
             mirvCount: weaponData.mirvCount.evaluate(stageProgress),
             mirvAltitude: calculateMirvAltitude(worldCoords, weaponData.mirvChance.evaluate(stageProgress))
         );
+        Vector2 target = targetProvider();
+        launch(calculateSpawnPosition(worldCoords, target.x), target);
+    }
 
+    public void launch(
+        StateUpdater stateUpdater,
+        WorldCoords worldCoords,
+        ICBMData weaponData,
+        float stageProgress,
+        Vector2 launchPosition,
+        Func<Vector2> targetProvider
+    ) {
+        configure(
+            worldCoords,
+            stateUpdater,
+            weaponData,
+            targetProvider,
+            accuracy: weaponData.maxDeviation.evaluate(stageProgress),
+            thrust: weaponData.primaryAcceleration.evaluate(stageProgress),
+            impulse: weaponData.primaryImpulse.evaluate(stageProgress),
+            mirvCount: weaponData.mirvCount.evaluate(stageProgress),
+            mirvAltitude: calculateMirvAltitude(worldCoords, weaponData.mirvChance.evaluate(stageProgress))
+        );
+        Vector2 target = targetProvider();
         launch(launchPosition, target);
     }
 
@@ -130,13 +134,15 @@ public class ICBM : MonoBehaviour {
     }
 
     private Vector2 calculateSpawnPosition(WorldCoords worldCoords, float targetX) {
-        float x;
-        if (targetX > worldCoords.centerX) {
-            x = worldCoords.worldLeft - worldSpawnBuffer;
-        } else {
-            x = worldCoords.worldRight + worldSpawnBuffer;
-        }
-        return new Vector2(x * UnityEngine.Random.value, worldCoords.worldTop + worldSpawnBuffer);
+        // float x;
+        // if (targetX > worldCoords.centerX) {
+        //     x = worldCoords.worldLeft - worldSpawnBuffer;
+        // } else {
+        //     x = worldCoords.worldRight + worldSpawnBuffer;
+        // }
+        // x *= UnityEngine.Random.value
+        float x = (worldCoords.width + 2 * worldSpawnBuffer) * UnityEngine.Random.value - worldCoords.worldRight - worldSpawnBuffer;
+        return new Vector2(x, worldCoords.worldTop + worldSpawnBuffer);
     }
 
     private void explode() {
