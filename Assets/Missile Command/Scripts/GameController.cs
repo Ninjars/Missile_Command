@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour {
     public long initialCityPopulation = 1000000;
 
     public InputActionMap inGameInput;
+    public CursorLines cursorLines;
 
     private WorldCoords worldCoords;
     private GameState gameState;
@@ -45,6 +46,7 @@ public class GameController : MonoBehaviour {
         evacuationController = GetComponent<EvacuationController>();
         uiController = GetComponent<UiController>();
         backdropGenerator = GetComponent<BackdropGenerator>();
+        cursorLines.gameObject.SetActive(false);
 
         Camera.main.backgroundColor = Colors.Instance.skyColor.from;
 
@@ -99,12 +101,15 @@ public class GameController : MonoBehaviour {
         }
     }
 
-
     private void clearAllCityUi() {
         if (gameState.cities == null) return;
         foreach (var city in gameState.cities) {
             city.hideUi();
         }
+    }
+
+    private void setCursorLinesActive(bool active) {
+        cursorLines.gameObject.SetActive(active);
     }
 
     private void updateStateMachine() {
@@ -119,6 +124,8 @@ public class GameController : MonoBehaviour {
                     uiController.setUiMode(UiMode.IN_GAME);
                     levelManager.reset();
                     gameState.onLevelPrepare();
+                    cursorLines.setBatteries(gameState.missileBatteries);
+                    setCursorLinesActive(true);
                     showAllCityUi();
                     break;
                 }
@@ -178,6 +185,7 @@ public class GameController : MonoBehaviour {
                     inGameInput.Disable();
                     attackController.stopAttacks();
                     evacuationController.clear();
+                    setCursorLinesActive(false);
                     clearEvacuators();
                     showAllCityUi();
                     uiController.setUiMode(UiMode.LOSE_SCREEN);
@@ -187,6 +195,7 @@ public class GameController : MonoBehaviour {
                     inGameInput.Disable();
                     attackController.stopAttacks();
                     evacuationController.clear();
+                    setCursorLinesActive(false);
                     clearEvacuators();
                     showAllCityUi();
                     uiController.setUiMode(UiMode.WIN_SCREEN);
