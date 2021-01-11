@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -70,6 +71,20 @@ public class GameController : MonoBehaviour {
         updateStateMachine();
     }
 
+    private void showAllMissileBatteryLabels() {
+        if (gameState.missileBatteries == null) return;
+        foreach (var battery in gameState.missileBatteries) {
+            battery.setLabelVisible(true);
+        }
+    }
+
+    private void hideAllMissileBatteryLabels() {
+        if (gameState.missileBatteries == null) return;
+        foreach (var battery in gameState.missileBatteries) {
+            battery.setLabelVisible(false);
+        }
+    }
+
     private void showAllCityUi() {
         if (gameState.cities == null) return;
         foreach (var city in gameState.cities) {
@@ -113,6 +128,9 @@ public class GameController : MonoBehaviour {
                     evacuationController.beginEvacuations();
                     gameState.onLevelBegin();
                     hideAllCityUi();
+                    if (gameState.levelsCompleted < 3) {
+                        showAllMissileBatteryLabels();
+                    }
                     break;
                 }
             case GameMode.IN_LEVEL: {
@@ -142,6 +160,7 @@ public class GameController : MonoBehaviour {
                 }
             case GameMode.POST_LEVEL: {
                     levelManager.onLevelCompleted();
+                    hideAllMissileBatteryLabels();
                     if (levelManager.allStagesCompleted) {
                         gameState.onGameEnded(true);
 
