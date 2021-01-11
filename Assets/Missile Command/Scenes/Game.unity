@@ -3548,7 +3548,7 @@ MonoBehaviour:
   colorEnd: {r: 1, g: 1, b: 1, a: 1}
   start: {x: -10, y: 0, z: 0}
   end: {x: 10, y: 0, z: 0}
-  thickness: 0.65
+  thickness: 0.68
   thicknessSpace: 2
   endCaps: 0
   matchDashSpacingToSize: 1
@@ -6839,35 +6839,10 @@ PrefabInstance:
       propertyPath: dashStyle.space
       value: -1
       objectReference: {fileID: 0}
-    - target: {fileID: 6720093787881167365, guid: fa1c21c6b1a7d6348bdd59af25494821,
-        type: 3}
-      propertyPath: dashStyle.snap
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6720093787881167365, guid: fa1c21c6b1a7d6348bdd59af25494821,
-        type: 3}
-      propertyPath: dashed
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6720093787881167365, guid: fa1c21c6b1a7d6348bdd59af25494821,
-        type: 3}
-      propertyPath: thickness
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 6720093787881167366, guid: fa1c21c6b1a7d6348bdd59af25494821,
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6720093787881167367, guid: fa1c21c6b1a7d6348bdd59af25494821,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -2115873809
-      objectReference: {fileID: 0}
-    - target: {fileID: 6720093787881167367, guid: fa1c21c6b1a7d6348bdd59af25494821,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6720093788244932144, guid: fa1c21c6b1a7d6348bdd59af25494821,
         type: 3}
@@ -6879,35 +6854,10 @@ PrefabInstance:
       propertyPath: dashStyle.space
       value: -1
       objectReference: {fileID: 0}
-    - target: {fileID: 6720093788244932144, guid: fa1c21c6b1a7d6348bdd59af25494821,
-        type: 3}
-      propertyPath: dashStyle.snap
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6720093788244932144, guid: fa1c21c6b1a7d6348bdd59af25494821,
-        type: 3}
-      propertyPath: dashed
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6720093788244932144, guid: fa1c21c6b1a7d6348bdd59af25494821,
-        type: 3}
-      propertyPath: thickness
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 6720093788244932145, guid: fa1c21c6b1a7d6348bdd59af25494821,
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6720093788244932146, guid: fa1c21c6b1a7d6348bdd59af25494821,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -2115873809
-      objectReference: {fileID: 0}
-    - target: {fileID: 6720093788244932146, guid: fa1c21c6b1a7d6348bdd59af25494821,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6720093789468516841, guid: fa1c21c6b1a7d6348bdd59af25494821,
         type: 3}
@@ -6979,35 +6929,10 @@ PrefabInstance:
       propertyPath: dashStyle.space
       value: -1
       objectReference: {fileID: 0}
-    - target: {fileID: 6720093789503156978, guid: fa1c21c6b1a7d6348bdd59af25494821,
-        type: 3}
-      propertyPath: dashStyle.snap
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6720093789503156978, guid: fa1c21c6b1a7d6348bdd59af25494821,
-        type: 3}
-      propertyPath: dashed
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6720093789503156978, guid: fa1c21c6b1a7d6348bdd59af25494821,
-        type: 3}
-      propertyPath: thickness
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 6720093789503156979, guid: fa1c21c6b1a7d6348bdd59af25494821,
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6720093789503156988, guid: fa1c21c6b1a7d6348bdd59af25494821,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -2115873809
-      objectReference: {fileID: 0}
-    - target: {fileID: 6720093789503156988, guid: fa1c21c6b1a7d6348bdd59af25494821,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa1c21c6b1a7d6348bdd59af25494821, type: 3}
