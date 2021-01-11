@@ -6855,6 +6855,16 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6720093787881167367, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -480627749
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093787881167367, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6720093788244932144, guid: fa1c21c6b1a7d6348bdd59af25494821,
         type: 3}
       propertyPath: dashStyle.size
@@ -6879,6 +6889,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093788244932146, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -480627749
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093788244932146, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6720093789468516841, guid: fa1c21c6b1a7d6348bdd59af25494821,
         type: 3}
@@ -6964,6 +6984,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789503156988, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -480627749
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789503156988, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa1c21c6b1a7d6348bdd59af25494821, type: 3}
