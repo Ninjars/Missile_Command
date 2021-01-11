@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 public class AttackUtil {
-    public IEnumerator scheduleIcbmAttack(
+    public static IEnumerator scheduleIcbmAttack(
         StateUpdater stateUpdater,
         WorldCoords worldCoords,
         float delay,
@@ -26,7 +26,7 @@ public class AttackUtil {
         onLaunchCallback();
     }
 
-    public IEnumerator scheduleBomberAttack(
+    public static IEnumerator scheduleBomberAttack(
         StateUpdater stateUpdater,
         WorldCoords worldCoords,
         float delay,
@@ -54,7 +54,7 @@ public class AttackUtil {
         );
     }
 
-    private IEnumerator spawnBombers(
+    private static IEnumerator spawnBombers(
         StateUpdater stateUpdater,
         WorldCoords worldCoords,
         float delay,
@@ -83,7 +83,7 @@ public class AttackUtil {
         onLaunchCallback();
     }
 
-    private void spawnBomber(
+    private static void spawnBomber(
         StateUpdater stateUpdater,
         WorldCoords worldCoords,
         BomberData weaponData,
@@ -104,7 +104,7 @@ public class AttackUtil {
         );
     }
 
-    private float calculateBomberAltitude(WorldCoords worldCoords, RangeData altitude) {
+    private static float calculateBomberAltitude(WorldCoords worldCoords, RangeData altitude) {
         float dy = worldCoords.worldTop - worldCoords.groundY;
         float altOffset = altitude.evaluate(UnityEngine.Random.value);
         return worldCoords.groundY + altOffset * dy;

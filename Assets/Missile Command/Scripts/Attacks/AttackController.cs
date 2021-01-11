@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class AttackController : MonoBehaviour {
     private List<Coroutine> currentAttacks;
-    private AttackUtil attackUtil = new AttackUtil();
     public int pendingAttackCount;
 
     internal void scheduleAttackEvents(
@@ -29,7 +28,7 @@ public class AttackController : MonoBehaviour {
                 timeToAttack = Mathf.Min(timeToAttack, stageDuration + baseInterval);
                 IEnumerator attack = null;
                 if (weaponData is ICBMData) {
-                    attack = attackUtil.scheduleIcbmAttack(
+                    attack = AttackUtil.scheduleIcbmAttack(
                         stateUpdater,
                         worldCoords,
                         timeToAttack,
@@ -39,7 +38,7 @@ public class AttackController : MonoBehaviour {
                         () => getTargetPosition(worldCoords, weaponData.targetWeights, cities, missileBatteries)
                     );
                 } else if (weaponData is BomberData) {
-                    attack = attackUtil.scheduleBomberAttack(
+                    attack = AttackUtil.scheduleBomberAttack(
                         stateUpdater,
                         worldCoords,
                         timeToAttack,
