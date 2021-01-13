@@ -43,7 +43,7 @@ public class CursorLines : MonoBehaviour {
             } else {
                 line.gameObject.SetActive(true);
                 line.Start = battery.transform.position + Vector3.up * battery.missileLaunchOffset;
-                line.End = endPos;
+                line.End = new Vector3(endPos.x, endPos.y, line.Start.z);
             }
         }
     }
