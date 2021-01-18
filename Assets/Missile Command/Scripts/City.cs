@@ -19,6 +19,7 @@ public class City : MonoBehaviour {
     public float evacuatorXSpacing = 0.11f;
 
     public long population { get; private set; }
+    public CityUpgradeState upgradeState { get; private set; }
     private StateUpdater stateUpdater;
     private CityEvacuationStats evacuationStats;
     private Colors colors { get { return Colors.Instance; } }
@@ -41,6 +42,7 @@ public class City : MonoBehaviour {
         this.stateUpdater = stateUpdater;
         this.population = population;
         this.evacuationStats = new CityEvacuationStats(evacEventCount, popPerEvac);
+        upgradeState = new CityUpgradeState();
         evacuators = new List<Evacuator>();
 
         cityNameView.text = gameObject.name;

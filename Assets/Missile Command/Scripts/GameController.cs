@@ -161,11 +161,12 @@ public class GameController : MonoBehaviour {
                     boostEvacuators();
                     evacuationController.completeEvacuations();
                     showAllCityUi();
+                    uiController.setUiMode(UiMode.LEVEL_END);
                     gameState.onLevelEnding();
                     break;
                 }
             case GameMode.LEVEL_ENDING: {
-                    if (GameObject.FindGameObjectWithTag("Evacuator") == null) {
+                    if (GameObject.FindGameObjectWithTag("Evacuator") == null && !uiController.isChoosingUpgrade()) {
                         gameState.onLevelEnded();
                     }
                     break;

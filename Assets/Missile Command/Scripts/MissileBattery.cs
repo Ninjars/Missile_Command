@@ -22,6 +22,8 @@ public class MissileBattery : MonoBehaviour {
     public float ammoPadding = 0.01f;
     public float fullAmmoHeight = 0.4f;
 
+    public BatteryUpgradeState upgradeState { get; private set; }
+
     private Colors colors { get { return Colors.Instance; }}
     public bool isDestroyed { get; private set; }
     private TextMeshProUGUI labelText;
@@ -47,6 +49,8 @@ public class MissileBattery : MonoBehaviour {
         labelText = labelRootObject.GetComponentInChildren<TextMeshProUGUI>();
         labelBackground = labelRootObject.GetComponentInChildren<Image>();
         labelRootObject.SetActive(false);
+
+        upgradeState = new BatteryUpgradeState();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

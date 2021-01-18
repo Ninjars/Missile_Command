@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-public struct UpgradeState {
+﻿public struct UpgradeState {
     public readonly int maxLevel;
     public readonly int currentLevel;
 
@@ -40,7 +37,7 @@ public class CityUpgradeState {
 
 }
 
-public class BatteryUpgadeState {
+public class BatteryUpgradeState {
     private readonly int maxExplosionRadiusLevel = 10;
     private int explosionRadiusLevel = 0;
     public float explosionRadiusFactor { get { return 1 + explosionRadiusLevel * 0.2f; } }

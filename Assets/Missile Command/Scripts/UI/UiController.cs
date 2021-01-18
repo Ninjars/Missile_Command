@@ -1,4 +1,7 @@
-﻿using TMPro;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class UiController : MonoBehaviour {
@@ -9,17 +12,17 @@ public class UiController : MonoBehaviour {
     public TextMeshProUGUI winWaves;
     public TextMeshProUGUI winSurvivors;
     public TextMeshProUGUI winDead;
-    
+
     public RectTransform losePanel;
     public TextMeshProUGUI loseWaves;
     public TextMeshProUGUI loseSurvivors;
     public TextMeshProUGUI loseDead;
 
-    public RectTransform upgradePanel;
-    public UpgradeButton upgradeButton1;
-    public UpgradeButton upgradeButton2;
-    public UpgradeButton upgradeButton3;
+    public CityUpgradeUI cityUpgradeUIPrefab;
+    public BatteryUpgradeUI batteryUpgradeUIPrefab;
 
+    private CityUpgradeUI[] cityUpgradeUIs;
+    private BatteryUpgradeUI[] batteryUpgradeUIs;
     private GameState gameState;
     private UiMode currentMode;
     private Colors colors { get { return Colors.Instance; } }
@@ -27,6 +30,12 @@ public class UiController : MonoBehaviour {
     internal void setGameState(GameState gameState) {
         this.gameState = gameState;
         inGamePanel.GetComponent<InGameUI>().setGameState(gameState);
+        clearUpgradeUI();
+    }
+
+    private void clearUpgradeUI() {
+        cityUpgradeUIs = null;
+        batteryUpgradeUIs = null;
     }
 
     private void hideAllPanels() {
@@ -34,14 +43,14 @@ public class UiController : MonoBehaviour {
         hide(inGamePanel);
         hide(winPanel);
         hide(losePanel);
-        hide(upgradePanel);
+        hideUpgradeOptions();
     }
 
     private void hideNonGamePanels() {
         hide(mainMenuPanel);
         hide(winPanel);
         hide(losePanel);
-        hide(upgradePanel);
+        hideUpgradeOptions();
     }
 
     public void setUiMode(UiMode mode) {
@@ -49,40 +58,40 @@ public class UiController : MonoBehaviour {
         this.currentMode = mode;
         switch (mode) {
             case UiMode.MAIN_MENU: {
-                hideAllPanels();
-                show(mainMenuPanel);
-                break;
-            }
+                    hideAllPanels();
+                    show(mainMenuPanel);
+                    break;
+                }
             case UiMode.IN_GAME: {
-                hideNonGamePanels();
-                show(inGamePanel);
-                break;
-            }
+                    hideNonGamePanels();
+                    show(inGamePanel);
+                    break;
+                }
             case UiMode.LEVEL_END: {
-                hideNonGamePanels();
-                show(upgradePanel);
-
-                // TODO: show upgrades for the buttons
-                break;
-            }
+                    hideNonGamePanels();
+                    showUpgradeOptions();
+                    break;
+                }
             case UiMode.LOSE_SCREEN: {
-                hideAllPanels();
-                show(losePanel);
+                    hideAllPanels();
+                    show(losePanel);
+                    clearUpgradeUI();
 
-                loseWaves.text = $"{gameState.levelsCompleted}";
-                loseSurvivors.text = $"{gameState.populationEvacuated + gameState.citiesPopulation}";
-                loseDead.text = $"{gameState.populationDead}";
-                break;
-            }
+                    loseWaves.text = $"{gameState.levelsCompleted}";
+                    loseSurvivors.text = $"{gameState.populationEvacuated + gameState.citiesPopulation}";
+                    loseDead.text = $"{gameState.populationDead}";
+                    break;
+                }
             case UiMode.WIN_SCREEN: {
-                hideAllPanels();
-                show(winPanel);
+                    hideAllPanels();
+                    show(winPanel);
+                    clearUpgradeUI();
 
-                winWaves.text = $"{gameState.levelsCompleted}";
-                winSurvivors.text = $"{gameState.populationEvacuated + gameState.citiesPopulation}";
-                winDead.text = $"{gameState.populationDead}";
-                break;
-            }
+                    winWaves.text = $"{gameState.levelsCompleted}";
+                    winSurvivors.text = $"{gameState.populationEvacuated + gameState.citiesPopulation}";
+                    winDead.text = $"{gameState.populationDead}";
+                    break;
+                }
         }
     }
 
@@ -98,7 +107,64 @@ public class UiController : MonoBehaviour {
     }
 
     private void hide(RectTransform panel) {
-        panel.gameObject.SetActive(false);
+        if (panel != null) {
+            panel.gameObject.SetActive(false);
+        }
+    }
+
+    private void hideUpgradeOptions() {
+        if (cityUpgradeUIs != null) {
+            foreach (var upgrade in cityUpgradeUIs) {
+                upgrade.gameObject.SetActive(false);
+            }
+        }
+        if (batteryUpgradeUIs != null) {
+            foreach (var upgrade in batteryUpgradeUIs) {
+                upgrade.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void showUpgradeOptions() {
+        Debug.Log("showUpgradeOptions()");
+        if (cityUpgradeUIs == null) {
+            cityUpgradeUIs = generateCityUpgradeUIs(gameState, cityUpgradeUIPrefab, () => onUpgradePurchased());
+        }
+        foreach (var upgrade in cityUpgradeUIs) {
+            upgrade.gameObject.SetActive(true);
+        }
+        if (batteryUpgradeUIs == null) {
+            batteryUpgradeUIs = generateBatteryUpgradeUIs(gameState, batteryUpgradeUIPrefab, () => onUpgradePurchased());
+        }
+        foreach (var upgrade in batteryUpgradeUIs) {
+            upgrade.gameObject.SetActive(true);
+        }
+    }
+
+    private static CityUpgradeUI[] generateCityUpgradeUIs(GameState gameState, CityUpgradeUI prefab, Action onUpgradeAction) {
+        return gameState.cities.Select(city => {
+            CityUpgradeUI ui = GameObject.Instantiate<CityUpgradeUI>(prefab);
+            ui.initialise(city, onUpgradeAction);
+            ui.gameObject.SetActive(false);
+            return ui;
+        }).ToArray();
+    }
+
+    private static BatteryUpgradeUI[] generateBatteryUpgradeUIs(GameState gameState, BatteryUpgradeUI prefab, Action onUpgradeAction) {
+        return gameState.missileBatteries.Select(battery => {
+            BatteryUpgradeUI ui = GameObject.Instantiate<BatteryUpgradeUI>(prefab);
+            ui.initialise(battery, onUpgradeAction);
+            ui.gameObject.SetActive(false);
+            return ui;
+        }).ToArray();
+    }
+
+    private void onUpgradePurchased() {
+        Debug.Log("upgrade purchased");
+    }
+
+    internal bool isChoosingUpgrade() {
+        return false;
     }
 }
 
