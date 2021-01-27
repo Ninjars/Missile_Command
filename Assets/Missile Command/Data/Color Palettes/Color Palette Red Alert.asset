@@ -17,6 +17,7 @@ MonoBehaviour:
   labelBackground: {r: 1, g: 1, b: 1, a: 1}
   upgradeUiNormal: {r: 1, g: 1, b: 1, a: 1}
   upgradeUiHighlighted: {r: 0.16862746, g: 0.7058824, b: 0.16470589, a: 1}
+  upgradeUiMaxed: {r: 0.36862746, g: 0.49019608, b: 0.36862746, a: 1}
   city: {r: 1, g: 1, b: 1, a: 1}
   battery: {r: 1, g: 1, b: 1, a: 1}
   buildingExplode: {r: 1, g: 0.48235294, b: 0, a: 1}

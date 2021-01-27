@@ -20,6 +20,7 @@ public class Colors : MonoBehaviour {
     public Color labelBackgroundColor { get { return colorPalette.labelBackground; } }
     public Color upgradeUiNormalColor { get { return colorPalette.upgradeUiNormal; } }
     public Color upgradeUiHighlightedColor { get { return colorPalette.upgradeUiHighlighted; } }
+    public Color upgradeUiMaxedColor { get { return colorPalette.upgradeUiMaxed; } }
     public Color cityColor { get { return colorPalette.city; }}
     public Color batteryColor { get { return colorPalette.battery; }}
     public Color buildingExplodeColor { get { return colorPalette.buildingExplode; }}

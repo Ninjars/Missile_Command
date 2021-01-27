@@ -7,6 +7,7 @@ public class ColorPalette : ScriptableObject {
     public Color labelBackground;
     public Color upgradeUiNormal;
     public Color upgradeUiHighlighted;
+    public Color upgradeUiMaxed;
     public Color city;
     public Color battery;
     public Color buildingExplode;
