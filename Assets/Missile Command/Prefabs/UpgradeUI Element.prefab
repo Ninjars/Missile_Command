@@ -239,7 +239,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 207742265
   m_SortingLayer: 10
-  m_SortingOrder: 0
+  m_SortingOrder: 10
 --- !u!1 &5028072834845493695
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,7 +250,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5028072834845493688}
   - component: {fileID: 3034773094870575062}
-  m_Layer: 0
+  - component: {fileID: 3999415478215855247}
+  m_Layer: 5
   m_Name: UpgradeUI Element
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -285,3 +286,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 189d4668c4fdce34591d09d4ad51087e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  elementSeparation: 0.5
+--- !u!58 &3999415478215855247
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5028072834845493695}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.9

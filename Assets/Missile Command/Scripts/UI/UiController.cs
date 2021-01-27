@@ -173,6 +173,8 @@ public class UiController : MonoBehaviour {
     private void onUpgradePurchased() {
         Debug.Log("upgrade purchased");
         isChoosingUpgrade = false;
+        deselectAllUpgradeUis();
+        hideUpgradeOptions();
     }
 }
 
