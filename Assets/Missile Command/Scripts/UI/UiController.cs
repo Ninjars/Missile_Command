@@ -21,6 +21,7 @@ public class UiController : MonoBehaviour {
     public CityUpgradeUI cityUpgradeUIPrefab;
     public BatteryUpgradeUI batteryUpgradeUIPrefab;
 
+    public bool isChoosingUpgrade { get; private set; }
     private CityUpgradeUI[] cityUpgradeUIs;
     private BatteryUpgradeUI[] batteryUpgradeUIs;
     private GameState gameState;
@@ -127,6 +128,7 @@ public class UiController : MonoBehaviour {
 
     private void showUpgradeOptions() {
         Debug.Log("showUpgradeOptions()");
+        isChoosingUpgrade = true;
         if (cityUpgradeUIs == null) {
             cityUpgradeUIs = generateCityUpgradeUIs(gameState, cityUpgradeUIPrefab, () => onUpgradePurchased());
         }
@@ -161,10 +163,7 @@ public class UiController : MonoBehaviour {
 
     private void onUpgradePurchased() {
         Debug.Log("upgrade purchased");
-    }
-
-    internal bool isChoosingUpgrade() {
-        return false;
+        isChoosingUpgrade = false;
     }
 }
 
