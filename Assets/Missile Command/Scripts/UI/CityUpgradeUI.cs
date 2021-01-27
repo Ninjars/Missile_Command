@@ -3,28 +3,73 @@ using System.Collections;
 using System.Collections.Generic;
 using Shapes;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class CityUpgradeUI : MonoBehaviour {
+public class CityUpgradeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
     public UpgradeElement upgradeElementPrefab;
     public float baseElementOffset;
-
+    public float cityCenterYOffset;
+    public Collider2D expandedCollider;
+    private Colors colors { get { return Colors.Instance; } }
     private City city;
     private Action onUpgradeAction;
+    private Action onSelectionMadeAction;
     private List<UpgradeElement> elements;
+    private Disc graphic;
+    private bool isSelected;
 
-    internal void initialise(City city, Action onUpgradeAction) {
+    internal void initialise(City city, Action onSelectionMadeAction, Action onUpgradeAction) {
+        isSelected = false;
         this.city = city;
+        this.onSelectionMadeAction = onSelectionMadeAction;
         this.onUpgradeAction = onUpgradeAction;
-        transform.position = city.transform.position;
+        transform.position = city.transform.position + Vector3.up * cityCenterYOffset;
+        graphic = GetComponent<Disc>();
+        graphic.Color = colors.upgradeUiNormalColor;
+        expandedCollider.enabled = false;
     }
 
-    private void OnEnable() {
+    public void OnPointerEnter(PointerEventData eventData) {
+        onSelect();
+    }
+
+    public void OnPointerExit(PointerEventData eventData) {
+        onDeselect();
+    }
+
+    private void onSelect() {
+        onSelectionMadeAction();
+        isSelected = true;
+        displayUpgrades();
+        graphic.Color = colors.upgradeUiHighlightedColor;
+        expandedCollider.enabled = true;
+    }
+
+    public void onDeselect() {
+        isSelected = false;
+        hideUpgrades();
+        graphic.Color = colors.upgradeUiNormalColor;
+        expandedCollider.enabled = false;
+    }
+
+    private void hideUpgrades() {
+        if (elements != null) {
+            foreach (var element in elements) {
+                element.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    private void displayUpgrades() {
         if (city == null) {
             Debug.Log("null city for enabled UpgradeUI; investigate");
             return;
         }
         if (elements == null) {
             elements = generateUpgradeElements();
+        }
+        foreach (var element in elements) {
+            element.gameObject.SetActive(true);
         }
         elements[0].display(city.upgradeState.evacuatorCountUpgradeState(), () => {
             city.upgradeState.increaseEvacuatorCount();

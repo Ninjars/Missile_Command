@@ -130,7 +130,7 @@ public class UiController : MonoBehaviour {
         Debug.Log("showUpgradeOptions()");
         isChoosingUpgrade = true;
         if (cityUpgradeUIs == null) {
-            cityUpgradeUIs = generateCityUpgradeUIs(gameState, cityUpgradeUIPrefab, () => onUpgradePurchased());
+            cityUpgradeUIs = generateCityUpgradeUIs(gameState, cityUpgradeUIPrefab, () => deselectAllUpgradeUis(), () => onUpgradePurchased());
         }
         foreach (var upgrade in cityUpgradeUIs) {
             upgrade.gameObject.SetActive(true);
@@ -143,10 +143,19 @@ public class UiController : MonoBehaviour {
         }
     }
 
-    private static CityUpgradeUI[] generateCityUpgradeUIs(GameState gameState, CityUpgradeUI prefab, Action onUpgradeAction) {
+    private void deselectAllUpgradeUis() {
+        foreach (var upgrade in cityUpgradeUIs) {
+            upgrade.onDeselect();
+        }
+        foreach (var upgrade in batteryUpgradeUIs) {
+            upgrade.onDeselect();
+        }
+    }
+
+    private static CityUpgradeUI[] generateCityUpgradeUIs(GameState gameState, CityUpgradeUI prefab, Action upgradeUiHighlightedAction, Action onUpgradeAction) {
         return gameState.cities.Select(city => {
             CityUpgradeUI ui = GameObject.Instantiate<CityUpgradeUI>(prefab);
-            ui.initialise(city, onUpgradeAction);
+            ui.initialise(city, upgradeUiHighlightedAction, onUpgradeAction);
             ui.gameObject.SetActive(false);
             return ui;
         }).ToArray();

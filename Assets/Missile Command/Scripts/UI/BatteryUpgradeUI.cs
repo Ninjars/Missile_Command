@@ -9,4 +9,8 @@ public class BatteryUpgradeUI : MonoBehaviour {
     internal void initialise(MissileBattery battery, Action onUpgradeAction) {
         // throw new NotImplementedException();
     }
+
+    internal void onDeselect() {
+        // throw new NotImplementedException();
+    }
 }
