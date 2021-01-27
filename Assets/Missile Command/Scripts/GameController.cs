@@ -134,6 +134,7 @@ public class GameController : MonoBehaviour {
                     break;
                 }
             case GameMode.PRE_LEVEL: {
+                    uiController.setUiMode(UiMode.IN_GAME);
                     startNextLevel();
                     inGameInput.Enable();
                     setCursorLinesActive(true);

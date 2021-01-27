@@ -5461,7 +5461,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseEvacRate: 60
   basePopPerEvacEvent: 100
-  baseEvacEventsPerLevel: 10
+  baseEvacEventsPerLevel: 3
   initialCityPopulation: 1000000
   inGameInput:
     m_Name: In Game Input

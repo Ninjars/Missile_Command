@@ -19,9 +19,9 @@ public struct UpgradeState {
 }
 
 public class CityUpgradeState {
-    private readonly int maxEvacuatorCountLevel = 13;
+    private readonly int maxEvacuatorCountLevel = 10;
     private int evacuatorCountLevel = 0;
-    public int evacuatorCount { get { return 3 + evacuatorCountLevel; } }
+    public int evacuatorCount { get { return evacuatorCountLevel; } }
     public void increaseEvacuatorCount() {
         if (evacuatorCountLevel < maxEvacuatorCountLevel) {
             evacuatorCountLevel++;
@@ -33,7 +33,7 @@ public class CityUpgradeState {
 
     private readonly int maxEvacuatorPopLevel = 20;
     private int evacuatorPopLevel = 0;
-    public float evacuatorPopFactor { get { return 1 + evacuatorPopLevel * 0.2f; } }
+    public double evacuatorPopFactor { get { return 1 + evacuatorPopLevel * 0.2; } }
     public void increaseEvacuatorPop() {
         if (evacuatorPopLevel < maxEvacuatorPopLevel) {
             evacuatorPopLevel++;

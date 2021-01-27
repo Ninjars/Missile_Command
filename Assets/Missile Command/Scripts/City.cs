@@ -41,8 +41,8 @@ public class City : MonoBehaviour {
     public void initialise(StateUpdater stateUpdater, long population, int evacEventCount, long popPerEvac) {
         this.stateUpdater = stateUpdater;
         this.population = population;
-        this.evacuationStats = new CityEvacuationStats(evacEventCount, popPerEvac);
         upgradeState = new CityUpgradeState();
+        this.evacuationStats = new CityEvacuationStats(evacEventCount, popPerEvac, upgradeState);
         evacuators = new List<Evacuator>();
 
         cityNameView.text = gameObject.name;
@@ -187,13 +187,17 @@ public class City : MonoBehaviour {
 }
 
 public class CityEvacuationStats {
-    public int eventsPerLevel { get; private set; }
-    public long popPerEvent { get; private set; }
+    private readonly CityUpgradeState upgradeState;
+    private readonly int baseEventsPerLevel;
+    private readonly long basePopPerEvent;
+    public int eventsPerLevel { get { return baseEventsPerLevel + upgradeState.evacuatorCount; } }
+    public long popPerEvent { get { return Convert.ToInt64(basePopPerEvent * upgradeState.evacuatorPopFactor); } }
     public int eventsRemaining { get; private set; }
 
-    public CityEvacuationStats(int eventsPerLevel, long popPerEvent) {
-        this.eventsPerLevel = eventsPerLevel;
-        this.popPerEvent = popPerEvent;
+    public CityEvacuationStats(int evacEventCount, long popPerEvac, CityUpgradeState upgradeState) {
+        this.upgradeState = upgradeState;
+        baseEventsPerLevel = evacEventCount;
+        basePopPerEvent = popPerEvac;
     }
 
     public void refresh() {
