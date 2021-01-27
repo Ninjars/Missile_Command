@@ -1,4 +1,12 @@
-﻿public struct UpgradeState {
+﻿public struct UpgradeData {
+    public readonly UpgradeState state;
+
+    public UpgradeData(UpgradeState state) {
+        this.state = state;
+    }
+}
+
+public struct UpgradeState {
     public readonly int maxLevel;
     public readonly int currentLevel;
 

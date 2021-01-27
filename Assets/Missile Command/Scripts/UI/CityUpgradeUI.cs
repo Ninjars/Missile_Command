@@ -71,11 +71,11 @@ public class CityUpgradeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         foreach (var element in elements) {
             element.gameObject.SetActive(true);
         }
-        elements[0].display(city.upgradeState.evacuatorCountUpgradeState(), () => {
+        elements[0].display(new UpgradeData(city.upgradeState.evacuatorCountUpgradeState()), () => {
             city.upgradeState.increaseEvacuatorCount();
             onUpgradeAction();
         });
-        elements[1].display(city.upgradeState.evacuatorPopUpgradeState(), () => {
+        elements[1].display(new UpgradeData(city.upgradeState.evacuatorPopUpgradeState()), () => {
             city.upgradeState.increaseEvacuatorPop();
             onUpgradeAction();
         });

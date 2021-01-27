@@ -7,8 +7,8 @@ using Shapes;
 public class UpgradeElement : MonoBehaviour {
     public float elementSeparation = 0.5f;
 
-    internal void display(UpgradeState upgradeState, Action upgradeAction) {
         // throw new NotImplementedException();
+    internal void display(UpgradeData upgradeData, Action upgradeAction) {
     }
 
     internal void setMeasurements(float baseElementOffset, float baseElementRadius, int index) {
