@@ -10,23 +10,33 @@ public class UpgradeElement : MonoBehaviour, IPointerClickHandler, IPointerEnter
     private Colors colors { get { return Colors.Instance; } }
     private Line line;
     private Disc disc;
-    private Action upgradeAction;
     private UpgradeData upgradeData;
+    private GameObject icon;
 
     private void Awake() {
         line = GetComponentInChildren<Line>();
         disc = GetComponentInChildren<Disc>();
     }
 
-    internal void display(UpgradeData upgradeData, Action upgradeAction) {
+    internal void display(UpgradeData upgradeData) {
         this.upgradeData = upgradeData;
-        this.upgradeAction = upgradeAction;
         setNormalColor();
+        updateIcon(upgradeData.icon);
+    }
+
+    private void updateIcon(GameObject newIcon) {
+        if (icon == null) {
+            icon = GameObject.Instantiate(newIcon, transform, false);
+
+        } else if (icon.gameObject.name != upgradeData.icon.name) {
+            GameObject.Destroy(icon);
+            icon = GameObject.Instantiate(newIcon, transform, false);
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData) {
         if (upgradeData.state.canUpgrade) {
-            upgradeAction();
+            upgradeData.upgradeAction();
         }
     }
 

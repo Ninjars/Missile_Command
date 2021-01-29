@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 
 public class CityUpgradeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
     public UpgradeElement upgradeElementPrefab;
+    public CityIconRegistry iconRegistry;
     public float baseElementOffset;
     public float cityCenterYOffset;
     public Collider2D expandedCollider;
@@ -71,14 +72,22 @@ public class CityUpgradeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         foreach (var element in elements) {
             element.gameObject.SetActive(true);
         }
-        elements[0].display(new UpgradeData(city.upgradeState.evacuatorCountUpgradeState()), () => {
-            city.upgradeState.increaseEvacuatorCount();
-            onUpgradeAction();
-        });
-        elements[1].display(new UpgradeData(city.upgradeState.evacuatorPopUpgradeState()), () => {
-            city.upgradeState.increaseEvacuatorPop();
-            onUpgradeAction();
-        });
+        elements[0].display(new UpgradeData(
+            city.upgradeState.evacuatorCountUpgradeState(),
+            iconRegistry.evacuatorCountIcon,
+            () => {
+                city.upgradeState.increaseEvacuatorCount();
+                onUpgradeAction();
+            }
+        ));
+        elements[1].display(new UpgradeData(
+            city.upgradeState.evacuatorPopUpgradeState(),
+            iconRegistry.popEvacRateIcon,
+            () => {
+                city.upgradeState.increaseEvacuatorPop();
+                onUpgradeAction();
+            }
+        ));
     }
 
     private List<UpgradeElement> generateUpgradeElements() {

@@ -1,8 +1,15 @@
-﻿public struct UpgradeData {
-    public readonly UpgradeState state;
+﻿using System;
+using UnityEngine;
 
-    public UpgradeData(UpgradeState state) {
+public struct UpgradeData {
+    public readonly UpgradeState state;
+    public readonly GameObject icon;
+    public readonly Action upgradeAction;
+
+    public UpgradeData(UpgradeState state, GameObject icon, Action upgradeAction) {
         this.state = state;
+        this.icon = icon;
+        this.upgradeAction = upgradeAction;
     }
 }
 
