@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeElementPrefab: {fileID: 3034773094870575062, guid: ac9cb3ab74407e24d9cfb8065609088b,
     type: 3}
+  iconRegistry: {fileID: 11400000, guid: d07b8750c7b875944bca29e66bf73a63, type: 2}
   baseElementOffset: 2.7
   cityCenterYOffset: 0.3
   expandedCollider: {fileID: 456365791191001498}
