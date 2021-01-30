@@ -10,6 +10,7 @@ public class City : MonoBehaviour {
     public bool isDestroyed = false;
     public GameObject aliveVisuals;
     public GameObject deadVisuals;
+    public CityUpgradeUI upgradeUi;
     public GameObject textUi;
     public Evacuator evacuatorPrefab;
     public TextMeshProUGUI cityNameView;
@@ -19,6 +20,7 @@ public class City : MonoBehaviour {
     public float evacuatorXSpacing = 0.11f;
 
     public long population { get; private set; }
+    public CityUpgradeState upgradeState { get; private set; }
     private StateUpdater stateUpdater;
     private CityEvacuationStats evacuationStats;
     private Colors colors { get { return Colors.Instance; } }
@@ -40,7 +42,8 @@ public class City : MonoBehaviour {
     public void initialise(StateUpdater stateUpdater, long population, int evacEventCount, long popPerEvac) {
         this.stateUpdater = stateUpdater;
         this.population = population;
-        this.evacuationStats = new CityEvacuationStats(evacEventCount, popPerEvac);
+        upgradeState = new CityUpgradeState();
+        evacuationStats = new CityEvacuationStats(evacEventCount, popPerEvac, upgradeState);
         evacuators = new List<Evacuator>();
 
         cityNameView.text = gameObject.name;
@@ -50,6 +53,7 @@ public class City : MonoBehaviour {
         markerTriangle = textUi.GetComponent<Triangle>();
         textCanvasGroup = textUi.GetComponentInChildren<CanvasGroup>();
         deadVisuals.GetComponent<Polyline>().Color = colors.deadBuildingColor;
+        hideUpgradeOptions();
     }
 
     public void showUi() {
@@ -162,6 +166,7 @@ public class City : MonoBehaviour {
         isDestroyed = true;
         screenEffectManager.onCityNukeHit(1f);
         evacuationStats.clear();
+        hideUpgradeOptions();
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
         explosion.boom(transform.position, colors.buildingExplodeColor);
@@ -182,16 +187,37 @@ public class City : MonoBehaviour {
         aliveVisuals.SetActive(false);
         deadVisuals.SetActive(true);
     }
+
+    #region Upgrades
+    public void showUpgradeOptions(Action onHighlightCallback, Action onUpgradeCallback) {
+        if (isDestroyed) return;
+        upgradeUi.gameObject.SetActive(true);
+        upgradeUi.registerCallbacks(onHighlightCallback, onUpgradeCallback);
+    }
+
+    public void hideUpgradeOptions() {
+        upgradeUi.gameObject.SetActive(false);
+    }
+
+    public void deselectUpgradeUi() {
+        if (isDestroyed) return;
+        upgradeUi.onDeselect();
+    }
+    #endregion
 }
 
 public class CityEvacuationStats {
-    public int eventsPerLevel { get; private set; }
-    public long popPerEvent { get; private set; }
+    private readonly CityUpgradeState upgradeState;
+    private readonly int baseEventsPerLevel;
+    private readonly long basePopPerEvent;
+    public int eventsPerLevel { get { return baseEventsPerLevel + upgradeState.evacuatorCount; } }
+    public long popPerEvent { get { return Convert.ToInt64(basePopPerEvent * upgradeState.evacuatorPopFactor); } }
     public int eventsRemaining { get; private set; }
 
-    public CityEvacuationStats(int eventsPerLevel, long popPerEvent) {
-        this.eventsPerLevel = eventsPerLevel;
-        this.popPerEvent = popPerEvent;
+    public CityEvacuationStats(int evacEventCount, long popPerEvac, CityUpgradeState upgradeState) {
+        this.upgradeState = upgradeState;
+        baseEventsPerLevel = evacEventCount;
+        basePopPerEvent = popPerEvac;
     }
 
     public void refresh() {

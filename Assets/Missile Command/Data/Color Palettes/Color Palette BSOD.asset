@@ -15,6 +15,10 @@ MonoBehaviour:
   text: {r: 1, g: 1, b: 1, a: 1}
   labelText: {r: 1, g: 1, b: 1, a: 1}
   labelBackground: {r: 0.08627451, g: 0.105882354, b: 0.34901962, a: 1}
+  upgradeUiNormal: {r: 1, g: 1, b: 1, a: 1}
+  upgradeUiSecondary: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 1}
+  upgradeUiHighlighted: {r: 0.28235295, g: 0.30980393, b: 0.8, a: 1}
+  upgradeUiProgress: {r: 1, g: 1, b: 1, a: 1}
   city: {r: 1, g: 1, b: 1, a: 1}
   battery: {r: 1, g: 1, b: 1, a: 1}
   buildingExplode: {r: 0.81960785, g: 0.12156863, b: 0.20784314, a: 1}

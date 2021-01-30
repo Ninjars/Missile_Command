@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a376e78d5e5f3134f8dfdeeec3077eb5, type: 3}
+  m_Name: City Icon Registry
+  m_EditorClassIdentifier: 
+  evacuatorCountIcon: {fileID: 6766490582837537778, guid: 76fbf4df2ff157d459313de857fea44d,
+    type: 3}
+  popEvacRateIcon: {fileID: 5388727829978667026, guid: 6047ab42a613fe7498b3a1f8b166b65e,
+    type: 3}

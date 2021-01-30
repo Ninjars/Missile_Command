@@ -65,7 +65,6 @@ public class EvacuationController : MonoBehaviour {
     }
 
     private bool performEvacuation(bool boosted) {
-        Debug.Log("performEvacuation()");
         City evacCity = null;
         int initialIndex = currentCityIndex;
         for (int i = 0; i < cities.Count; i++) {
@@ -73,7 +72,6 @@ public class EvacuationController : MonoBehaviour {
             currentCityIndex++;
             if (evacCity.canEvacuate()) break;
         }
-        Debug.Log($"> evacCity: {evacCity}");
         if (evacCity == null || !evacCity.canEvacuate()) {
             return false;
         }

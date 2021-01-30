@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class Missile : MonoBehaviour {
     public float missileLayerZ = 8;
-    public float launchImpulse = 20;
-    public float thrust = 10;
     public Explosion explosionPrefab;
     public GameObject targetMarker;
     public TrailSettings trailSettings;
     private TargetMarker marker;
     private Vector2 target;
     private Vector2 facing;
-    private Colors colors { get { return Colors.Instance; }}
+    private Colors colors { get { return Colors.Instance; } }
+    private float explosionRadius;
+    private float explosionDuration;
 
     private Rigidbody2D _rb;
     private LinearTrail trail;
@@ -35,17 +35,30 @@ public class Missile : MonoBehaviour {
         gameObject.SetActive(false);
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
-        explosion.boom(rb.position, colors.missileExplodeColor);
-        
+        explosion.boom(
+            rb.position, 
+            colors.missileExplodeColor,
+            explosionRadius,
+            explosionDuration
+        );
+
         if (marker != null) {
             marker.gameObject.SetActive(false);
             marker = null;
         }
     }
 
-    public void launch(Vector2 position, Vector2 target) {
+    public void launch(
+        Vector2 position,
+        Vector2 target,
+        float missileSpeed,
+        float explosionRadius,
+        float explosionDuration
+    ) {
         this.target = target;
         this.facing = (target - position).normalized;
+        this.explosionRadius = explosionRadius;
+        this.explosionDuration = explosionDuration;
         transform.position = new Vector3(position.x, position.y, missileLayerZ);
 
         GetComponentInChildren<Polyline>().Color = colors.missileColor;
@@ -54,14 +67,10 @@ public class Missile : MonoBehaviour {
         marker.configure(this, target);
 
         gameObject.SetActive(true);
-        rb.AddForce(facing * launchImpulse, ForceMode2D.Impulse);
-        
+        rb.velocity = facing * missileSpeed;
+
         trail = ObjectPoolManager.Instance.getObjectInstance(trailSettings.prefab.gameObject).GetComponent<LinearTrail>();
         trail.initialise(gameObject, trailSettings, colors.missileTrailColor);
-    }
-
-    private void FixedUpdate() {
-        rb.AddForce(facing * thrust, ForceMode2D.Force);
     }
 
     private void OnDrawGizmos() {

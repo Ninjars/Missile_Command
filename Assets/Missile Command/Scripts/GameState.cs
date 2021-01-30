@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -36,6 +35,7 @@ public class GameState : StateUpdater {
     public long citiesPopulation { get { return cities.Aggregate(0L, (acc, city) => acc + city.population); } }
     public long populationDead { get; private set; }
     public float evacEventInterval { get; private set; }
+    public int upgradePoints { get; private set; }
 
     public GameState(float evacEventsPerMin) {
         currentMode = GameMode.MAIN_MENU;
@@ -44,10 +44,27 @@ public class GameState : StateUpdater {
 
     public void onPopulationEvacuated(long count) {
         populationEvacuated += count;
+        
+        if (populationEvacuated % 100000 == 0) {
+            awardUpgradePoints(1);
+        };
     }
 
     public void onPopulationLost(long count) {
         populationDead += count;
+    }
+
+    public void onUpgradePointSpent() {
+        upgradePoints--;
+    }
+
+    public void awardUpgradePoints(int count) {
+        upgradePoints += count;
+    }
+
+    internal bool canUpgradeSomething() {
+        return cities.Where(city => city.upgradeState.hasAnyAvailableUpgrades).FirstOrDefault() != null
+            || missileBatteries.Where(battery => battery.upgradeState.hasAnyAvailableUpgrades).FirstOrDefault() != null;
     }
 
     public void onGameBegin() {

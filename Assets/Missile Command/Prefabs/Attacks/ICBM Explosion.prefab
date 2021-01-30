@@ -121,7 +121,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 964189337
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
 --- !u!1 &8516042780396545594
 GameObject:
@@ -185,8 +185,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   causesEmp: 1
-  maxRadius: 0.35
-  duration: 1
+  defaultRadius: 0.4
+  defaultDuration: 1
   expansion:
     serializedVersion: 2
     m_Curve:

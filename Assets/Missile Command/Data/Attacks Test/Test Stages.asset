@@ -15,5 +15,3 @@ MonoBehaviour:
   title: Testing
   stages:
   - {fileID: 11400000, guid: 59094042546279240b30ab723e99c7c5, type: 2}
-  - {fileID: 11400000, guid: 6ffbf047cf89c224380cc48eab4bba57, type: 2}
-  - {fileID: 11400000, guid: ee2ad1d188c049041b26c16e1d1acbaa, type: 2}
