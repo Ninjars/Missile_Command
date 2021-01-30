@@ -136,7 +136,7 @@ public class UiController : MonoBehaviour {
             upgrade.gameObject.SetActive(true);
         }
         if (batteryUpgradeUIs == null) {
-            batteryUpgradeUIs = generateBatteryUpgradeUIs(gameState, batteryUpgradeUIPrefab, () => onUpgradePurchased());
+            batteryUpgradeUIs = generateBatteryUpgradeUIs(gameState, batteryUpgradeUIPrefab, () => deselectAllUpgradeUis(), () => onUpgradePurchased());
         }
         foreach (var upgrade in batteryUpgradeUIs) {
             upgrade.gameObject.SetActive(true);
@@ -161,10 +161,10 @@ public class UiController : MonoBehaviour {
         }).ToArray();
     }
 
-    private static BatteryUpgradeUI[] generateBatteryUpgradeUIs(GameState gameState, BatteryUpgradeUI prefab, Action onUpgradeAction) {
+    private static BatteryUpgradeUI[] generateBatteryUpgradeUIs(GameState gameState, BatteryUpgradeUI prefab, Action upgradeUiHighlightedAction, Action onUpgradeAction) {
         return gameState.missileBatteries.Select(battery => {
             BatteryUpgradeUI ui = GameObject.Instantiate<BatteryUpgradeUI>(prefab);
-            ui.initialise(battery, onUpgradeAction);
+            ui.initialise(battery, upgradeUiHighlightedAction, onUpgradeAction);
             ui.gameObject.SetActive(false);
             return ui;
         }).ToArray();

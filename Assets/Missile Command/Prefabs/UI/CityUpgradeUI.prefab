@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1324728033275089937
 Transform:
   m_ObjectHideFlags: 0
@@ -51,8 +51,8 @@ MonoBehaviour:
   upgradeElementPrefab: {fileID: 3034773094870575062, guid: ac9cb3ab74407e24d9cfb8065609088b,
     type: 3}
   iconRegistry: {fileID: 11400000, guid: d07b8750c7b875944bca29e66bf73a63, type: 2}
-  baseElementOffset: 2.7
-  cityCenterYOffset: 0.3
+  firstUpgradeOffset: 2.7
+  baseButtonOffset: 0.3
   expandedCollider: {fileID: 456365791191001498}
 --- !u!114 &9062373157858727200
 MonoBehaviour:
@@ -112,7 +112,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6085187160648681715}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

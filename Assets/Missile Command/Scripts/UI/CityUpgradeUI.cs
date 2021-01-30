@@ -8,8 +8,8 @@ using UnityEngine.EventSystems;
 public class CityUpgradeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
     public UpgradeElement upgradeElementPrefab;
     public CityIconRegistry iconRegistry;
-    public float baseElementOffset;
-    public float cityCenterYOffset;
+    public float firstUpgradeOffset;
+    public float baseButtonOffset;
     public Collider2D expandedCollider;
     private Colors colors { get { return Colors.Instance; } }
     private City city;
@@ -24,7 +24,7 @@ public class CityUpgradeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         this.city = city;
         this.onSelectionMadeAction = onSelectionMadeAction;
         this.onUpgradeAction = onUpgradeAction;
-        transform.position = city.transform.position + Vector3.up * cityCenterYOffset;
+        transform.position = city.transform.position + Vector3.up * baseButtonOffset;
         graphic = GetComponent<Disc>();
         graphic.Color = colors.upgradeUiNormalColor;
         expandedCollider.enabled = false;
@@ -99,7 +99,7 @@ public class CityUpgradeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     private UpgradeElement createElement(int index) {
         var element = GameObject.Instantiate<UpgradeElement>(upgradeElementPrefab, transform, false);
-        element.setMeasurements(baseElementOffset, GetComponentInChildren<Disc>().Radius, index);
+        element.setMeasurements(firstUpgradeOffset, GetComponentInChildren<Disc>().Radius, index);
         return element;
     }
 }
