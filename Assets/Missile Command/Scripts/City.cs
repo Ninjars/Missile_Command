@@ -42,7 +42,7 @@ public class City : MonoBehaviour {
         this.stateUpdater = stateUpdater;
         this.population = population;
         upgradeState = new CityUpgradeState();
-        this.evacuationStats = new CityEvacuationStats(evacEventCount, popPerEvac, upgradeState);
+        evacuationStats = new CityEvacuationStats(evacEventCount, popPerEvac, upgradeState);
         evacuators = new List<Evacuator>();
 
         cityNameView.text = gameObject.name;

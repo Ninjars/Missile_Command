@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour {
     public bool causesEmp = true;
-    public float maxRadius = 2;
-    public float duration = 2f;
+    public float defaultRadius = 1;
+    public float defaultDuration = 1f;
     public AnimationCurve expansion;
     public float layerZ = 6;
     private ScreenEffectManager _screenEffectManager;
@@ -36,20 +36,33 @@ public class Explosion : MonoBehaviour {
         }
     }
     private float startTime;
+    private float radius;
+    private float duration;
 
     public void boom(Vector2 position, Color color) {
+        boom(position, color, defaultRadius, defaultDuration);
+    }
+
+    public void boom(
+        Vector2 position, 
+        Color color, 
+        float explosionRadius, 
+        float explosionDuration
+    ) {
         transform.position = new Vector3(position.x, position.y, layerZ);
         discShape.Radius = 0;
         discShape.Color = color;
         circleCollider.radius = 0;
         startTime = Time.time;
+        radius = explosionRadius;
+        duration = explosionDuration;
         gameObject.SetActive(true);
         if (causesEmp) screenEffectManager.onEMP(position.y);
     }
 
     private void Update() {
         float passedTime = Time.time - startTime;
-        if (passedTime > duration) {
+        if (passedTime > defaultDuration) {
             gameObject.SetActive(false);
         } else {
             expandRadius(passedTime / duration);
@@ -57,8 +70,8 @@ public class Explosion : MonoBehaviour {
     }
 
     private void expandRadius(float normalisedValue) {
-        float radius = expansion.Evaluate(normalisedValue) * maxRadius;
-        discShape.Radius = radius;
-        circleCollider.radius = radius;
+        float currentRadius = expansion.Evaluate(normalisedValue) * radius;
+        discShape.Radius = currentRadius;
+        circleCollider.radius = currentRadius;
     }
 }

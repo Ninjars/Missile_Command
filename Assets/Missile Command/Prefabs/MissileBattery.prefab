@@ -237,7 +237,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1202964201
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
 --- !u!1 &5578500376605243587
 GameObject:
@@ -432,8 +432,10 @@ MonoBehaviour:
   explosionPrefab: {fileID: 6328716267540692050, guid: 85ffbe0a51fa2214cac7fbe633aa8ce0,
     type: 3}
   labelRootObject: {fileID: 8807562106768746928}
-  maxMissiles: 10
-  missilesStored: 10
+  baseMaxMissiles: 10
+  baseMissileSpeed: 4
+  baseMissileExplosionRadius: 0.8
+  baseMissileExplosionDuration: 1
   missileLaunchOffset: 0.3
   ammoPerRow: 10
   maxXAmmoOffset: 0.5
@@ -639,7 +641,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1202964201
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
 --- !u!1 &8807562106768746928
 GameObject:
