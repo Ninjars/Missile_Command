@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Shapes;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -16,6 +17,7 @@ public class CityUpgradeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private List<UpgradeElement> elements;
     private Disc graphic;
     private bool isSelected;
+    private int availableUpgradeCount;
 
     private void Awake() {
         isSelected = false;
@@ -65,34 +67,51 @@ public class CityUpgradeUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             Debug.Log("null city for enabled UpgradeUI; investigate");
             return;
         }
+
+        List<UpgradeData> upgradeData = constructUpgradeData();
+        if (elements != null && upgradeData.Count != availableUpgradeCount) {
+            foreach (var element in elements) {
+                GameObject.Destroy(element.gameObject);
+            }
+            elements = null;
+        }
+        availableUpgradeCount = upgradeData.Count;
+
         if (elements == null) {
-            elements = generateUpgradeElements();
+            elements = generateUpgradeElements(availableUpgradeCount);
         }
-        foreach (var element in elements) {
-            element.gameObject.SetActive(true);
+        for (int i = 0; i < availableUpgradeCount; i++) {
+            elements[i].gameObject.SetActive(true);
+            elements[i].display(upgradeData[i]);
         }
-        elements[0].display(new UpgradeData(
-            city.upgradeState.evacuatorCountUpgradeState(),
-            iconRegistry.evacuatorCountIcon,
-            () => {
-                city.upgradeState.increaseEvacuatorCount();
-                onUpgradeAction();
-            }
-        ));
-        elements[1].display(new UpgradeData(
-            city.upgradeState.evacuatorPopUpgradeState(),
-            iconRegistry.popEvacRateIcon,
-            () => {
-                city.upgradeState.increaseEvacuatorPop();
-                onUpgradeAction();
-            }
-        ));
     }
 
-    private List<UpgradeElement> generateUpgradeElements() {
-        var elements = new List<UpgradeElement>();
-        elements.Add(createElement(0));
-        elements.Add(createElement(1));
+    private List<UpgradeData> constructUpgradeData() {
+        return new List<UpgradeData>{
+            new UpgradeData(
+                city.upgradeState.evacuatorCountUpgradeState(),
+                iconRegistry.evacuatorCountIcon,
+                () => {
+                    city.upgradeState.increaseEvacuatorCount();
+                    onUpgradeAction();
+                }
+            ),
+            new UpgradeData(
+                city.upgradeState.evacuatorPopUpgradeState(),
+                iconRegistry.popEvacRateIcon,
+                () => {
+                    city.upgradeState.increaseEvacuatorPop();
+                    onUpgradeAction();
+                }
+            )
+        }.Where(data => data.state.canUpgrade).ToList();
+    }
+
+    private List<UpgradeElement> generateUpgradeElements(int count) {
+        var elements = new List<UpgradeElement>(count);
+        for (int i = 0; i < count; i++) {
+            elements.Add(createElement(i));
+        }
         return elements;
     }
 
