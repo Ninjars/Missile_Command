@@ -38,7 +38,7 @@ public class CityUpgradeState {
         }
     }
     public UpgradeState evacuatorCountUpgradeState() {
-        return new UpgradeState(maxEvacuatorCountLevel, evacuatorPopLevel);
+        return new UpgradeState(maxEvacuatorCountLevel, evacuatorCountLevel);
     }
 
     private readonly int maxEvacuatorPopLevel = 20;
