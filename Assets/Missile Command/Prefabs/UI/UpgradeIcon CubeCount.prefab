@@ -103,8 +103,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 207742265
+  m_SortingLayer: 10
   m_SortingOrder: 0
 --- !u!1 &6766490582837537778
 GameObject:
@@ -115,6 +115,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6766490582837537779}
+  - component: {fileID: 3999577706480378953}
   m_Layer: 0
   m_Name: UpgradeIcon CubeCount
   m_TagString: Untagged
@@ -138,6 +139,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3999577706480378953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6766490582837537778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab3c9af8f28b8ee458b9c7b26ccfbf68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  primaryShapes:
+  - {fileID: 6766490582451864905}
+  secondaryShapes:
+  - {fileID: 6766490584100141434}
+  - {fileID: 6766490584194279557}
 --- !u!1 &6766490583912474316
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,9 +302,9 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 207742265
+  m_SortingLayer: 10
+  m_SortingOrder: 10
 --- !u!1 &6766490584194279673
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,6 +419,6 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 207742265
+  m_SortingLayer: 10
+  m_SortingOrder: 10

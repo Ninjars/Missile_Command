@@ -14,7 +14,7 @@ public class UpgradeIconDisplay : MonoBehaviour {
             shape.Color = colors.upgradeUiNormalColor;
         }
         foreach (var shape in secondaryShapes) {
-            shape.Color = colors.skyColor.to;
+            shape.Color = colors.upgradeUiSecondaryColor;
         }
     }
 }
