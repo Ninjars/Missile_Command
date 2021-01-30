@@ -7,21 +7,22 @@ using UnityEngine.EventSystems;
 
 public class UpgradeElement : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler {
     public float elementSeparation = 0.5f;
+    public Disc outline;
+    public Disc progressBar;
     private Colors colors { get { return Colors.Instance; } }
     private Line line;
-    private Disc disc;
     private UpgradeData upgradeData;
     private GameObject icon;
 
     private void Awake() {
         line = GetComponentInChildren<Line>();
-        disc = GetComponentInChildren<Disc>();
     }
 
     internal void display(UpgradeData upgradeData) {
         this.upgradeData = upgradeData;
         setNormalColor();
         updateIcon(upgradeData.icon);
+        updateProgress(upgradeData.state.currentLevel / (float) upgradeData.state.maxLevel);
     }
 
     private void updateIcon(GameObject newIcon) {
@@ -34,16 +35,16 @@ public class UpgradeElement : MonoBehaviour, IPointerClickHandler, IPointerEnter
         }
     }
 
+    private void updateProgress(float fractionComplete) {
+        progressBar.AngRadiansEnd = Mathf.PI / 2f - (2 * Mathf.PI * fractionComplete);
+    }
+
     public void OnPointerClick(PointerEventData eventData) {
-        if (upgradeData.state.canUpgrade) {
-            upgradeData.upgradeAction();
-        }
+        upgradeData.upgradeAction();
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
-        if (upgradeData.state.canUpgrade) {
-            disc.Color = colors.upgradeUiHighlightedColor;
-        }
+        outline.Color = colors.upgradeUiHighlightedColor;
     }
 
     public void OnPointerExit(PointerEventData eventData) {
@@ -51,15 +52,12 @@ public class UpgradeElement : MonoBehaviour, IPointerClickHandler, IPointerEnter
     }
 
     private void setNormalColor() {
-        if (upgradeData.state.canUpgrade) {
-            disc.Color = colors.upgradeUiNormalColor;
-        } else {
-            disc.Color = colors.upgradeUiMaxedColor;
-        }
+        outline.Color = colors.upgradeUiNormalColor;
+        progressBar.Color = colors.upgradeUiProgressColor;
     }
 
     internal void setMeasurements(float baseElementOffset, float baseElementRadius, int index) {
-        var radius = disc.Radius;
+        var radius = outline.Radius;
         transform.localPosition = Vector3.up * (baseElementOffset + (elementSeparation + 2 * radius) * index) + Vector3.forward * -1;
         if (index == 0) {
             line.gameObject.SetActive(false);
