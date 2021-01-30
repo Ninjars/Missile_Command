@@ -63,8 +63,14 @@ public class City : MonoBehaviour {
         markerTriangle.Color = color;
         cityNameView.color = color;
         cityPopulationView.color = color;
-        cityPopulationView.text = isDestroyed ? "DEAD" : $"{population}";
         textUi.SetActive(true);
+        updateCityPopReadoutContent();
+    }
+
+    private void updateCityPopReadoutContent() {
+        if (cityPopulationView.isActiveAndEnabled) {
+            cityPopulationView.text = isDestroyed ? "DEAD" : $"{population}";
+        }
     }
 
     public void hideUi() {
@@ -119,6 +125,7 @@ public class City : MonoBehaviour {
         if (population <= 0) {
             aliveVisuals.GetComponent<Polyline>().Color = colors.deadBuildingColor;
         }
+        updateCityPopReadoutContent();
         
         return evacCount;
     }
