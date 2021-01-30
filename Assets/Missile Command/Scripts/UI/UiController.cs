@@ -15,6 +15,9 @@ public class UiController : MonoBehaviour {
     public TextMeshProUGUI loseSurvivors;
     public TextMeshProUGUI loseDead;
 
+    public RectTransform endOfLevelPanel;
+    public TextMeshProUGUI upgradePoints;
+
     public bool canPickUpgrades { get { return gameState.upgradePoints > 0; } }
     private GameState gameState;
     private UiMode currentMode;
@@ -30,6 +33,7 @@ public class UiController : MonoBehaviour {
         hide(inGamePanel);
         hide(winPanel);
         hide(losePanel);
+        hide(endOfLevelPanel);
         hideUpgradeOptions();
     }
 
@@ -37,6 +41,7 @@ public class UiController : MonoBehaviour {
         hide(mainMenuPanel);
         hide(winPanel);
         hide(losePanel);
+        hide(endOfLevelPanel);
         hideUpgradeOptions();
     }
 
@@ -56,7 +61,10 @@ public class UiController : MonoBehaviour {
                 }
             case UiMode.LEVEL_END: {
                     hideNonGamePanels();
+                    show(endOfLevelPanel);
                     showUpgradeOptions();
+                    
+                    updateUpgradesText();
                     break;
                 }
             case UiMode.LOSE_SCREEN: {
@@ -139,10 +147,15 @@ public class UiController : MonoBehaviour {
     private void onUpgradePurchased() {
         Debug.Log("upgrade purchased");
         gameState.onUpgradePointSpent();
+        updateUpgradesText();
         if (!canPickUpgrades) {
             deselectAllUpgradeUis();
             hideUpgradeOptions();
         }
+    }
+
+    private void updateUpgradesText() {
+        upgradePoints.text = $"UPGRADES AVAILABLE: {gameState.upgradePoints}";
     }
 }
 
