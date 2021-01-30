@@ -5610,10 +5610,6 @@ MonoBehaviour:
   loseWaves: {fileID: 100528670}
   loseSurvivors: {fileID: 1083094029}
   loseDead: {fileID: 60939971}
-  cityUpgradeUIPrefab: {fileID: 7207778881963121879, guid: 7da4df8792e020a40a658cf525d5ff2c,
-    type: 3}
-  batteryUpgradeUIPrefab: {fileID: 7249239182365001953, guid: 92c4a8a8ac39f8e4a8917a163f6285e4,
-    type: 3}
 --- !u!114 &1839267181
 MonoBehaviour:
   m_ObjectHideFlags: 0
