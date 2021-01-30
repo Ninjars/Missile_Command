@@ -4,9 +4,9 @@ using UnityEngine;
 public struct UpgradeData {
     public readonly UpgradeState state;
     public readonly GameObject icon;
-    public readonly Action upgradeAction;
+    public readonly Action<UpgradeElement> upgradeAction;
 
-    public UpgradeData(UpgradeState state, GameObject icon, Action upgradeAction) {
+    public UpgradeData(UpgradeState state, GameObject icon, Action<UpgradeElement> upgradeAction) {
         this.state = state;
         this.icon = icon;
         this.upgradeAction = upgradeAction;

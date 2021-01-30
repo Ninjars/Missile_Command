@@ -21,17 +21,17 @@ public class CityUpgradeUI : BaseUpgradeUi {
             new UpgradeData(
                 city.upgradeState.evacuatorCountUpgradeState(),
                 iconRegistry.evacuatorCountIcon,
-                () => {
+                (element) => {
                     city.upgradeState.increaseEvacuatorCount();
-                    onUpgradeAction();
+                    onUpgradeAction(element);
                 }
             ),
             new UpgradeData(
                 city.upgradeState.evacuatorPopUpgradeState(),
                 iconRegistry.popEvacRateIcon,
-                () => {
+                (element) => {
                     city.upgradeState.increaseEvacuatorPop();
-                    onUpgradeAction();
+                    onUpgradeAction(element);
                 }
             )
         }.Where(data => data.state.canUpgrade).ToList();

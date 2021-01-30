@@ -14,7 +14,7 @@ public abstract class BaseUpgradeUi : MonoBehaviour , IPointerEnterHandler, IPoi
     private Disc graphic;
     private bool isSelected;
     private int availableUpgradeCount;
-    protected Action onUpgradeAction;
+    protected Action<UpgradeElement> onUpgradeAction;
     protected Action onSelectionMadeAction;
 
     protected void onAwake() {
@@ -30,7 +30,10 @@ public abstract class BaseUpgradeUi : MonoBehaviour , IPointerEnterHandler, IPoi
 
     internal void registerCallbacks(Action onHighlightCallback, Action onUpgradeCallback) {
         onSelectionMadeAction = onHighlightCallback;
-        onUpgradeAction = onUpgradeCallback;
+        onUpgradeAction = (element) => {
+            displayUpgrades();
+            onUpgradeCallback();
+        };
     }
 
     public void OnPointerEnter(PointerEventData eventData) {

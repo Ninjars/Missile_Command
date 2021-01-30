@@ -21,25 +21,25 @@ public class BatteryUpgradeUI : BaseUpgradeUi {
             new UpgradeData(
                 battery.upgradeState.missileSpeedUpgradeState(),
                 iconRegistry.missileSpeedIcon,
-                () => {
+                (element) => {
                     battery.upgradeState.increaseMissileSpeed();
-                    onUpgradeAction();
+                    onUpgradeAction(element);
                 }
             ),
             new UpgradeData(
                 battery.upgradeState.explosionRadiusUpgradeState(),
                 iconRegistry.explosionRadiusIcon,
-                () => {
+                (element) => {
                     battery.upgradeState.increaseExplosionRadius();
-                    onUpgradeAction();
+                    onUpgradeAction(element);
                 }
             ),
             new UpgradeData(
                 battery.upgradeState.explosionLingerUpgradeState(),
                 iconRegistry.explosionDurationIcon,
-                () => {
+                (element) => {
                     battery.upgradeState.increaseExplosionLinger();
-                    onUpgradeAction();
+                    onUpgradeAction(element);
                 }
             )
         }.Where(data => data.state.canUpgrade).ToList();

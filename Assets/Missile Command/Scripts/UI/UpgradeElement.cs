@@ -16,11 +16,15 @@ public class UpgradeElement : MonoBehaviour, IPointerClickHandler, IPointerEnter
 
     private void Awake() {
         line = GetComponentInChildren<Line>();
+        setColors();
+    }
+
+    private void OnDisable() {
+        setColors();
     }
 
     internal void display(UpgradeData upgradeData) {
         this.upgradeData = upgradeData;
-        setNormalColor();
         updateIcon(upgradeData.icon);
         updateProgress(upgradeData.state.currentLevel / (float) upgradeData.state.maxLevel);
     }
@@ -40,7 +44,7 @@ public class UpgradeElement : MonoBehaviour, IPointerClickHandler, IPointerEnter
     }
 
     public void OnPointerClick(PointerEventData eventData) {
-        upgradeData.upgradeAction();
+        upgradeData.upgradeAction(this);
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
@@ -48,10 +52,11 @@ public class UpgradeElement : MonoBehaviour, IPointerClickHandler, IPointerEnter
     }
 
     public void OnPointerExit(PointerEventData eventData) {
-        setNormalColor();
+        outline.Color = colors.upgradeUiNormalColor;
     }
 
-    private void setNormalColor() {
+    private void setColors() {
+        line.Color = colors.upgradeUiNormalColor;
         outline.Color = colors.upgradeUiNormalColor;
         progressBar.Color = colors.upgradeUiProgressColor;
     }
