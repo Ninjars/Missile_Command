@@ -115,12 +115,19 @@ public class UiController : MonoBehaviour {
 
     private void showUpgradeOptions() {
         Debug.Log("showUpgradeOptions()");
+        bool upgradeOptionsRemain = gameState.canUpgradeSomething();
+        if (!upgradeOptionsRemain) return;
+
         isChoosingUpgrade = true;
         foreach (var city in gameState.cities) {
-            city.showUpgradeOptions(() => deselectAllUpgradeUis(), () => onUpgradePurchased());
+            if (city.upgradeState.hasAnyAvailableUpgrades) {
+                city.showUpgradeOptions(() => deselectAllUpgradeUis(), () => onUpgradePurchased());
+            }
         }
         foreach (var battery in gameState.missileBatteries) {
-            battery.showUpgradeOptions(() => deselectAllUpgradeUis(), () => onUpgradePurchased());
+            if (battery.upgradeState.hasAnyAvailableUpgrades) {
+                battery.showUpgradeOptions(() => deselectAllUpgradeUis(), () => onUpgradePurchased());
+            }
         }
     }
 

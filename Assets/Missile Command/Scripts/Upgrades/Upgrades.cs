@@ -26,6 +26,9 @@ public struct UpgradeState {
 }
 
 public class CityUpgradeState {
+    public bool hasAnyAvailableUpgrades { get {
+        return evacuatorCountLevel < maxEvacuatorCountLevel || evacuatorPopLevel < maxEvacuatorCountLevel;
+    } }
     private readonly int maxEvacuatorCountLevel = 10;
     private int evacuatorCountLevel = 0;
     public int evacuatorCount { get { return evacuatorCountLevel; } }
@@ -53,6 +56,11 @@ public class CityUpgradeState {
 }
 
 public class BatteryUpgradeState {
+    public bool hasAnyAvailableUpgrades { get {
+        return explosionRadiusLevel < maxExplosionRadiusLevel 
+            || missileSpeedLevel < maxMissileSpeedLevel
+            || explosionLingerLevel < maxExplosionLingerLevel;
+    } }
     private readonly int maxExplosionRadiusLevel = 10;
     private int explosionRadiusLevel = 0;
     public float explosionRadiusFactor { get { return 1 + explosionRadiusLevel * 0.2f; } }
