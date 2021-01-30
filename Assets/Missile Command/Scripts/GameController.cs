@@ -167,7 +167,7 @@ public class GameController : MonoBehaviour {
                     break;
                 }
             case GameMode.LEVEL_ENDING: {
-                    if (GameObject.FindGameObjectWithTag("Evacuator") == null && !uiController.isChoosingUpgrade) {
+                    if (GameObject.FindGameObjectWithTag("Evacuator") == null && !uiController.canPickUpgrades) {
                         gameState.onLevelEnded();
                     }
                     break;

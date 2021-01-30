@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 public class UiController : MonoBehaviour {
@@ -18,7 +15,7 @@ public class UiController : MonoBehaviour {
     public TextMeshProUGUI loseSurvivors;
     public TextMeshProUGUI loseDead;
 
-    public bool isChoosingUpgrade { get; private set; }
+    public bool canPickUpgrades { get { return gameState.upgradePoints > 0; } }
     private GameState gameState;
     private UiMode currentMode;
     private Colors colors { get { return Colors.Instance; } }
@@ -118,7 +115,6 @@ public class UiController : MonoBehaviour {
         bool upgradeOptionsRemain = gameState.canUpgradeSomething();
         if (!upgradeOptionsRemain) return;
 
-        isChoosingUpgrade = true;
         foreach (var city in gameState.cities) {
             if (city.upgradeState.hasAnyAvailableUpgrades) {
                 city.showUpgradeOptions(() => deselectAllUpgradeUis(), () => onUpgradePurchased());
@@ -142,9 +138,11 @@ public class UiController : MonoBehaviour {
 
     private void onUpgradePurchased() {
         Debug.Log("upgrade purchased");
-        isChoosingUpgrade = false;
-        deselectAllUpgradeUis();
-        hideUpgradeOptions();
+        gameState.onUpgradePointSpent();
+        if (!canPickUpgrades) {
+            deselectAllUpgradeUis();
+            hideUpgradeOptions();
+        }
     }
 }
 
