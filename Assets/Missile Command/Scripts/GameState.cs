@@ -36,6 +36,7 @@ public class GameState : StateUpdater {
     public long populationDead { get; private set; }
     public float evacEventInterval { get; private set; }
     public int upgradePoints { get; private set; }
+    private int upgradePointPopRewardLevel;
 
     public GameState(float evacEventsPerMin) {
         currentMode = GameMode.MAIN_MENU;
@@ -75,7 +76,21 @@ public class GameState : StateUpdater {
 
     public void onLevelCompleted() {
         Debug.Log("GameState.onLevelCompleted()");
-        upgradePoints++;
+        // first 5 levels award double upgrade points to allow for diverse choices
+        if (levelsCompleted < 5) {
+            upgradePoints += 2;
+        } else {
+            upgradePoints++;
+        }
+
+        // award bonus upgrade points for thresholds
+        if (levelsCompleted > 0 && levelsCompleted % 10 == 0) {
+            upgradePoints++;
+        }
+        if (populationEvacuated - upgradePointPopRewardLevel > 100000) {
+            upgradePointPopRewardLevel += 100000;
+            upgradePoints++;
+        }
         currentMode = GameMode.END_LEVEL;
     }
 
