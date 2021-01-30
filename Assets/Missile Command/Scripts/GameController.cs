@@ -152,6 +152,7 @@ public class GameController : MonoBehaviour {
                         gameState.onGameEnded(true);
 
                     } else if (hasLevelEnded()) {
+                        awardEndOfLevelUpgradePoints(gameState.levelsCompleted);
                         gameState.onLevelCompleted();
                     }
                     break;
@@ -204,6 +205,20 @@ public class GameController : MonoBehaviour {
                     uiController.setUiMode(UiMode.WIN_SCREEN);
                     break;
                 }
+        }
+    }
+
+    private void awardEndOfLevelUpgradePoints(int levelsCompleted) {
+        // first 5 levels award double upgrade points to allow for diverse choices
+        if (levelsCompleted < 5) {
+            gameState.awardUpgradePoints(2);
+        } else {
+            gameState.awardUpgradePoints(1);
+        }
+
+        // award bonus upgrade points for thresholds
+        if (levelsCompleted > 0 && levelsCompleted % 10 == 0) {
+            gameState.awardUpgradePoints(1);
         }
     }
 
