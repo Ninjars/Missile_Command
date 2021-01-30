@@ -18,12 +18,7 @@ public class UiController : MonoBehaviour {
     public TextMeshProUGUI loseSurvivors;
     public TextMeshProUGUI loseDead;
 
-    public CityUpgradeUI cityUpgradeUIPrefab;
-    public BatteryUpgradeUI batteryUpgradeUIPrefab;
-
     public bool isChoosingUpgrade { get; private set; }
-    private CityUpgradeUI[] cityUpgradeUIs;
-    private BatteryUpgradeUI[] batteryUpgradeUIs;
     private GameState gameState;
     private UiMode currentMode;
     private Colors colors { get { return Colors.Instance; } }
@@ -31,12 +26,6 @@ public class UiController : MonoBehaviour {
     internal void setGameState(GameState gameState) {
         this.gameState = gameState;
         inGamePanel.GetComponent<InGameUI>().setGameState(gameState);
-        clearUpgradeUI();
-    }
-
-    private void clearUpgradeUI() {
-        cityUpgradeUIs = null;
-        batteryUpgradeUIs = null;
     }
 
     private void hideAllPanels() {
@@ -76,7 +65,7 @@ public class UiController : MonoBehaviour {
             case UiMode.LOSE_SCREEN: {
                     hideAllPanels();
                     show(losePanel);
-                    clearUpgradeUI();
+                    hideUpgradeOptions();
 
                     loseWaves.text = $"{gameState.levelsCompleted}";
                     loseSurvivors.text = $"{gameState.populationEvacuated + gameState.citiesPopulation}";
@@ -86,7 +75,7 @@ public class UiController : MonoBehaviour {
             case UiMode.WIN_SCREEN: {
                     hideAllPanels();
                     show(winPanel);
-                    clearUpgradeUI();
+                    hideUpgradeOptions();
 
                     winWaves.text = $"{gameState.levelsCompleted}";
                     winSurvivors.text = $"{gameState.populationEvacuated + gameState.citiesPopulation}";
@@ -114,60 +103,34 @@ public class UiController : MonoBehaviour {
     }
 
     private void hideUpgradeOptions() {
-        if (cityUpgradeUIs != null) {
-            foreach (var upgrade in cityUpgradeUIs) {
-                upgrade.gameObject.SetActive(false);
-            }
+        if (gameState == null) return;
+
+        foreach (var city in gameState.cities) {
+            city.hideUpgradeOptions();
         }
-        if (batteryUpgradeUIs != null) {
-            foreach (var upgrade in batteryUpgradeUIs) {
-                upgrade.gameObject.SetActive(false);
-            }
+        foreach (var battery in gameState.missileBatteries) {
+            battery.hideUpgradeOptions();
         }
     }
 
     private void showUpgradeOptions() {
         Debug.Log("showUpgradeOptions()");
         isChoosingUpgrade = true;
-        if (cityUpgradeUIs == null) {
-            cityUpgradeUIs = generateCityUpgradeUIs(gameState, cityUpgradeUIPrefab, () => deselectAllUpgradeUis(), () => onUpgradePurchased());
+        foreach (var city in gameState.cities) {
+            city.showUpgradeOptions(() => deselectAllUpgradeUis(), () => onUpgradePurchased());
         }
-        foreach (var upgrade in cityUpgradeUIs) {
-            upgrade.gameObject.SetActive(true);
-        }
-        if (batteryUpgradeUIs == null) {
-            batteryUpgradeUIs = generateBatteryUpgradeUIs(gameState, batteryUpgradeUIPrefab, () => deselectAllUpgradeUis(), () => onUpgradePurchased());
-        }
-        foreach (var upgrade in batteryUpgradeUIs) {
-            upgrade.gameObject.SetActive(true);
+        foreach (var battery in gameState.missileBatteries) {
+            battery.showUpgradeOptions(() => deselectAllUpgradeUis(), () => onUpgradePurchased());
         }
     }
 
     private void deselectAllUpgradeUis() {
-        foreach (var upgrade in cityUpgradeUIs) {
-            upgrade.onDeselect();
+        foreach (var city in gameState.cities) {
+            city.deselectUpgradeUi();
         }
-        foreach (var upgrade in batteryUpgradeUIs) {
-            upgrade.onDeselect();
+        foreach (var battery in gameState.missileBatteries) {
+            battery.deselectUpgradeUi();
         }
-    }
-
-    private static CityUpgradeUI[] generateCityUpgradeUIs(GameState gameState, CityUpgradeUI prefab, Action upgradeUiHighlightedAction, Action onUpgradeAction) {
-        return gameState.cities.Select(city => {
-            CityUpgradeUI ui = GameObject.Instantiate<CityUpgradeUI>(prefab);
-            ui.initialise(city, upgradeUiHighlightedAction, onUpgradeAction);
-            ui.gameObject.SetActive(false);
-            return ui;
-        }).ToArray();
-    }
-
-    private static BatteryUpgradeUI[] generateBatteryUpgradeUIs(GameState gameState, BatteryUpgradeUI prefab, Action upgradeUiHighlightedAction, Action onUpgradeAction) {
-        return gameState.missileBatteries.Select(battery => {
-            BatteryUpgradeUI ui = GameObject.Instantiate<BatteryUpgradeUI>(prefab);
-            ui.initialise(battery, upgradeUiHighlightedAction, onUpgradeAction);
-            ui.gameObject.SetActive(false);
-            return ui;
-        }).ToArray();
     }
 
     private void onUpgradePurchased() {

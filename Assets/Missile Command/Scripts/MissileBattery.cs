@@ -10,6 +10,7 @@ public class MissileBattery : MonoBehaviour {
     public GameObject missilePrefab;
     public GameObject ammoIndicatorPrefab;
     public GameObject loadedIndicator;
+    public BatteryUpgradeUI upgradeUi;
     public Explosion explosionPrefab;
     public GameObject labelRootObject;
     public int baseMaxMissiles = 10;
@@ -61,6 +62,7 @@ public class MissileBattery : MonoBehaviour {
             baseMissileExplosionRadius,
             baseMissileExplosionDuration
         );
+        hideUpgradeOptions();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
@@ -171,6 +173,23 @@ public class MissileBattery : MonoBehaviour {
 
         return indicator;
     }
+
+    #region Upgrades
+    public void showUpgradeOptions(Action onHighlightCallback, Action onUpgradeCallback) {
+        if (isDestroyed) return;
+        upgradeUi.gameObject.SetActive(true);
+        upgradeUi.registerCallbacks(onHighlightCallback, onUpgradeCallback);
+    }
+
+    public void hideUpgradeOptions() {
+        upgradeUi.gameObject.SetActive(false);
+    }
+
+    public void deselectUpgradeUi() {
+        if (isDestroyed) return;
+        upgradeUi.onDeselect();
+    }
+    #endregion
 }
 
 public class MissileBatteryStats {

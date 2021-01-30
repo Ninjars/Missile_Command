@@ -10,6 +10,7 @@ public class City : MonoBehaviour {
     public bool isDestroyed = false;
     public GameObject aliveVisuals;
     public GameObject deadVisuals;
+    public CityUpgradeUI upgradeUi;
     public GameObject textUi;
     public Evacuator evacuatorPrefab;
     public TextMeshProUGUI cityNameView;
@@ -52,6 +53,7 @@ public class City : MonoBehaviour {
         markerTriangle = textUi.GetComponent<Triangle>();
         textCanvasGroup = textUi.GetComponentInChildren<CanvasGroup>();
         deadVisuals.GetComponent<Polyline>().Color = colors.deadBuildingColor;
+        hideUpgradeOptions();
     }
 
     public void showUi() {
@@ -164,6 +166,7 @@ public class City : MonoBehaviour {
         isDestroyed = true;
         screenEffectManager.onCityNukeHit(1f);
         evacuationStats.clear();
+        hideUpgradeOptions();
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
         explosion.boom(transform.position, colors.buildingExplodeColor);
@@ -184,6 +187,23 @@ public class City : MonoBehaviour {
         aliveVisuals.SetActive(false);
         deadVisuals.SetActive(true);
     }
+
+    #region Upgrades
+    public void showUpgradeOptions(Action onHighlightCallback, Action onUpgradeCallback) {
+        if (isDestroyed) return;
+        upgradeUi.gameObject.SetActive(true);
+        upgradeUi.registerCallbacks(onHighlightCallback, onUpgradeCallback);
+    }
+
+    public void hideUpgradeOptions() {
+        upgradeUi.gameObject.SetActive(false);
+    }
+
+    public void deselectUpgradeUi() {
+        if (isDestroyed) return;
+        upgradeUi.onDeselect();
+    }
+    #endregion
 }
 
 public class CityEvacuationStats {

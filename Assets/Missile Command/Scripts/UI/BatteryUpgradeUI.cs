@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Shapes;
 using UnityEngine;
@@ -9,7 +8,6 @@ public class BatteryUpgradeUI : MonoBehaviour , IPointerEnterHandler, IPointerEx
     public UpgradeElement upgradeElementPrefab;
     public BatteryIconRegistry iconRegistry;
     public float firstUpgradeOffset;
-    public float baseButtonOffset;
     public Collider2D expandedCollider;
     private Colors colors { get { return Colors.Instance; } }
     private MissileBattery battery;
@@ -19,12 +17,9 @@ public class BatteryUpgradeUI : MonoBehaviour , IPointerEnterHandler, IPointerEx
     private Disc graphic;
     private bool isSelected;
 
-    internal void initialise(MissileBattery battery, Action onSelectionMadeAction, Action onUpgradeAction) {
+    private void Awake() {
         isSelected = false;
-        this.battery = battery;
-        this.onSelectionMadeAction = onSelectionMadeAction;
-        this.onUpgradeAction = onUpgradeAction;
-        transform.position = battery.transform.position + Vector3.up * baseButtonOffset;
+        battery = GetComponentInParent<MissileBattery>();
         graphic = GetComponent<Disc>();
         graphic.Color = colors.upgradeUiNormalColor;
         expandedCollider.enabled = false;
@@ -59,6 +54,10 @@ public class BatteryUpgradeUI : MonoBehaviour , IPointerEnterHandler, IPointerEx
                 element.gameObject.SetActive(false);
             }
         }
+    }
+
+    private void OnDisable() {
+        hideUpgrades();
     }
 
     private void displayUpgrades() {
@@ -110,5 +109,10 @@ public class BatteryUpgradeUI : MonoBehaviour , IPointerEnterHandler, IPointerEx
         var element = GameObject.Instantiate<UpgradeElement>(upgradeElementPrefab, transform, false);
         element.setMeasurements(firstUpgradeOffset, GetComponentInChildren<Disc>().Radius, index);
         return element;
+    }
+
+    internal void registerCallbacks(Action onHighlightCallback, Action onUpgradeCallback) {
+        onSelectionMadeAction = onHighlightCallback;
+        onUpgradeAction = onUpgradeCallback;
     }
 }
