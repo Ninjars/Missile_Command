@@ -86,7 +86,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &3918653562421646257
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,5 +214,5 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 558557515
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
