@@ -233,7 +233,6 @@ public class GameController : MonoBehaviour {
 
         LevelData levelData = levelManager.getLevelData();
         attackController.scheduleAttackEvents(
-            gameState,
             worldCoords,
             gameState.cities,
             gameState.missileBatteries,

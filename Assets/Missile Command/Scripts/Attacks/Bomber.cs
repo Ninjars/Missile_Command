@@ -17,7 +17,6 @@ public class Bomber : MonoBehaviour {
     private Colors colors { get { return Colors.Instance; } }
 
     private WorldCoords worldCoords;
-    private StateUpdater stateUpdater;
     private Func<Vector3, Vector2> targetProvider;
     private float stageProgress;
     private ICBMData bombAttackData;
@@ -44,7 +43,6 @@ public class Bomber : MonoBehaviour {
     }
 
     public void launch(
-        StateUpdater stateUpdater,
         WorldCoords worldCoords,
         BomberData weaponData,
         float stageProgress,
@@ -52,7 +50,6 @@ public class Bomber : MonoBehaviour {
         float x,
         float y
     ) {
-        this.stateUpdater = stateUpdater;
         this.targetProvider = targetProvider;
         this.stageProgress = stageProgress;
         this.worldCoords = worldCoords;
@@ -95,7 +92,6 @@ public class Bomber : MonoBehaviour {
     private void launchAttack(Vector3 launchPosition, Vector2 targetPosition) {
         ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(bombAttackData.weaponPrefab.gameObject).GetComponent<ICBM>();
         weapon.launch(
-            stateUpdater,
             worldCoords,
             bombAttackData,
             stageProgress,

@@ -17,7 +17,6 @@ public class ICBM : MonoBehaviour {
     private Colors colors { get { return Colors.Instance; } }
 
     private WorldCoords worldCoords;
-    private StateUpdater stateUpdater;
     private ICBMData weaponData;
     private Func<Vector2> targetProvider;
     private float accuracy;
@@ -35,7 +34,6 @@ public class ICBM : MonoBehaviour {
     }
 
     public void launch(
-        StateUpdater stateUpdater,
         WorldCoords worldCoords,
         ICBMData weaponData,
         float stageProgress,
@@ -43,7 +41,6 @@ public class ICBM : MonoBehaviour {
     ) {
         configure(
             worldCoords,
-            stateUpdater,
             weaponData,
             targetProvider,
             accuracy: weaponData.maxDeviation.evaluate(stageProgress),
@@ -57,7 +54,6 @@ public class ICBM : MonoBehaviour {
     }
 
     public void launch(
-        StateUpdater stateUpdater,
         WorldCoords worldCoords,
         ICBMData weaponData,
         float stageProgress,
@@ -66,7 +62,6 @@ public class ICBM : MonoBehaviour {
     ) {
         configure(
             worldCoords,
-            stateUpdater,
             weaponData,
             targetProvider,
             accuracy: weaponData.maxDeviation.evaluate(stageProgress),
@@ -81,7 +76,6 @@ public class ICBM : MonoBehaviour {
 
     private void configure(
         WorldCoords worldCoords,
-        StateUpdater stateUpdater,
         ICBMData weaponData,
         Func<Vector2> targetProvider,
         float accuracy,
@@ -91,7 +85,6 @@ public class ICBM : MonoBehaviour {
         float mirvAltitude
     ) {
         this.worldCoords = worldCoords;
-        this.stateUpdater = stateUpdater;
         this.weaponData = weaponData;
         this.targetProvider = targetProvider;
         this.accuracy = accuracy;
@@ -170,7 +163,6 @@ public class ICBM : MonoBehaviour {
                 ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(weaponData.weaponPrefab.gameObject).GetComponent<ICBM>();
                 weapon.configure(
                     worldCoords,
-                    stateUpdater,
                     weaponData,
                     targetProvider,
                     accuracy: accuracy,

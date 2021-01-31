@@ -9,7 +9,6 @@ public class AttackController : MonoBehaviour {
     public int pendingAttackCount;
 
     internal void scheduleAttackEvents(
-        StateUpdater stateUpdater,
         WorldCoords worldCoords,
         List<City> cities,
         List<MissileBattery> missileBatteries,
@@ -29,7 +28,6 @@ public class AttackController : MonoBehaviour {
                 IEnumerator attack = null;
                 if (weaponData is ICBMData) {
                     attack = AttackUtil.scheduleIcbmAttack(
-                        stateUpdater,
                         worldCoords,
                         timeToAttack,
                         (ICBMData)weaponData,
@@ -39,7 +37,6 @@ public class AttackController : MonoBehaviour {
                     );
                 } else if (weaponData is BomberData) {
                     attack = AttackUtil.scheduleBomberAttack(
-                        stateUpdater,
                         worldCoords,
                         timeToAttack,
                         (BomberData)weaponData,
