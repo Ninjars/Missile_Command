@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Shapes;
 using UnityEngine;
 
-public class ICBM : MonoBehaviour {
+public class ICBM : Explodable {
     public float worldSpawnBuffer = 1;
     public float layerZ = 5;
     public Explosion explosionPrefab;
@@ -138,7 +138,7 @@ public class ICBM : MonoBehaviour {
         return new Vector2(x, worldCoords.worldTop + worldSpawnBuffer);
     }
 
-    private void explode() {
+    public override void explode() {
         gameObject.SetActive(false);
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
@@ -146,7 +146,6 @@ public class ICBM : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        Debug.Log($"OnCollisionEnter2D {gameObject.name} -> {other.gameObject.name} on layer {LayerMask.LayerToName(other.gameObject.layer)}");
         explode();
     }
 

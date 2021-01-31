@@ -1,7 +1,7 @@
 ﻿using Shapes;
 using UnityEngine;
 
-public class Missile : MonoBehaviour {
+public class Missile : Explodable {
     public float missileLayerZ = 8;
     public Explosion explosionPrefab;
     public GameObject targetMarker;
@@ -29,7 +29,7 @@ public class Missile : MonoBehaviour {
         explode();
     }
 
-    public void explode() {
+    public override void explode() {
         if (!gameObject.activeSelf) return;
 
         gameObject.SetActive(false);

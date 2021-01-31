@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using Shapes;
 using UnityEngine;
 
-public class Bomber : MonoBehaviour {
+public class Bomber : Explodable {
     public float worldSpawnBuffer = 1;
     public float layerZ = 6;
 
@@ -112,11 +111,10 @@ public class Bomber : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        Debug.Log($"OnCollisionEnter2D {gameObject.name} -> {other.gameObject.name} on layer {LayerMask.LayerToName(other.gameObject.layer)}");
         explode();
     }
 
-    private void explode() {
+    public override void explode() {
         gameObject.SetActive(false);
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
