@@ -31,14 +31,15 @@ public class ScreenEffectManager : MonoBehaviour {
         distortion = Mathf.Clamp(distortion + value, 0, Mathf.Min(max, distortionMaxEffect));
     }
 
-    public void onEMP(float yPosition) {
-        var factor = 1 - Mathf.Clamp01(yPosition / 10f);
-        increaseDistort(factor * 0.5f, distortionMaxEffect * 0.5f);
-        increaseGlitch(factor * 0.15f, distortionMaxEffect * 0.2f);
+    public void onEMP(float scale, float yPosition) {
+        var factor = (1 - Mathf.Clamp01(yPosition / 10f)) * scale;
+        increaseDistort(factor, distortionMaxEffect * 0.5f);
+        increaseGlitch(factor * 0.2f, distortionMaxEffect * 0.6f);
     }
 
     public void onCityNukeHit(float impactStrength) {
         increaseDistort(impactStrength, distortionMaxEffect);
+        increaseGlitch(impactStrength * 0.4f, distortionMaxEffect * 0.6f);
     }
 
     public void onBatteryDestroyed() {
