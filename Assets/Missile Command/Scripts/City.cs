@@ -162,7 +162,10 @@ public class City : MonoBehaviour {
         if (!isDestroyed) {
             destroy();
         }
-        other.gameObject.SendMessage("explode");
+        var explodable = other.GetComponent<Explodable>();
+        if (explodable != null) {
+            explodable.explode();
+        }
     }
 
     private void destroy() {

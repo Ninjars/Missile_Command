@@ -134,9 +134,9 @@ GameObject:
   - component: {fileID: 8516042780396545597}
   - component: {fileID: 8516042780396545596}
   - component: {fileID: 6328716267540692050}
-  - component: {fileID: -8627612043286840568}
+  - component: {fileID: -7365017355124888811}
   m_Layer: 11
-  m_Name: Bomber Explosion
+  m_Name: Hammer Explosion
   m_TagString: Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -185,9 +185,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6d5b59611f35ab489e7d691b1285e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  causesEmp: 0
-  defaultRadius: 0.3
-  defaultDuration: 0.5
+  causesEmp: 1
+  defaultRadius: 0.4
+  defaultDuration: 2
   expansion:
     serializedVersion: 2
     m_Curve:
@@ -212,17 +212,17 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 0.0030670166
-      inSlope: 0
-      outSlope: 0
+      inSlope: -3.0450807
+      outSlope: -3.0450807
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.027284767
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   layerZ: 5
---- !u!50 &-8627612043286840568
+--- !u!50 &-7365017355124888811
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0

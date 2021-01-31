@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using Shapes;
 using UnityEngine;
 
-public class Bomber : MonoBehaviour {
+public class Bomber : Explodable {
     public float worldSpawnBuffer = 1;
     public float layerZ = 6;
 
@@ -17,7 +16,6 @@ public class Bomber : MonoBehaviour {
     private Colors colors { get { return Colors.Instance; } }
 
     private WorldCoords worldCoords;
-    private StateUpdater stateUpdater;
     private Func<Vector3, Vector2> targetProvider;
     private float stageProgress;
     private ICBMData bombAttackData;
@@ -44,7 +42,6 @@ public class Bomber : MonoBehaviour {
     }
 
     public void launch(
-        StateUpdater stateUpdater,
         WorldCoords worldCoords,
         BomberData weaponData,
         float stageProgress,
@@ -52,7 +49,6 @@ public class Bomber : MonoBehaviour {
         float x,
         float y
     ) {
-        this.stateUpdater = stateUpdater;
         this.targetProvider = targetProvider;
         this.stageProgress = stageProgress;
         this.worldCoords = worldCoords;
@@ -95,7 +91,6 @@ public class Bomber : MonoBehaviour {
     private void launchAttack(Vector3 launchPosition, Vector2 targetPosition) {
         ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(bombAttackData.weaponPrefab.gameObject).GetComponent<ICBM>();
         weapon.launch(
-            stateUpdater,
             worldCoords,
             bombAttackData,
             stageProgress,
@@ -116,11 +111,10 @@ public class Bomber : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        Debug.Log($"OnCollisionEnter2D {gameObject.name} -> {other.gameObject.name} on layer {LayerMask.LayerToName(other.gameObject.layer)}");
         explode();
     }
 
-    private void explode() {
+    public override void explode() {
         gameObject.SetActive(false);
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();

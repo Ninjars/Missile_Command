@@ -66,9 +66,11 @@ public class MissileBattery : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log($"OnTriggerEnter2D {gameObject.name} -> {other.gameObject.name} on layer {LayerMask.LayerToName(other.gameObject.layer)}");
         destroy();
-        other.gameObject.SendMessage("explode");
+        var explodable = other.GetComponent<Explodable>();
+        if (explodable != null) {
+            explodable.explode();
+        }
     }
 
     public bool fire(float x, float y) {

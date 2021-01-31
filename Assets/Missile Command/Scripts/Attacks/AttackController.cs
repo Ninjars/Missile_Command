@@ -9,7 +9,6 @@ public class AttackController : MonoBehaviour {
     public int pendingAttackCount;
 
     internal void scheduleAttackEvents(
-        StateUpdater stateUpdater,
         WorldCoords worldCoords,
         List<City> cities,
         List<MissileBattery> missileBatteries,
@@ -29,7 +28,6 @@ public class AttackController : MonoBehaviour {
                 IEnumerator attack = null;
                 if (weaponData is ICBMData) {
                     attack = AttackUtil.scheduleIcbmAttack(
-                        stateUpdater,
                         worldCoords,
                         timeToAttack,
                         (ICBMData)weaponData,
@@ -39,7 +37,6 @@ public class AttackController : MonoBehaviour {
                     );
                 } else if (weaponData is BomberData) {
                     attack = AttackUtil.scheduleBomberAttack(
-                        stateUpdater,
                         worldCoords,
                         timeToAttack,
                         (BomberData)weaponData,
@@ -52,6 +49,15 @@ public class AttackController : MonoBehaviour {
                             cities,
                             missileBatteries
                         )
+                    );
+                } else if (weaponData is HammerData) {
+                    attack = AttackUtil.scheduleHammerAttack(
+                        worldCoords,
+                        timeToAttack,
+                        (HammerData)weaponData,
+                        stageProgress,
+                        () => { pendingAttackCount--; },
+                        () => getTargetPosition(worldCoords, weaponData.targetWeights, cities, missileBatteries)
                     );
                 }
 
@@ -222,13 +228,13 @@ public class AttackController : MonoBehaviour {
                     }
                 }
             } else if (battery.transform.position.x < currentX && !battery.isDestroyed) {
-                    if (best == null) {
-                        best = battery;
-                    } else if (battery.transform.position.x > best.transform.position.x) {
-                        best = battery;
-                    } else {
-                        return best;
-                    }
+                if (best == null) {
+                    best = battery;
+                } else if (battery.transform.position.x > best.transform.position.x) {
+                    best = battery;
+                } else {
+                    return best;
+                }
             }
         }
         return best;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Shapes;
 using UnityEngine;
 
-public class ICBM : MonoBehaviour {
+public class ICBM : Explodable {
     public float worldSpawnBuffer = 1;
     public float layerZ = 5;
     public Explosion explosionPrefab;
@@ -17,7 +17,6 @@ public class ICBM : MonoBehaviour {
     private Colors colors { get { return Colors.Instance; } }
 
     private WorldCoords worldCoords;
-    private StateUpdater stateUpdater;
     private ICBMData weaponData;
     private Func<Vector2> targetProvider;
     private float accuracy;
@@ -35,7 +34,6 @@ public class ICBM : MonoBehaviour {
     }
 
     public void launch(
-        StateUpdater stateUpdater,
         WorldCoords worldCoords,
         ICBMData weaponData,
         float stageProgress,
@@ -43,7 +41,6 @@ public class ICBM : MonoBehaviour {
     ) {
         configure(
             worldCoords,
-            stateUpdater,
             weaponData,
             targetProvider,
             accuracy: weaponData.maxDeviation.evaluate(stageProgress),
@@ -57,7 +54,6 @@ public class ICBM : MonoBehaviour {
     }
 
     public void launch(
-        StateUpdater stateUpdater,
         WorldCoords worldCoords,
         ICBMData weaponData,
         float stageProgress,
@@ -66,7 +62,6 @@ public class ICBM : MonoBehaviour {
     ) {
         configure(
             worldCoords,
-            stateUpdater,
             weaponData,
             targetProvider,
             accuracy: weaponData.maxDeviation.evaluate(stageProgress),
@@ -81,7 +76,6 @@ public class ICBM : MonoBehaviour {
 
     private void configure(
         WorldCoords worldCoords,
-        StateUpdater stateUpdater,
         ICBMData weaponData,
         Func<Vector2> targetProvider,
         float accuracy,
@@ -91,7 +85,6 @@ public class ICBM : MonoBehaviour {
         float mirvAltitude
     ) {
         this.worldCoords = worldCoords;
-        this.stateUpdater = stateUpdater;
         this.weaponData = weaponData;
         this.targetProvider = targetProvider;
         this.accuracy = accuracy;
@@ -145,7 +138,7 @@ public class ICBM : MonoBehaviour {
         return new Vector2(x, worldCoords.worldTop + worldSpawnBuffer);
     }
 
-    private void explode() {
+    public override void explode() {
         gameObject.SetActive(false);
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
@@ -153,7 +146,6 @@ public class ICBM : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        Debug.Log($"OnCollisionEnter2D {gameObject.name} -> {other.gameObject.name} on layer {LayerMask.LayerToName(other.gameObject.layer)}");
         explode();
     }
 
@@ -170,7 +162,6 @@ public class ICBM : MonoBehaviour {
                 ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(weaponData.weaponPrefab.gameObject).GetComponent<ICBM>();
                 weapon.configure(
                     worldCoords,
-                    stateUpdater,
                     weaponData,
                     targetProvider,
                     accuracy: accuracy,

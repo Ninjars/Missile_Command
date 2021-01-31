@@ -57,7 +57,7 @@ public class Explosion : MonoBehaviour {
         radius = explosionRadius;
         duration = explosionDuration;
         gameObject.SetActive(true);
-        if (causesEmp) screenEffectManager.onEMP(position.y);
+        if (causesEmp) screenEffectManager.onEMP(explosionRadius, position.y);
     }
 
     private void Update() {

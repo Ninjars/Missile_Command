@@ -3,8 +3,28 @@ using System.Collections;
 using UnityEngine;
 
 public class AttackUtil {
+    public static IEnumerator scheduleHammerAttack(
+        WorldCoords worldCoords,
+        float delay,
+        HammerData data,
+        float stageProgress,
+        Action onLaunchCallback,
+        Func<Vector2> targetProvider
+    ) {
+        yield return new WaitForSeconds(delay);
+
+        Hammer weapon = ObjectPoolManager.Instance.getObjectInstance(data.weaponPrefab.gameObject).GetComponent<Hammer>();
+
+        weapon.launch(
+            worldCoords,
+            data,
+            stageProgress,
+            targetProvider
+        );
+        onLaunchCallback();
+    }
+
     public static IEnumerator scheduleIcbmAttack(
-        StateUpdater stateUpdater,
         WorldCoords worldCoords,
         float delay,
         ICBMData icbmData,
@@ -17,7 +37,6 @@ public class AttackUtil {
         ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(icbmData.weaponPrefab.gameObject).GetComponent<ICBM>();
         
         weapon.launch(
-            stateUpdater,
             worldCoords,
             icbmData,
             stageProgress,
@@ -27,7 +46,6 @@ public class AttackUtil {
     }
 
     public static IEnumerator scheduleBomberAttack(
-        StateUpdater stateUpdater,
         WorldCoords worldCoords,
         float delay,
         BomberData weaponData,
@@ -41,7 +59,6 @@ public class AttackUtil {
                 ? worldCoords.worldLeft - weaponData.weaponPrefab.worldSpawnBuffer
                 : worldCoords.worldRight + weaponData.weaponPrefab.worldSpawnBuffer;
         return spawnBombers(
-            stateUpdater,
             worldCoords,
             delay,
             weaponData,
@@ -55,7 +72,6 @@ public class AttackUtil {
     }
 
     private static IEnumerator spawnBombers(
-        StateUpdater stateUpdater,
         WorldCoords worldCoords,
         float delay,
         BomberData weaponData,
@@ -70,7 +86,6 @@ public class AttackUtil {
 
         for (int i = 0; i < bomberCount; i++) {
             spawnBomber(
-                stateUpdater,
                 worldCoords,
                 weaponData,
                 stageProgress,
@@ -84,7 +99,6 @@ public class AttackUtil {
     }
 
     private static void spawnBomber(
-        StateUpdater stateUpdater,
         WorldCoords worldCoords,
         BomberData weaponData,
         float stageProgress,
@@ -94,7 +108,6 @@ public class AttackUtil {
     ) {
         Bomber weapon = ObjectPoolManager.Instance.getObjectInstance(weaponData.weaponPrefab.gameObject).GetComponent<Bomber>();
         weapon.launch(
-            stateUpdater,
             worldCoords,
             weaponData,
             stageProgress,
