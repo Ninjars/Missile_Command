@@ -3,6 +3,27 @@ using System.Collections;
 using UnityEngine;
 
 public class AttackUtil {
+    public static IEnumerator scheduleHammerAttack(
+        WorldCoords worldCoords,
+        float delay,
+        HammerData data,
+        float stageProgress,
+        Action onLaunchCallback,
+        Func<Vector2> targetProvider
+    ) {
+        yield return new WaitForSeconds(delay);
+
+        Hammer weapon = ObjectPoolManager.Instance.getObjectInstance(data.weaponPrefab.gameObject).GetComponent<Hammer>();
+
+        weapon.launch(
+            worldCoords,
+            data,
+            stageProgress,
+            targetProvider
+        );
+        onLaunchCallback();
+    }
+
     public static IEnumerator scheduleIcbmAttack(
         WorldCoords worldCoords,
         float delay,
