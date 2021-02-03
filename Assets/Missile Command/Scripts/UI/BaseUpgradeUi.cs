@@ -11,7 +11,6 @@ public abstract class BaseUpgradeUi : MonoBehaviour , IPointerEnterHandler, IPoi
     public Collider2D expandedCollider;
     private Colors colors { get { return Colors.Instance; } }
     private List<UpgradeElement> elements;
-    private Disc graphic;
     private bool isSelected;
     private int availableUpgradeCount;
     protected Action<UpgradeElement> onUpgradeAction;
@@ -19,8 +18,6 @@ public abstract class BaseUpgradeUi : MonoBehaviour , IPointerEnterHandler, IPoi
 
     protected void onAwake() {
         isSelected = false;
-        graphic = GetComponent<Disc>();
-        graphic.Color = colors.upgradeUiNormalColor;
         expandedCollider.enabled = false;
     }
 
@@ -44,18 +41,16 @@ public abstract class BaseUpgradeUi : MonoBehaviour , IPointerEnterHandler, IPoi
         onDeselect();
     }
 
-    private void onSelect() {
+    public virtual void onSelect() {
         onSelectionMadeAction();
         isSelected = true;
         displayUpgrades();
-        graphic.Color = colors.upgradeUiHighlightedColor;
         expandedCollider.enabled = true;
     }
 
-    public void onDeselect() {
+    public virtual void onDeselect() {
         isSelected = false;
         hideUpgrades();
-        graphic.Color = colors.upgradeUiNormalColor;
         expandedCollider.enabled = false;
     }
 

@@ -5,10 +5,22 @@ using UnityEngine;
 public class CityUpgradeUI : BaseUpgradeUi {
     public CityIconRegistry iconRegistry;
     private City city;
+    private CityUI cityUI;
 
     private void Awake() {
         onAwake();
         city = GetComponentInParent<City>();
+        cityUI = GetComponentInParent<CityUI>();
+    }
+
+    public override void onSelect() {
+        base.onSelect();
+        cityUI.onHighlight(true);
+    }
+
+    public override void onDeselect() {
+        base.onDeselect();
+        cityUI.onHighlight(false);
     }
 
     override protected List<UpgradeData> constructUpgradeData() {

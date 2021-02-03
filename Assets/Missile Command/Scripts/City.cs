@@ -6,16 +6,13 @@ using TMPro;
 using UnityEngine;
 
 public class City : MonoBehaviour {
-    public float uiFadeDuration = 2f;
     public bool isDestroyed = false;
     public GameObject aliveVisuals;
     public GameObject deadVisuals;
     public CityUpgradeUI upgradeUi;
-    public GameObject textUi;
     public Evacuator evacuatorPrefab;
-    public TextMeshProUGUI cityNameView;
-    public TextMeshProUGUI cityPopulationView;
     public Explosion explosionPrefab;
+    public CityUI uiController;
     public float evacuatorYOffset = 0.1f;
     public float evacuatorXSpacing = 0.11f;
 
@@ -24,10 +21,6 @@ public class City : MonoBehaviour {
     private StateUpdater stateUpdater;
     private CityEvacuationStats evacuationStats;
     private Colors colors { get { return Colors.Instance; } }
-    private Triangle markerTriangle;
-    private CanvasGroup textCanvasGroup;
-    private bool isFadingUi;
-    private float fadeStart;
     private ScreenEffectManager _screenEffectManager;
     private ScreenEffectManager screenEffectManager {
         get {
@@ -46,58 +39,24 @@ public class City : MonoBehaviour {
         evacuationStats = new CityEvacuationStats(evacEventCount, popPerEvac, upgradeState);
         evacuators = new List<Evacuator>();
 
-        cityNameView.text = gameObject.name;
-        cityPopulationView.text = $"{population}";
+        uiController.initialise(gameObject.name, population);
 
         aliveVisuals.GetComponent<Polyline>().Color = colors.cityColor;
-        markerTriangle = textUi.GetComponent<Triangle>();
-        textCanvasGroup = textUi.GetComponentInChildren<CanvasGroup>();
         deadVisuals.GetComponent<Polyline>().Color = colors.deadBuildingColor;
         hideUpgradeOptions();
     }
 
-    public void showUi() {
-        isFadingUi = false;
-        textCanvasGroup.alpha = 1;
-        Color color = isDestroyed ? colors.deadBuildingColor : colors.textColor;
-        markerTriangle.Color = color;
-        cityNameView.color = color;
-        cityPopulationView.color = color;
-        textUi.SetActive(true);
-        updateCityPopReadoutContent();
-    }
-
-    private void updateCityPopReadoutContent() {
-        if (cityPopulationView.isActiveAndEnabled) {
-            cityPopulationView.text = isDestroyed ? "DEAD" : $"{population}";
-        }
+    public void showUi(bool isUpgrading) {
+        uiController.updateCityPopReadoutContent(population);
+        uiController.display(isUpgrading);
     }
 
     public void hideUi() {
-        isFadingUi = false;
-        textUi.SetActive(false);
+        uiController.onHide(false);
     }
 
     public void fadeOutUi() {
-        if (!textUi.activeInHierarchy) return;
-        isFadingUi = true;
-        fadeStart = Time.time;
-    }
-
-    private void Update() {
-        if (isFadingUi) {
-            float fraction = (Time.time - fadeStart) / uiFadeDuration;
-            if (fraction <= 1) {
-                Color color = markerTriangle.Color;
-                color.a = Mathf.Lerp(color.a, 0, fraction * fraction);
-                markerTriangle.Color = color;
-                textCanvasGroup.alpha = color.a;
-
-            } else {
-                textUi.SetActive(false);
-                isFadingUi = false;
-            }
-        }
+        uiController.onHide(true);
     }
 
     public long evacuate(
@@ -125,7 +84,7 @@ public class City : MonoBehaviour {
         if (population <= 0) {
             aliveVisuals.GetComponent<Polyline>().Color = colors.deadBuildingColor;
         }
-        updateCityPopReadoutContent();
+        uiController.updateCityPopReadoutContent(population);
         
         return evacCount;
     }
@@ -185,10 +144,7 @@ public class City : MonoBehaviour {
         }
         StartCoroutine(setDeadVisuals());
 
-        if (isFadingUi) {
-            showUi();
-            fadeOutUi();
-        }
+        uiController.onDead();
     }
 
     private IEnumerator setDeadVisuals() {

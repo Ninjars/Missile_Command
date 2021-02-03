@@ -92,10 +92,10 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    private void showAllCityUi() {
+    private void showAllCityUi(bool isUpgrading) {
         if (gameState.cities == null) return;
         foreach (var city in gameState.cities) {
-            city.showUi();
+            city.showUi(isUpgrading);
         }
     }
 
@@ -130,7 +130,7 @@ public class GameController : MonoBehaviour {
                     levelManager.reset();
                     gameState.onLevelPrepare();
                     cursorLines.setBatteries(gameState.missileBatteries);
-                    showAllCityUi();
+                    showAllCityUi(false);
                     break;
                 }
             case GameMode.PRE_LEVEL: {
@@ -162,7 +162,7 @@ public class GameController : MonoBehaviour {
                     setCursorLinesActive(false);
                     boostEvacuators();
                     evacuationController.completeEvacuations();
-                    showAllCityUi();
+                    showAllCityUi(true);
                     uiController.setUiMode(UiMode.LEVEL_END);
                     gameState.onLevelEnding();
                     break;
@@ -190,7 +190,7 @@ public class GameController : MonoBehaviour {
                     setCursorLinesActive(false);
                     hideAllMissileBatteryLabels();
                     clearEvacuators();
-                    showAllCityUi();
+                    showAllCityUi(false);
                     uiController.setUiMode(UiMode.LOSE_SCREEN);
                     break;
                 }
@@ -201,7 +201,7 @@ public class GameController : MonoBehaviour {
                     setCursorLinesActive(false);
                     hideAllMissileBatteryLabels();
                     clearEvacuators();
-                    showAllCityUi();
+                    showAllCityUi(false);
                     uiController.setUiMode(UiMode.WIN_SCREEN);
                     break;
                 }
