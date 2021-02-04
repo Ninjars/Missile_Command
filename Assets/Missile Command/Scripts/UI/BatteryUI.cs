@@ -63,6 +63,8 @@ public class BatteryUI : MonoBehaviour {
             labelText.color = colors.labelTextColor;
             labelBackground.color = colors.labelBackgroundColor;
             markerTriangle.Color = colors.batteryColor;
+            markerTriangle.transform.localScale = Vector3.one;
+            markerTriangle.transform.localPosition = Vector3.zero;
         }
     }
     
