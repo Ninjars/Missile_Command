@@ -62,7 +62,7 @@ public class Explosion : MonoBehaviour {
 
     private void Update() {
         float passedTime = Time.time - startTime;
-        if (passedTime > defaultDuration) {
+        if (passedTime > duration) {
             gameObject.SetActive(false);
         } else {
             expandRadius(passedTime / duration);
