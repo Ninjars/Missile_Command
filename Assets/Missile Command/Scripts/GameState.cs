@@ -45,7 +45,7 @@ public class GameState : StateUpdater {
     public void onPopulationEvacuated(long count) {
         populationEvacuated += count;
         
-        if (populationEvacuated % 100000 == 0) {
+        if (populationEvacuated % 10000 == 0) {
             awardUpgradePoints(1);
         };
     }
