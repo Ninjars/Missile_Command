@@ -10,10 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8787980163679719714}
   - component: {fileID: 7249239182365001953}
-  - component: {fileID: 1223739488179856941}
-  - component: {fileID: 4663566830418375659}
   - component: {fileID: 7987337227509609144}
   - component: {fileID: 1046433024410081273}
+  - component: {fileID: 3309010134458062788}
   - component: {fileID: 6968113115155748591}
   m_Layer: 5
   m_Name: MissileBatteryUpgradeUI
@@ -50,69 +49,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeElementPrefab: {fileID: 3034773094870575062, guid: ac9cb3ab74407e24d9cfb8065609088b,
     type: 3}
-  iconRegistry: {fileID: 11400000, guid: 952ec9f625827ba4abf7e8597d8ee96d, type: 2}
   firstUpgradeOffset: 2.7
-  baseButtonOffset: 0.3
   expandedCollider: {fileID: 6968113115155748591}
---- !u!114 &1223739488179856941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5501341021650746145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dd51d29965c9d04599a2fdc8a833c6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meshOutOfDate: 1
-  blendMode: 1
-  scaleMode: 0
-  color: {r: 1, g: 1, b: 1, a: 1}
-  zTest: 4
-  zOffsetFactor: 0
-  zOffsetUnits: 0
-  type: 2
-  colorMode: 0
-  colorOuterStart: {r: 1, g: 1, b: 1, a: 1}
-  colorInnerEnd: {r: 1, g: 1, b: 1, a: 1}
-  colorOuterEnd: {r: 1, g: 1, b: 1, a: 1}
-  geometry: 0
-  angUnitInput: 1
-  angRadiansStart: 0
-  angRadiansEnd: 2.3561945
-  radius: 0.75
-  radiusSpace: 0
-  thickness: 0.5
-  thicknessSpace: 2
-  arcEndCaps: 0
-  matchDashSpacingToSize: 1
-  dashed: 0
-  dashStyle:
-    type: 0
-    space: -2
-    snap: 1
-    size: 16
-    offset: 0
-    spacing: 0.5
-    shapeModifier: 1
---- !u!58 &4663566830418375659
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5501341021650746145}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.9
+  iconRegistry: {fileID: 11400000, guid: 952ec9f625827ba4abf7e8597d8ee96d, type: 2}
 --- !u!33 &7987337227509609144
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -128,7 +67,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5501341021650746145}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -160,6 +99,32 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!61 &3309010134458062788
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5501341021650746145}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.85}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.7, y: 3}
+  m_EdgeRadius: 0
 --- !u!61 &6968113115155748591
 BoxCollider2D:
   m_ObjectHideFlags: 0

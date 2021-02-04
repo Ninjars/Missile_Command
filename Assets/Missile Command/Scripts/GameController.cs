@@ -81,14 +81,21 @@ public class GameController : MonoBehaviour {
     private void showAllMissileBatteryLabels() {
         if (gameState.missileBatteries == null) return;
         foreach (var battery in gameState.missileBatteries) {
-            battery.setLabelVisible(true);
+            battery.showLabel();
         }
     }
 
-    private void hideAllMissileBatteryLabels() {
+    private void showAllMissileBatteryUpgradeIndicator() {
         if (gameState.missileBatteries == null) return;
         foreach (var battery in gameState.missileBatteries) {
-            battery.setLabelVisible(false);
+            battery.showUpgradeIndicator();
+        }
+    }
+
+    private void hideAllMissileBatteryUi() {
+        if (gameState.missileBatteries == null) return;
+        foreach (var battery in gameState.missileBatteries) {
+            battery.hideUi();
         }
     }
 
@@ -163,6 +170,7 @@ public class GameController : MonoBehaviour {
                     boostEvacuators();
                     evacuationController.completeEvacuations();
                     showAllCityUi(true);
+                    showAllMissileBatteryUpgradeIndicator();
                     uiController.setUiMode(UiMode.LEVEL_END);
                     gameState.onLevelEnding();
                     break;
@@ -188,7 +196,7 @@ public class GameController : MonoBehaviour {
                     attackController.stopAttacks();
                     evacuationController.clear();
                     setCursorLinesActive(false);
-                    hideAllMissileBatteryLabels();
+                    hideAllMissileBatteryUi();
                     clearEvacuators();
                     showAllCityUi(false);
                     uiController.setUiMode(UiMode.LOSE_SCREEN);
@@ -199,7 +207,7 @@ public class GameController : MonoBehaviour {
                     attackController.stopAttacks();
                     evacuationController.clear();
                     setCursorLinesActive(false);
-                    hideAllMissileBatteryLabels();
+                    hideAllMissileBatteryUi();
                     clearEvacuators();
                     showAllCityUi(false);
                     uiController.setUiMode(UiMode.WIN_SCREEN);
