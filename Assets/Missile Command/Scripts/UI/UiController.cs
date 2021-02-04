@@ -63,7 +63,7 @@ public class UiController : MonoBehaviour {
                     hideNonGamePanels();
                     show(endOfLevelPanel);
                     showUpgradeOptions();
-                    
+
                     updateUpgradesText();
                     break;
                 }
@@ -125,7 +125,12 @@ public class UiController : MonoBehaviour {
 
         foreach (var city in gameState.cities) {
             if (city.upgradeState.hasAnyAvailableUpgrades) {
-                city.showUpgradeOptions(() => deselectAllUpgradeUis(), () => onUpgradePurchased());
+                city.showUpgradeOptions(
+                    () => {
+                        deselectAllUpgradeUis();
+                    },
+                    () => onUpgradePurchased()
+                );
             }
         }
         foreach (var battery in gameState.missileBatteries) {

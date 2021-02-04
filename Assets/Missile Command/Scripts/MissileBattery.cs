@@ -11,8 +11,8 @@ public class MissileBattery : MonoBehaviour {
     public GameObject ammoIndicatorPrefab;
     public GameObject loadedIndicator;
     public BatteryUpgradeUI upgradeUi;
+    public BatteryUI batteryUi;
     public Explosion explosionPrefab;
-    public GameObject labelRootObject;
     public int baseMaxMissiles = 10;
     public float baseMissileSpeed = 5;
     public float baseMissileExplosionRadius = 0.5f;
@@ -30,9 +30,6 @@ public class MissileBattery : MonoBehaviour {
 
     private Colors colors { get { return Colors.Instance; } }
     public bool isDestroyed { get; private set; }
-    private TextMeshProUGUI labelText;
-    private Image labelBackground;
-    private Triangle labelIndicator;
     private List<Rectangle> ammoIndicators;
     private Polyline lineShape;
     private ScreenEffectManager _screenEffectManager;
@@ -48,11 +45,6 @@ public class MissileBattery : MonoBehaviour {
     private void Awake() {
         ammoIndicators = new List<Rectangle>();
         lineShape = GetComponentInChildren<Polyline>();
-
-        labelIndicator = labelRootObject.GetComponent<Triangle>();
-        labelText = labelRootObject.GetComponentInChildren<TextMeshProUGUI>();
-        labelBackground = labelRootObject.GetComponentInChildren<Image>();
-        labelRootObject.SetActive(false);
 
         upgradeState = new BatteryUpgradeState();
         stats = new MissileBatteryStats(
@@ -100,7 +92,7 @@ public class MissileBattery : MonoBehaviour {
         stats.clear();
         updateAmmoIndicators();
         screenEffectManager.onBatteryDestroyed();
-        setLabelVisible(false);
+        batteryUi.onDead();
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
         explosion.boom(transform.position, colors.buildingExplodeColor);
@@ -121,17 +113,16 @@ public class MissileBattery : MonoBehaviour {
         GetComponent<BoxCollider2D>().enabled = true;
     }
 
-    public void setLabelVisible(bool visible) {
-        if (labelRootObject.activeInHierarchy == visible) return;
-        if (visible) {
-            labelRootObject.SetActive(true);
-            labelText.text = gameObject.name;
-            labelText.color = colors.labelTextColor;
-            labelBackground.color = colors.labelBackgroundColor;
-            labelIndicator.Color = colors.batteryColor;
-        } else {
-            labelRootObject.SetActive(false);
-        }
+    public void showLabel() {
+        batteryUi.displayLabel();
+    }
+
+    public void showUpgradeIndicator() {
+        batteryUi.displayIndicator();
+    }
+
+    public void hideUi() {
+        batteryUi.onHide();
     }
 
     private void updateAmmoIndicators() {

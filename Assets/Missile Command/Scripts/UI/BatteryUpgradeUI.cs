@@ -5,10 +5,22 @@ using UnityEngine;
 public class BatteryUpgradeUI : BaseUpgradeUi {
     public BatteryIconRegistry iconRegistry;
     private MissileBattery battery;
+    private BatteryUI batteryUI;
 
     private void Awake() {
         onAwake();
         battery = GetComponentInParent<MissileBattery>();
+        batteryUI = GetComponentInParent<BatteryUI>();
+    }
+
+    public override void onSelect() {
+        base.onSelect();
+        batteryUI.onHighlight(true);
+    }
+
+    public override void onDeselect() {
+        base.onDeselect();
+        batteryUI.onHighlight(false);
     }
 
     override protected List<UpgradeData> constructUpgradeData() {
