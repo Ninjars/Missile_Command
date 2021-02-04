@@ -6060,7 +6060,7 @@ MonoBehaviour:
     to: 5
   pointsFrequency:
     from: 10
-    to: 5
+    to: 2
 --- !u!1 &1853862028
 GameObject:
   m_ObjectHideFlags: 0
