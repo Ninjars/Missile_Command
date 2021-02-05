@@ -29,7 +29,7 @@ public class CityUpgradeState {
     public bool hasAnyAvailableUpgrades { get {
         return evacuatorCountLevel < maxEvacuatorCountLevel || evacuatorPopLevel < maxEvacuatorCountLevel;
     } }
-    private readonly int maxEvacuatorCountLevel = 10;
+    private readonly int maxEvacuatorCountLevel = 12;
     private int evacuatorCountLevel = 0;
     public int evacuatorCount { get { return evacuatorCountLevel; } }
     public void increaseEvacuatorCount() {
@@ -41,7 +41,7 @@ public class CityUpgradeState {
         return new UpgradeState(maxEvacuatorCountLevel, evacuatorCountLevel);
     }
 
-    private readonly int maxEvacuatorPopLevel = 20;
+    private readonly int maxEvacuatorPopLevel = 25;
     private int evacuatorPopLevel = 0;
     public double evacuatorPopFactor { get { return 1 + evacuatorPopLevel * 0.2; } }
     public void increaseEvacuatorPop() {
@@ -63,7 +63,7 @@ public class BatteryUpgradeState {
     } }
     private readonly int maxExplosionRadiusLevel = 10;
     private int explosionRadiusLevel = 0;
-    public float explosionRadiusFactor { get { return 1 + explosionRadiusLevel * 0.2f; } }
+    public float explosionRadiusFactor { get { return 1 + explosionRadiusLevel * 0.1f; } }
     public void increaseExplosionRadius() {
         if (explosionRadiusLevel < maxExplosionRadiusLevel) {
             explosionRadiusLevel++;

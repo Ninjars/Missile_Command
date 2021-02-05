@@ -43,9 +43,11 @@ public class GameState : StateUpdater {
     }
 
     public void onPopulationEvacuated(long count) {
+        var oldPopThreshold = Mathf.FloorToInt(populationEvacuated / 3000);
         populationEvacuated += count;
         
-        if (populationEvacuated % 10000 == 0) {
+        if (Mathf.FloorToInt(populationEvacuated / 3000) != oldPopThreshold) {
+            Debug.Log("evacuation upgrade point threshold reached");
             awardUpgradePoints(1);
         };
     }
