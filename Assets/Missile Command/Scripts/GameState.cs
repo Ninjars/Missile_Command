@@ -65,22 +65,30 @@ public class GameState : StateUpdater {
     }
 
     internal bool canUpgradeSomething() {
-        return cities.Where(city => city.upgradeState.hasAnyAvailableUpgrades).FirstOrDefault() != null
-            || missileBatteries.Where(battery => battery.upgradeState.hasAnyAvailableUpgrades).FirstOrDefault() != null;
+        return upgradePoints > 0 
+            && (
+                cities.Where(city => city.upgradeState.hasAnyAvailableUpgrades).FirstOrDefault() != null
+                || missileBatteries.Where(battery => battery.upgradeState.hasAnyAvailableUpgrades).FirstOrDefault() != null
+            );
     }
 
     public void onGameBegin() {
         currentMode = GameMode.START_GAME;
     }
 
-    public void onLevelPrepare() {
-        Debug.Log("GameState.onLevelPrepare()");
-        currentMode = GameMode.PRE_LEVEL;
+    public void onGameContinue() {
+        Debug.Log("GameState.onGameContinue()");
+        currentMode = GameMode.UPGRADING;
     }
 
     public void onLevelBegin() {
         Debug.Log("GameState.onLevelBegin()");
         currentMode = GameMode.IN_LEVEL;
+    }
+
+    public void onUpgradeCompleted() {
+        Debug.Log("GameState.onUpgradeCompleted()");
+        currentMode = GameMode.PRE_LEVEL;
     }
 
     public void onLevelCompleted() {
@@ -92,7 +100,6 @@ public class GameState : StateUpdater {
         Debug.Log("GameState.onLevelEnding()");
         currentMode = GameMode.LEVEL_ENDING;
     }
-
 
     public void onLevelEnded() {
         Debug.Log("GameState.onLevelEnded()");
@@ -113,6 +120,7 @@ public enum GameMode {
     IN_LEVEL,
     END_LEVEL,
     LEVEL_ENDING,
+    UPGRADING,
     POST_LEVEL,
     GAME_WON,
     GAME_LOST,

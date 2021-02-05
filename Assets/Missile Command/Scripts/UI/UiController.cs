@@ -15,10 +15,10 @@ public class UiController : MonoBehaviour {
     public TextMeshProUGUI loseSurvivors;
     public TextMeshProUGUI loseDead;
 
-    public RectTransform endOfLevelPanel;
+    public RectTransform upgradePanel;
     public TextMeshProUGUI upgradePoints;
 
-    public bool canPickUpgrades { get { return gameState.upgradePoints > 0; } }
+    public bool canPickUpgrades { get; private set; }
     private GameState gameState;
     private UiMode currentMode;
     private Colors colors { get { return Colors.Instance; } }
@@ -33,7 +33,7 @@ public class UiController : MonoBehaviour {
         hide(inGamePanel);
         hide(winPanel);
         hide(losePanel);
-        hide(endOfLevelPanel);
+        hide(upgradePanel);
         hideUpgradeOptions();
     }
 
@@ -41,29 +41,39 @@ public class UiController : MonoBehaviour {
         hide(mainMenuPanel);
         hide(winPanel);
         hide(losePanel);
-        hide(endOfLevelPanel);
+        hide(upgradePanel);
         hideUpgradeOptions();
     }
 
     public void setUiMode(UiMode mode) {
-        if (currentMode == mode) return;
+        if (currentMode == mode || gameState == null) return;
         this.currentMode = mode;
         switch (mode) {
             case UiMode.MAIN_MENU: {
                     hideAllPanels();
+                    clearAllCityUi();
                     show(mainMenuPanel);
                     break;
                 }
             case UiMode.IN_GAME: {
                     hideNonGamePanels();
+                    showAllCityUi(false);
+                    hideAllCityUi();
+                    showAllMissileBatteryLabels();
                     show(inGamePanel);
                     break;
                 }
             case UiMode.LEVEL_END: {
                     hideNonGamePanels();
-                    show(endOfLevelPanel);
+                    showAllCityUi(false);
+                    break;
+                }
+            case UiMode.UPGRADE: {
+                    hideNonGamePanels();
+                    show(upgradePanel);
+                    showAllCityUi(true);
+                    showAllMissileBatteryUpgradeIndicator();
                     showUpgradeOptions();
-
                     updateUpgradesText();
                     break;
                 }
@@ -71,6 +81,8 @@ public class UiController : MonoBehaviour {
                     hideAllPanels();
                     show(losePanel);
                     hideUpgradeOptions();
+                    hideAllMissileBatteryUi();
+                    showAllCityUi(false);
 
                     loseWaves.text = $"{gameState.levelsCompleted}";
                     loseSurvivors.text = $"{gameState.populationEvacuated + gameState.citiesPopulation}";
@@ -81,6 +93,8 @@ public class UiController : MonoBehaviour {
                     hideAllPanels();
                     show(winPanel);
                     hideUpgradeOptions();
+                    hideAllMissileBatteryUi();
+                    showAllCityUi(false);
 
                     winWaves.text = $"{gameState.levelsCompleted}";
                     winSurvivors.text = $"{gameState.populationEvacuated + gameState.citiesPopulation}";
@@ -119,10 +133,6 @@ public class UiController : MonoBehaviour {
     }
 
     private void showUpgradeOptions() {
-        Debug.Log("showUpgradeOptions()");
-        bool upgradeOptionsRemain = gameState.canUpgradeSomething();
-        if (!upgradeOptionsRemain) return;
-
         foreach (var city in gameState.cities) {
             if (city.upgradeState.hasAnyAvailableUpgrades) {
                 city.showUpgradeOptions(
@@ -150,17 +160,59 @@ public class UiController : MonoBehaviour {
     }
 
     private void onUpgradePurchased() {
-        Debug.Log("upgrade purchased");
         gameState.onUpgradePointSpent();
         updateUpgradesText();
-        if (!canPickUpgrades) {
-            deselectAllUpgradeUis();
-            hideUpgradeOptions();
-        }
+        // canPickUpgrades = gameState.canUpgradeSomething();
+        // if (!canPickUpgrades) {
+        //     deselectAllUpgradeUis();
+        //     hideUpgradeOptions();
+        // }
     }
 
     private void updateUpgradesText() {
         upgradePoints.text = $"UPGRADES AVAILABLE: {gameState.upgradePoints}";
+    }
+
+    private void showAllMissileBatteryLabels() {
+        if (gameState.missileBatteries == null) return;
+        foreach (var battery in gameState.missileBatteries) {
+            battery.showLabel();
+        }
+    }
+
+    private void showAllMissileBatteryUpgradeIndicator() {
+        if (gameState.missileBatteries == null) return;
+        foreach (var battery in gameState.missileBatteries) {
+            battery.showUpgradeIndicator();
+        }
+    }
+
+    private void hideAllMissileBatteryUi() {
+        if (gameState.missileBatteries == null) return;
+        foreach (var battery in gameState.missileBatteries) {
+            battery.hideUi();
+        }
+    }
+
+    private void showAllCityUi(bool isUpgrading) {
+        if (gameState.cities == null) return;
+        foreach (var city in gameState.cities) {
+            city.showUi(isUpgrading);
+        }
+    }
+
+    private void hideAllCityUi() {
+        if (gameState.cities == null) return;
+        foreach (var city in gameState.cities) {
+            city.fadeOutUi();
+        }
+    }
+
+    private void clearAllCityUi() {
+        if (gameState.cities == null) return;
+        foreach (var city in gameState.cities) {
+            city.hideUi();
+        }
     }
 }
 
@@ -169,6 +221,7 @@ public enum UiMode {
     MAIN_MENU,
     IN_GAME,
     LEVEL_END,
+    UPGRADE,
     LOSE_SCREEN,
     WIN_SCREEN,
 }

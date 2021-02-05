@@ -78,48 +78,6 @@ public class GameController : MonoBehaviour {
         updateStateMachine();
     }
 
-    private void showAllMissileBatteryLabels() {
-        if (gameState.missileBatteries == null) return;
-        foreach (var battery in gameState.missileBatteries) {
-            battery.showLabel();
-        }
-    }
-
-    private void showAllMissileBatteryUpgradeIndicator() {
-        if (gameState.missileBatteries == null) return;
-        foreach (var battery in gameState.missileBatteries) {
-            battery.showUpgradeIndicator();
-        }
-    }
-
-    private void hideAllMissileBatteryUi() {
-        if (gameState.missileBatteries == null) return;
-        foreach (var battery in gameState.missileBatteries) {
-            battery.hideUi();
-        }
-    }
-
-    private void showAllCityUi(bool isUpgrading) {
-        if (gameState.cities == null) return;
-        foreach (var city in gameState.cities) {
-            city.showUi(isUpgrading);
-        }
-    }
-
-    private void hideAllCityUi() {
-        if (gameState.cities == null) return;
-        foreach (var city in gameState.cities) {
-            city.fadeOutUi();
-        }
-    }
-
-    private void clearAllCityUi() {
-        if (gameState.cities == null) return;
-        foreach (var city in gameState.cities) {
-            city.hideUi();
-        }
-    }
-
     private void setCursorLinesActive(bool active) {
         cursorLines.gameObject.SetActive(active);
     }
@@ -129,15 +87,20 @@ public class GameController : MonoBehaviour {
             case GameMode.MAIN_MENU: {
                     inGameInput.Disable();
                     uiController.setUiMode(UiMode.MAIN_MENU);
-                    clearAllCityUi();
                     break;
                 }
             case GameMode.START_GAME: {
-                    uiController.setUiMode(UiMode.IN_GAME);
                     levelManager.reset();
-                    gameState.onLevelPrepare();
                     cursorLines.setBatteries(gameState.missileBatteries);
-                    showAllCityUi(false);
+                    gameState.onGameContinue();
+                    break;
+                }
+            case GameMode.UPGRADING: {
+                    if (gameState.canUpgradeSomething()) {
+                        uiController.setUiMode(UiMode.UPGRADE);
+                    } else {
+                        gameState.onUpgradeCompleted();
+                    }
                     break;
                 }
             case GameMode.PRE_LEVEL: {
@@ -145,10 +108,8 @@ public class GameController : MonoBehaviour {
                     startNextLevel();
                     inGameInput.Enable();
                     setCursorLinesActive(true);
-                    showAllMissileBatteryLabels();
                     evacuationController.beginEvacuations();
                     gameState.onLevelBegin();
-                    hideAllCityUi();
                     break;
                 }
             case GameMode.IN_LEVEL: {
@@ -169,14 +130,13 @@ public class GameController : MonoBehaviour {
                     setCursorLinesActive(false);
                     boostEvacuators();
                     evacuationController.completeEvacuations();
-                    showAllCityUi(true);
-                    showAllMissileBatteryUpgradeIndicator();
+                    bool upgrading = gameState.canUpgradeSomething();
                     uiController.setUiMode(UiMode.LEVEL_END);
                     gameState.onLevelEnding();
                     break;
                 }
             case GameMode.LEVEL_ENDING: {
-                    if (GameObject.FindGameObjectWithTag("Evacuator") == null && !uiController.canPickUpgrades) {
+                    if (GameObject.FindGameObjectWithTag("Evacuator") == null) {
                         gameState.onLevelEnded();
                     }
                     break;
@@ -185,9 +145,8 @@ public class GameController : MonoBehaviour {
                     levelManager.onLevelCompleted();
                     if (levelManager.allStagesCompleted) {
                         gameState.onGameEnded(true);
-
                     } else {
-                        gameState.onLevelPrepare();
+                        gameState.onGameContinue();
                     }
                     break;
                 }
@@ -196,9 +155,7 @@ public class GameController : MonoBehaviour {
                     attackController.stopAttacks();
                     evacuationController.clear();
                     setCursorLinesActive(false);
-                    hideAllMissileBatteryUi();
                     clearEvacuators();
-                    showAllCityUi(false);
                     uiController.setUiMode(UiMode.LOSE_SCREEN);
                     break;
                 }
@@ -207,9 +164,7 @@ public class GameController : MonoBehaviour {
                     attackController.stopAttacks();
                     evacuationController.clear();
                     setCursorLinesActive(false);
-                    hideAllMissileBatteryUi();
                     clearEvacuators();
-                    showAllCityUi(false);
                     uiController.setUiMode(UiMode.WIN_SCREEN);
                     break;
                 }
