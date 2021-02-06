@@ -5671,7 +5671,7 @@ MonoBehaviour:
   loseWaves: {fileID: 100528670}
   loseSurvivors: {fileID: 1083094029}
   loseDead: {fileID: 60939971}
-  endOfLevelPanel: {fileID: 969352751}
+  upgradePanel: {fileID: 969352751}
   upgradePoints: {fileID: 1830270271}
 --- !u!114 &1839267181
 MonoBehaviour:
