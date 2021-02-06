@@ -33,8 +33,8 @@ MonoBehaviour:
     from: 5
     to: 4.5
   speed:
-    from: 0.75
-    to: 0.85
+    from: 0.85
+    to: 0.95
   altitude:
     from: 0.55
     to: 0.8
