@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 125590f5310de4f4899354de66ee2d9e, type: 3}
-  m_Name: Bomber 2
+  m_Name: 4 Bombers
   m_EditorClassIdentifier: 
   initialDelay: 4
   targetWeights:
@@ -18,26 +18,26 @@ MonoBehaviour:
     battery: 0
     random: 0
   count:
-    from: 2
-    to: 5
+    from: 3
+    to: 6
   intervalVariance:
     from: 1
-    to: 2
+    to: 1
   weaponPrefab: {fileID: 8779594394452551350, guid: 22341750fdff99a44944085c989e321d,
     type: 3}
-  bombAttackData: {fileID: 11400000, guid: 95c1322f6e4a3a3409027caa0c7b4f88, type: 2}
+  bombAttackData: {fileID: 11400000, guid: c3a9184ca84513242974ceba33c7155f, type: 2}
   bombersPerWing:
-    from: 2
-    to: 2
+    from: 1
+    to: 1
   chargeTime:
     from: 3
-    to: 2
-  speed:
-    from: 2
     to: 3
+  speed:
+    from: 1.5
+    to: 1.75
   altitude:
-    from: 0.45
+    from: 0.55
     to: 0.8
   evasionSpeed:
-    from: 0
-    to: 0
+    from: 0.5
+    to: 0.5

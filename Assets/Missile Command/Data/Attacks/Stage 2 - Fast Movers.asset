@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6e2e974db858d34ab67d6c00bb0b2da, type: 3}
-  m_Name: Stage 3 - Barrage and Bombers
+  m_Name: Stage 2 - Fast Movers
   m_EditorClassIdentifier: 
-  title: Drone of Bombers
+  title: Fast Movers
   levels: 5
   levelDuration:
-    from: 15
-    to: 10
+    from: 8
+    to: 9
   weaponData:
-  - {fileID: 11400000, guid: 2cca46ca945ef20498bb62a58aa529ff, type: 2}
-  - {fileID: 11400000, guid: 2fc027e3ef0d37e4e8c971ec60695b22, type: 2}
+  - {fileID: 11400000, guid: 98f59b0bff595c44792117150a92d9c5, type: 2}
+  - {fileID: 11400000, guid: 405bf8b38af703046a0f8c5a8c8aa9f5, type: 2}
