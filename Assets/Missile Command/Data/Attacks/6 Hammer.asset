@@ -18,8 +18,8 @@ MonoBehaviour:
     battery: 0
     random: 0
   count:
-    from: 4
-    to: 7
+    from: 3
+    to: 6
   intervalVariance:
     from: 0
     to: 0

@@ -31,10 +31,10 @@ MonoBehaviour:
     to: 6
   chargeTime:
     from: 1.5
-    to: 0.3
+    to: 1
   speed:
-    from: 2.25
-    to: 5
+    from: 1.6
+    to: 2.5
   altitude:
     from: 0.4
     to: 0.8

@@ -30,11 +30,11 @@ MonoBehaviour:
     from: 1
     to: 1
   chargeTime:
-    from: 4
-    to: 3
+    from: 5
+    to: 4.5
   speed:
-    from: 1
-    to: 1.5
+    from: 0.75
+    to: 0.85
   altitude:
     from: 0.55
     to: 0.8

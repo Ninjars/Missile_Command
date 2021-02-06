@@ -16,7 +16,7 @@ MonoBehaviour:
   levels: 5
   levelDuration:
     from: 15
-    to: 15
+    to: 18
   weaponData:
   - {fileID: 11400000, guid: fea93b553984c3041b6f3e195b07fd40, type: 2}
   - {fileID: 11400000, guid: fcdfb811d47a3ed408742326fd2fc2f6, type: 2}
