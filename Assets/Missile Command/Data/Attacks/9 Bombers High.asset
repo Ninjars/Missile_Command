@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 125590f5310de4f4899354de66ee2d9e, type: 3}
+  m_Name: 9 Bombers High
+  m_EditorClassIdentifier: 
+  initialDelay: 3
+  targetWeights:
+    city: 0
+    battery: 0
+    random: 0
+  count:
+    from: 10
+    to: 15
+  intervalVariance:
+    from: 1
+    to: 1
+  weaponPrefab: {fileID: 8779594394452551350, guid: 22341750fdff99a44944085c989e321d,
+    type: 3}
+  bombAttackData: {fileID: 11400000, guid: 29ae7be7b4b46cf4ebaf5bfaf5605a33, type: 2}
+  bombersPerWing:
+    from: 1
+    to: 3
+  chargeTime:
+    from: 3
+    to: 2.5
+  speed:
+    from: 1.1
+    to: 1.3
+  altitude:
+    from: 0.8
+    to: 0.9
+  evasionSpeed:
+    from: 0.4
+    to: 0.45

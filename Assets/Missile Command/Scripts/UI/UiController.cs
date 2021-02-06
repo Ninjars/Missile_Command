@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 
 public class UiController : MonoBehaviour {
@@ -17,6 +18,8 @@ public class UiController : MonoBehaviour {
 
     public RectTransform upgradePanel;
     public TextMeshProUGUI upgradePoints;
+
+    public FadingTitle stageTitle;
 
     public bool canPickUpgrades { get; private set; }
     private GameState gameState;
@@ -57,9 +60,13 @@ public class UiController : MonoBehaviour {
                 }
             case UiMode.IN_GAME: {
                     hideNonGamePanels();
-                    showAllCityUi(false);
-                    hideAllCityUi();
-                    showAllMissileBatteryLabels();
+                    if (gameState.levelsCompleted < 3) {
+                        showAllCityUi(false);
+                        showAllMissileBatteryLabels();
+                    } else {
+                        hideAllCityUi();
+                        hideAllMissileBatteryUi();
+                    }
                     show(inGamePanel);
                     break;
                 }
@@ -213,6 +220,11 @@ public class UiController : MonoBehaviour {
         foreach (var city in gameState.cities) {
             city.hideUi();
         }
+    }
+
+    internal void displayStageTitle(string title) {
+        if (title == null) return;
+        stageTitle.display(title);
     }
 }
 
