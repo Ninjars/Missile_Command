@@ -92,7 +92,7 @@ public class MissileBattery : MonoBehaviour {
         stats.clear();
         updateAmmoIndicators();
         screenEffectManager.onBatteryDestroyed();
-        batteryUi.onDead();
+        batteryUi.setIsDead(true);
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
         explosion.boom(transform.position, colors.buildingExplodeColor);
@@ -107,6 +107,7 @@ public class MissileBattery : MonoBehaviour {
 
     internal void restore() {
         isDestroyed = false;
+        batteryUi.setIsDead(false);
         stats.refresh();
         updateAmmoIndicators();
         lineShape.Color = colors.batteryColor;
