@@ -172,6 +172,8 @@ public class GameController : MonoBehaviour {
     }
 
     private void awardEndOfLevelUpgradePoints(int levelsCompleted) {
+        gameState.awardUpgradePoints(1);
+        
         // award bonus upgrade points for thresholds
         if (levelsCompleted > 0 && levelsCompleted % 5 == 0) {
             gameState.awardUpgradePoints(1);
