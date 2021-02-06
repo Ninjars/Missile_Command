@@ -10,30 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f4021543aacf3d40ab6174317a7a1e0, type: 3}
-  m_Name: 5 Hammer
+  m_Name: 8 Hammer
   m_EditorClassIdentifier: 
-  initialDelay: 2
+  initialDelay: 1
   targetWeights:
     city: 1
     battery: 0
     random: 0
   count:
-    from: 2
-    to: 5
+    from: 4
+    to: 8
   intervalVariance:
     from: 0
     to: 0
   weaponPrefab: {fileID: 4773860817561863625, guid: 46fa7f88aa5082544be71a421b99c798,
     type: 3}
   dodgeRecharge:
-    from: 3
-    to: 1
+    from: 1
+    to: 0.5
   rechargeTime:
-    from: 10
-    to: 5
+    from: 5
+    to: 4
   attackTime:
-    from: 9
-    to: 7
+    from: 6
+    to: 6
   speed:
-    from: 2
-    to: 2.5
+    from: 3.5
+    to: 3.5

@@ -39,5 +39,5 @@ MonoBehaviour:
     from: 0.55
     to: 0.8
   evasionSpeed:
-    from: 0.5
-    to: 0.5
+    from: 0.25
+    to: 0.3

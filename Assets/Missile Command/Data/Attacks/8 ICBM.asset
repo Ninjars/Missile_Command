@@ -10,27 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f277a3635cb3b247b73dc17ef0d71a0, type: 3}
-  m_Name: 6 Bomber Bomb
+  m_Name: 8 ICBM
   m_EditorClassIdentifier: 
   initialDelay: 0
   targetWeights:
-    city: 1
+    city: 0
     battery: 1
-    random: 0
+    random: 1
   count:
-    from: 0
-    to: 0
+    from: 8
+    to: 8
   intervalVariance:
-    from: 0
-    to: 0
+    from: 0.5
+    to: 1
   weaponPrefab: {fileID: 5888894347606011465, guid: acee917d488bd2546b998b06f6be123d,
     type: 3}
   maxDeviation:
-    from: 0.5
-    to: 0.25
+    from: 0.3
+    to: 0.3
   primaryImpulse:
-    from: 45
-    to: 50
+    from: 80
+    to: 80
   primaryAcceleration:
     from: 0
     to: 0

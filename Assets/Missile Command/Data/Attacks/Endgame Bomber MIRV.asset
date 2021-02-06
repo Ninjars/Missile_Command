@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f277a3635cb3b247b73dc17ef0d71a0, type: 3}
-  m_Name: 6 Bomber Bomb
+  m_Name: Endgame Bomber MIRV
   m_EditorClassIdentifier: 
   initialDelay: 0
   targetWeights:
-    city: 1
+    city: 4
     battery: 1
     random: 0
   count:
@@ -26,17 +26,17 @@ MonoBehaviour:
   weaponPrefab: {fileID: 5888894347606011465, guid: acee917d488bd2546b998b06f6be123d,
     type: 3}
   maxDeviation:
-    from: 0.5
-    to: 0.25
+    from: 0
+    to: 0
   primaryImpulse:
-    from: 45
-    to: 50
+    from: 55
+    to: 80
   primaryAcceleration:
     from: 0
     to: 0
   mirvChance:
-    from: 0
-    to: 0
+    from: 1
+    to: 1
   mirvCount:
-    from: 0
-    to: 0
+    from: 3
+    to: 5

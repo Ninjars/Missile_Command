@@ -21,8 +21,8 @@ MonoBehaviour:
     from: 4
     to: 7
   intervalVariance:
-    from: 0.5
-    to: 1
+    from: 0
+    to: 0
   weaponPrefab: {fileID: 4773860817561863625, guid: 46fa7f88aa5082544be71a421b99c798,
     type: 3}
   dodgeRecharge:
