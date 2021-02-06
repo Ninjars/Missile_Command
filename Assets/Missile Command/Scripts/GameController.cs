@@ -196,6 +196,8 @@ public class GameController : MonoBehaviour {
             levelData.stageDuration,
             levelData.stageProgress
         );
+        
+        uiController.displayStageTitle(levelData.title);
     }
 
     private void fireOne(InputAction.CallbackContext context) {

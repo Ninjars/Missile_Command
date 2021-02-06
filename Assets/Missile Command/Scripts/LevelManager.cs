@@ -42,7 +42,7 @@ public class LevelManager : MonoBehaviour {
             return currentLevelData.Value;
         } else {
             StageData currentData = stages[currentStage];
-            var levelData = createLevelData(currentData, stageLevel / (float)(currentData.levels - 1));
+            var levelData = createLevelData(currentData, stageLevel);
             currentLevelData = levelData;
             return levelData;
         }
@@ -52,20 +52,21 @@ public class LevelManager : MonoBehaviour {
         return stages.Select(stage => stage.levels).Aggregate(0, (acc, next) => acc + next);
     }
 
-    private LevelData createLevelData(StageData currentData, float stageProgress) {
-        var message = stageProgress == 0 ? currentData.title : null;
-        return new LevelData(message, stageProgress, currentData.levelDuration.evaluate(stageProgress), currentData.weaponData);
+    private LevelData createLevelData(StageData currentData, int stageLevel) {
+        float stageProgress = stageLevel / (float)(currentData.levels - 1);
+        var title = stageLevel == 0 ? currentData.title : null;
+        return new LevelData(title, stageProgress, currentData.levelDuration.evaluate(stageProgress), currentData.weaponData);
     }
 }
 
 public struct LevelData {
-    public readonly string message;
+    public readonly string title;
     public readonly float stageProgress;
     public readonly float stageDuration;
     public readonly List<WeaponData> weaponData;
 
-    public LevelData(string message, float stageProgress, float stageDuration, List<WeaponData> weaponData) {
-        this.message = message;
+    public LevelData(string title, float stageProgress, float stageDuration, List<WeaponData> weaponData) {
+        this.title = title;
         this.stageProgress = stageProgress;
         this.stageDuration = stageDuration;
         this.weaponData = weaponData;
