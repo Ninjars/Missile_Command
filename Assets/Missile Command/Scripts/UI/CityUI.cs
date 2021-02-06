@@ -51,7 +51,7 @@ public class CityUI : MonoBehaviour {
 
     private void fade(float fraction) {
         Color color = markerTriangle.Color;
-        float alpha = Mathf.Lerp(color.a, 0, fraction * fraction);
+        float alpha = Mathf.Lerp(0, color.a, 1 - (fraction * fraction));
         color.a = alpha;
         markerTriangle.Color = color;
         textCanvasGroup.alpha = alpha;

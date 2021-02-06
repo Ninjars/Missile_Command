@@ -57,9 +57,13 @@ public class UiController : MonoBehaviour {
                 }
             case UiMode.IN_GAME: {
                     hideNonGamePanels();
-                    showAllCityUi(false);
-                    hideAllCityUi();
-                    showAllMissileBatteryLabels();
+                    if (gameState.levelsCompleted < 3) {
+                        showAllCityUi(false);
+                        showAllMissileBatteryLabels();
+                    } else {
+                        hideAllCityUi();
+                        hideAllMissileBatteryUi();
+                    }
                     show(inGamePanel);
                     break;
                 }
