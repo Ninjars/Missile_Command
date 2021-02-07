@@ -9,20 +9,20 @@ public class ICBM : Explodable {
     public Explosion explosionPrefab;
     public TrailSettings trailSettings;
 
-    private float thrust;
-    private float impulse;
+    private float speed;
     private Vector3 targetPosition;
     private Vector3 thrustVector;
     private Rigidbody2D _rb;
     private Colors colors { get { return Colors.Instance; } }
 
     private WorldCoords worldCoords;
-    private ICBMData weaponData;
+    private ICBMCurves.Snapshot data;
     private Func<Vector2> targetProvider;
     private float accuracy;
     private LinearTrail trail;
     private float mirvAltitude;
-    private int mirvCount;
+    private int mirvCountMin;
+    private int mirvCountMax;
 
     private Rigidbody2D rb {
         get {
@@ -35,19 +35,18 @@ public class ICBM : Explodable {
 
     public void launch(
         WorldCoords worldCoords,
-        ICBMData weaponData,
-        float stageProgress,
+        ICBMCurves.Snapshot data,
         Func<Vector2> targetProvider
     ) {
         configure(
             worldCoords,
-            weaponData,
+            data,
             targetProvider,
-            accuracy: weaponData.maxDeviation.evaluate(stageProgress),
-            thrust: weaponData.primaryAcceleration.evaluate(stageProgress),
-            impulse: weaponData.primaryImpulse.evaluate(stageProgress),
-            mirvCount: weaponData.mirvCount.evaluate(stageProgress),
-            mirvAltitude: calculateMirvAltitude(worldCoords, weaponData.mirvChance.evaluate(stageProgress))
+            accuracy: data.maxDeviation,
+            speed: data.speed,
+            mirvCountMin: data.mirvCountMin,
+            mirvCountMax: data.mirvCountMax,
+            mirvAltitude: calculateMirvAltitude(worldCoords, data.mirvChance)
         );
         Vector2 target = targetProvider();
         launch(calculateSpawnPosition(worldCoords, target.x), target);
@@ -55,20 +54,19 @@ public class ICBM : Explodable {
 
     public void launch(
         WorldCoords worldCoords,
-        ICBMData weaponData,
-        float stageProgress,
+        ICBMCurves.Snapshot data,
         Vector2 launchPosition,
         Func<Vector2> targetProvider
     ) {
         configure(
             worldCoords,
-            weaponData,
+            data,
             targetProvider,
-            accuracy: weaponData.maxDeviation.evaluate(stageProgress),
-            thrust: weaponData.primaryAcceleration.evaluate(stageProgress),
-            impulse: weaponData.primaryImpulse.evaluate(stageProgress),
-            mirvCount: weaponData.mirvCount.evaluate(stageProgress),
-            mirvAltitude: calculateMirvAltitude(worldCoords, weaponData.mirvChance.evaluate(stageProgress))
+            accuracy: data.maxDeviation,
+            speed: data.speed,
+            mirvCountMin: data.mirvCountMin,
+            mirvCountMax: data.mirvCountMax,
+            mirvAltitude: calculateMirvAltitude(worldCoords, data.mirvChance)
         );
         Vector2 target = targetProvider();
         launch(launchPosition, target);
@@ -76,21 +74,21 @@ public class ICBM : Explodable {
 
     private void configure(
         WorldCoords worldCoords,
-        ICBMData weaponData,
+        ICBMCurves.Snapshot data,
         Func<Vector2> targetProvider,
         float accuracy,
-        float thrust,
-        float impulse,
-        int mirvCount,
+        float speed,
+        int mirvCountMin,
+        int mirvCountMax,
         float mirvAltitude
     ) {
         this.worldCoords = worldCoords;
-        this.weaponData = weaponData;
+        this.data = data;
         this.targetProvider = targetProvider;
         this.accuracy = accuracy;
-        this.thrust = thrust;
-        this.impulse = impulse;
-        this.mirvCount = mirvCount;
+        this.speed = speed;
+        this.mirvCountMin = mirvCountMin;
+        this.mirvCountMax = mirvCountMax;
         this.mirvAltitude = mirvAltitude;
     }
 
@@ -106,8 +104,7 @@ public class ICBM : Explodable {
         gameObject.SetActive(true);
 
         this.thrustVector = (targetPosition - transform.position).normalized;
-        rb.velocity = Vector2.zero;
-        rb.AddForce(thrustVector * impulse);
+        rb.velocity = thrustVector * speed;
         
         transform.rotation = Quaternion.AngleAxis(Vector3.SignedAngle(Vector3.up, rb.velocity, Vector3.back), Vector3.back);
 
@@ -120,20 +117,13 @@ public class ICBM : Explodable {
             return -1;
         } else {
             float dy = worldCoords.worldTop - worldCoords.groundY;
-            float min = worldCoords.groundY + dy * 0.33f;
+            float min = worldCoords.groundY + dy * 0.4f;
             float max = worldCoords.worldTop - dy * 0.05f;
             return min + UnityEngine.Random.value * (max - min);
         }
     }
 
     private Vector2 calculateSpawnPosition(WorldCoords worldCoords, float targetX) {
-        // float x;
-        // if (targetX > worldCoords.centerX) {
-        //     x = worldCoords.worldLeft - worldSpawnBuffer;
-        // } else {
-        //     x = worldCoords.worldRight + worldSpawnBuffer;
-        // }
-        // x *= UnityEngine.Random.value
         float x = (worldCoords.width + 2 * worldSpawnBuffer) * UnityEngine.Random.value - worldCoords.worldRight - worldSpawnBuffer;
         return new Vector2(x, worldCoords.worldTop + worldSpawnBuffer);
     }
@@ -149,25 +139,21 @@ public class ICBM : Explodable {
         explode();
     }
 
-
-    private void FixedUpdate() {
-        rb.AddForce(thrustVector * thrust, ForceMode2D.Force);
-    }
-
     private void Update() {
         if (rb.position.y < mirvAltitude) {
             trail.boostDecayTime();
-            List<Vector2> selectedTargets = new List<Vector2>(mirvCount);
+            List<Vector2> selectedTargets = new List<Vector2>(mirvCountMin);
+            int mirvCount = Mathf.RoundToInt((mirvCountMax - mirvCountMin) * UnityEngine.Random.value + mirvCountMin);
             for (int i = 0; i < mirvCount; i++) {
-                ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(weaponData.weaponPrefab.gameObject).GetComponent<ICBM>();
+                ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(data.prefab.gameObject).GetComponent<ICBM>();
                 weapon.configure(
                     worldCoords,
-                    weaponData,
+                    data,
                     targetProvider,
                     accuracy: accuracy,
-                    thrust: thrust,
-                    impulse: impulse,
-                    mirvCount: 0,
+                    speed: speed,
+                    mirvCountMin: 0,
+                    mirvCountMax: 0,
                     mirvAltitude: -1
                 );
                 weapon.launch(transform.position, targetProvider.Invoke());

@@ -17,8 +17,7 @@ public class Bomber : Explodable {
 
     private WorldCoords worldCoords;
     private Func<Vector3, Vector2> targetProvider;
-    private float stageProgress;
-    private ICBMData bombAttackData;
+    private ICBMCurves.Snapshot bombAttackData;
     private Coroutine attackRoutine;
     private Polyline _visuals;
     private Polyline visuals {
@@ -43,19 +42,17 @@ public class Bomber : Explodable {
 
     public void launch(
         WorldCoords worldCoords,
-        BomberData weaponData,
-        float stageProgress,
+        BomberCurves.Snapshot data,
         Func<Vector3, Vector2> targetProvider,
         float x,
         float y
     ) {
         this.targetProvider = targetProvider;
-        this.stageProgress = stageProgress;
         this.worldCoords = worldCoords;
-        this.chargeTime = weaponData.chargeTime.evaluate(stageProgress);
-        this.evasionSpeed = weaponData.evasionSpeed.evaluate(stageProgress);
-        this.speed = weaponData.speed.evaluate(stageProgress);
-        this.bombAttackData = weaponData.bombAttackData;
+        this.chargeTime = data.chargeTime;
+        this.evasionSpeed = data.evasionSpeed;
+        this.speed = data.speed;
+        this.bombAttackData = data.bombSnapshot;
         
         velocity = x < worldCoords.centerX 
                 ? new Vector2(speed, 0)
@@ -89,11 +86,10 @@ public class Bomber : Explodable {
     }
 
     private void launchAttack(Vector3 launchPosition, Vector2 targetPosition) {
-        ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(bombAttackData.weaponPrefab.gameObject).GetComponent<ICBM>();
+        ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(bombAttackData.prefab.gameObject).GetComponent<ICBM>();
         weapon.launch(
             worldCoords,
             bombAttackData,
-            stageProgress,
             launchPosition,
             () => targetPosition
         );
