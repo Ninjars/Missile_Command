@@ -6,14 +6,17 @@ using UnityEngine;
 public class Bomber : Explodable {
     public float worldSpawnBuffer = 1;
     public float layerZ = 6;
-
+    public float dodgeCheckRadius;
+    public LayerMask dodgeCheckLayerMask;
     public Explosion explosionPrefab;
 
     private float chargeTime;
     private float evasionSpeed;
     private float speed;
+    private float maxAltitude;
     private Vector2 velocity;
     private Colors colors { get { return Colors.Instance; } }
+    private Collider2D[] dodgeCheckResults;
 
     private WorldCoords worldCoords;
     private Func<Vector3, Vector2> targetProvider;
@@ -44,6 +47,7 @@ public class Bomber : Explodable {
         WorldCoords worldCoords,
         BomberCurves.Snapshot data,
         Func<Vector3, Vector2> targetProvider,
+        float maxAltitude,
         float x,
         float y
     ) {
@@ -53,11 +57,13 @@ public class Bomber : Explodable {
         this.evasionSpeed = data.evasionSpeed;
         this.speed = data.speed;
         this.bombAttackData = data.bombSnapshot;
-        
-        velocity = x < worldCoords.centerX 
+        this.maxAltitude = maxAltitude;
+        dodgeCheckResults = new Collider2D[3];
+
+        velocity = x < worldCoords.centerX
                 ? new Vector2(speed, 0)
                 : new Vector2(-speed, 0);
-                
+
         transform.rotation = Quaternion.Euler(0, 0, x < worldCoords.centerX ? -90 : 90);
 
         visuals.Color = colors.attackColor;
@@ -97,12 +103,45 @@ public class Bomber : Explodable {
 
     private void Update() {
         if (transform.position.x < worldCoords.worldLeft - worldSpawnBuffer) {
-            rb.velocity = new Vector2(speed, 0);
+            velocity = new Vector2(speed, 0);
             transform.rotation = Quaternion.Euler(0, 0, -90);
 
         } else if (transform.position.x > worldCoords.worldRight + worldSpawnBuffer) {
-            rb.velocity = new Vector2(-speed, 0);
+            velocity = new Vector2(-speed, 0);
             transform.rotation = Quaternion.Euler(0, 0, 90);
+        }
+
+        rb.velocity = velocity + calculateEvasionVelocity();
+    }
+
+    private Vector2 calculateEvasionVelocity() {
+        Vector2 castStartPosition = rb.position - Vector2.up * dodgeCheckRadius;
+        int hits = Physics2D.OverlapAreaNonAlloc(
+            rb.position + Vector2.up * dodgeCheckRadius + velocity.normalized * speed * 3,
+            rb.position - Vector2.up * dodgeCheckRadius,
+            dodgeCheckResults,
+            dodgeCheckLayerMask
+        );
+        Collider2D closest = null;
+        float distance = float.MaxValue;
+        for (int i = 0; i < hits; i++) {
+            if (closest == null) {
+                closest = dodgeCheckResults[i];
+                distance = Vector2.SqrMagnitude(closest.transform.position);
+            } else {
+                Collider2D other = dodgeCheckResults[i];
+                float otherDistance = Vector2.SqrMagnitude(other.transform.position);
+                if (otherDistance < distance) {
+                    closest = other;
+                }
+            }
+        }
+        if (closest == null) return Vector2.zero;
+
+        if (closest.transform.position.y < transform.position.y && transform.position.y < maxAltitude) {
+            return Vector2.up * evasionSpeed;
+        } else {
+            return Vector2.up * -evasionSpeed;
         }
     }
 
@@ -124,4 +163,8 @@ public class Bomber : Explodable {
             StopCoroutine(attackRoutine);
         }
     }
+
+    // private void OnDrawGizmos() {
+    //     Debug.DrawLine(rb.position, (Vector2) rb.position + rb.velocity * speed * 3, Color.green);
+    // }
 }
