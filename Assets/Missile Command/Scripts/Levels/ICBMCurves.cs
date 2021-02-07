@@ -21,30 +21,33 @@ public class ICBMCurves : WeaponCurves {
         return new Snapshot(
             prefab,
             targetWeights,
+            initialDelay,
             intervalVariance,
             Mathf.RoundToInt(count.Evaluate(gameProgress)),
             maxDeviation.Evaluate(gameProgress),
             speed.Evaluate(gameProgress),
             mirvChance.Evaluate(gameProgress),
-            mirvCountMin.Evaluate(gameProgress),
-            mirvCountMax.Evaluate(gameProgress)
+            Mathf.RoundToInt(mirvCountMin.Evaluate(gameProgress)),
+            Mathf.RoundToInt(mirvCountMax.Evaluate(gameProgress))
         );
     }
 
-    public struct Snapshot {
+    public struct Snapshot : WeaponSnapshot {
         public Snapshot(
             ICBM prefab,
             TargetWeights targetWeights,
+            float initialDelay,
             float intervalVariance,
             int count,
             float maxDeviation,
             float speed,
             float mirvChance,
-            float mirvCountMin,
-            float mirvCountMax
+            int mirvCountMin,
+            int mirvCountMax
         ) {
             this.prefab = prefab;
             this.targetWeights = targetWeights;
+            this.initialDelay = initialDelay;
             this.intervalVariance = intervalVariance;
             this.count = count;
             this.maxDeviation = maxDeviation;
@@ -56,12 +59,13 @@ public class ICBMCurves : WeaponCurves {
 
         public ICBM prefab { get; }
         public TargetWeights targetWeights { get; }
+        public float initialDelay { get; }
         public float intervalVariance { get; }
         public int count { get; }
         public float maxDeviation { get; }
         public float speed { get; }
         public float mirvChance { get; }
-        public float mirvCountMin { get; }
-        public float mirvCountMax { get; }
+        public int mirvCountMin { get; }
+        public int mirvCountMax { get; }
     }
 }

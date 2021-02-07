@@ -6,19 +6,17 @@ public class AttackUtil {
     public static IEnumerator scheduleHammerAttack(
         WorldCoords worldCoords,
         float delay,
-        HammerData data,
-        float stageProgress,
+        HammerCurves.Snapshot data,
         Action onLaunchCallback,
         Func<Vector2> targetProvider
     ) {
         yield return new WaitForSeconds(delay);
 
-        Hammer weapon = ObjectPoolManager.Instance.getObjectInstance(data.weaponPrefab.gameObject).GetComponent<Hammer>();
+        Hammer weapon = ObjectPoolManager.Instance.getObjectInstance(data.prefab.gameObject).GetComponent<Hammer>();
 
         weapon.launch(
             worldCoords,
             data,
-            stageProgress,
             targetProvider
         );
         onLaunchCallback();
@@ -27,19 +25,17 @@ public class AttackUtil {
     public static IEnumerator scheduleIcbmAttack(
         WorldCoords worldCoords,
         float delay,
-        ICBMData icbmData,
-        float stageProgress,
+        ICBMCurves.Snapshot data,
         Action onLaunchCallback,
         Func<Vector2> targetProvider
     ) {
         yield return new WaitForSeconds(delay);
 
-        ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(icbmData.weaponPrefab.gameObject).GetComponent<ICBM>();
+        ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(data.prefab.gameObject).GetComponent<ICBM>();
         
         weapon.launch(
             worldCoords,
-            icbmData,
-            stageProgress,
+            data,
             targetProvider
         );
         onLaunchCallback();
@@ -48,21 +44,19 @@ public class AttackUtil {
     public static IEnumerator scheduleBomberAttack(
         WorldCoords worldCoords,
         float delay,
-        BomberData weaponData,
-        float stageProgress,
+        BomberCurves.Snapshot data,
         Action onLaunchCallback,
         Func<Vector3, Vector2> targetProvider
     ) {
-        int bomberCount = weaponData.bombersPerWing.evaluate(stageProgress);
-        float altitude = calculateBomberAltitude(worldCoords, weaponData.altitude);
+        int bomberCount = data.bombersPerWing;
+        float altitude = calculateBomberAltitude(worldCoords, data.altitudeMin, data.altitudeMax);
         float x = UnityEngine.Random.value <= 0.5f
-                ? worldCoords.worldLeft - weaponData.weaponPrefab.worldSpawnBuffer
-                : worldCoords.worldRight + weaponData.weaponPrefab.worldSpawnBuffer;
+                ? worldCoords.worldLeft - 1
+                : worldCoords.worldRight + 1;
         return spawnBombers(
             worldCoords,
             delay,
-            weaponData,
-            stageProgress,
+            data,
             onLaunchCallback,
             targetProvider,
             bomberCount,
@@ -74,8 +68,7 @@ public class AttackUtil {
     private static IEnumerator spawnBombers(
         WorldCoords worldCoords,
         float delay,
-        BomberData weaponData,
-        float stageProgress,
+        BomberCurves.Snapshot data,
         Action onLaunchCallback,
         Func<Vector3, Vector2> targetProvider,
         int bomberCount,
@@ -87,8 +80,7 @@ public class AttackUtil {
         for (int i = 0; i < bomberCount; i++) {
             spawnBomber(
                 worldCoords,
-                weaponData,
-                stageProgress,
+                data,
                 targetProvider,
                 x, 
                 altitude + (UnityEngine.Random.value * 2 - 1) * 0.5f
@@ -100,26 +92,24 @@ public class AttackUtil {
 
     private static void spawnBomber(
         WorldCoords worldCoords,
-        BomberData weaponData,
-        float stageProgress,
+        BomberCurves.Snapshot data,
         Func<Vector3, Vector2> targetProvider,
         float x, 
         float y
     ) {
-        Bomber weapon = ObjectPoolManager.Instance.getObjectInstance(weaponData.weaponPrefab.gameObject).GetComponent<Bomber>();
+        Bomber weapon = ObjectPoolManager.Instance.getObjectInstance(data.prefab.gameObject).GetComponent<Bomber>();
         weapon.launch(
             worldCoords,
-            weaponData,
-            stageProgress,
+            data,
             targetProvider,
             x,
             y
         );
     }
 
-    private static float calculateBomberAltitude(WorldCoords worldCoords, RangeData altitude) {
+    private static float calculateBomberAltitude(WorldCoords worldCoords, float min, float max) {
         float dy = worldCoords.worldTop - worldCoords.groundY;
-        float altOffset = altitude.evaluate(UnityEngine.Random.value);
+        float altOffset = min + ((max - min) * UnityEngine.Random.value);
         return worldCoords.groundY + altOffset * dy;
     }
 }

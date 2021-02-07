@@ -90,7 +90,6 @@ public class GameController : MonoBehaviour {
                     break;
                 }
             case GameMode.START_GAME: {
-                    levelManager.reset();
                     cursorLines.setBatteries(gameState.missileBatteries);
                     gameState.onGameContinue();
                     break;
@@ -116,9 +115,6 @@ public class GameController : MonoBehaviour {
                     if (gameState.hasLost) {
                         gameState.onGameEnded(false);
 
-                    } else if (gameState.hasWon) {
-                        gameState.onGameEnded(true);
-
                     } else if (hasLevelEnded()) {
                         awardEndOfLevelUpgradePoints(gameState.levelsCompleted);
                         gameState.onLevelCompleted();
@@ -142,9 +138,12 @@ public class GameController : MonoBehaviour {
                     break;
                 }
             case GameMode.POST_LEVEL: {
-                    levelManager.onLevelCompleted();
-                    if (levelManager.allStagesCompleted) {
+                    if (gameState.hasWon) {
                         gameState.onGameEnded(true);
+
+                    } else if (gameState.levelsCompleted >= levelManager.totalLevels) {
+                        gameState.onGameEnded(true);
+
                     } else {
                         gameState.onGameContinue();
                     }
@@ -189,14 +188,13 @@ public class GameController : MonoBehaviour {
             battery.restore();
         }
 
-        LevelData levelData = levelManager.getLevelData();
+        LevelData levelData = levelManager.getLevelData(gameState.levelsCompleted);
         attackController.scheduleAttackEvents(
             worldCoords,
             gameState.cities,
             gameState.missileBatteries,
             levelData.weaponData,
-            levelData.stageDuration,
-            levelData.stageProgress
+            levelData.stageDuration
         );
         
         uiController.displayStageTitle(levelData.title);
@@ -243,7 +241,6 @@ public class GameController : MonoBehaviour {
         var spawnedPlayerData = playerSpawner.performInitialSpawn(
             gameState,
             worldCoords,
-            levelManager.getTotalLevels(),
             initialCityPopulation,
             baseEvacEventsPerLevel,
             basePopPerEvacEvent

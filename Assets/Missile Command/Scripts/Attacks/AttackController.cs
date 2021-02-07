@@ -12,57 +12,53 @@ public class AttackController : MonoBehaviour {
         WorldCoords worldCoords,
         List<City> cities,
         List<MissileBattery> missileBatteries,
-        List<WeaponData> weaponDatas,
-        float stageDuration,
-        float stageProgress
+        List<WeaponSnapshot> weaponSnapshots,
+        float stageDuration
     ) {
         clearCurrentAttacks();
 
-        foreach (var weaponData in weaponDatas) {
-            int attackCount = weaponData.count.evaluate(stageProgress);
+        foreach (var snapshot in weaponSnapshots) {
+            int attackCount = snapshot.count;
             pendingAttackCount += attackCount;
             float baseInterval = stageDuration / attackCount;
             for (int i = 0; i < attackCount; i++) {
-                float timeToAttack = weaponData.initialDelay + i * baseInterval + getAttackVariance(stageProgress, baseInterval, weaponData.intervalVariance);
+                float timeToAttack = snapshot.initialDelay + i * baseInterval + getAttackVariance(baseInterval, snapshot.intervalVariance);
                 timeToAttack = Mathf.Min(timeToAttack, stageDuration + baseInterval);
                 IEnumerator attack = null;
-                if (weaponData is ICBMData) {
+                if (snapshot is ICBMCurves.Snapshot) {
                     attack = AttackUtil.scheduleIcbmAttack(
                         worldCoords,
                         timeToAttack,
-                        (ICBMData)weaponData,
-                        stageProgress,
+                        (ICBMCurves.Snapshot)snapshot,
                         () => { pendingAttackCount--; },
-                        () => getTargetPosition(worldCoords, weaponData.targetWeights, cities, missileBatteries)
+                        () => getTargetPosition(worldCoords, snapshot.targetWeights, cities, missileBatteries)
                     );
-                } else if (weaponData is BomberData) {
+                } else if (snapshot is BomberCurves.Snapshot) {
                     attack = AttackUtil.scheduleBomberAttack(
                         worldCoords,
                         timeToAttack,
-                        (BomberData)weaponData,
-                        stageProgress,
+                        (BomberCurves.Snapshot)snapshot,
                         () => { pendingAttackCount--; },
                         (currentPositionAndVector) => getBomberTarget(
                             worldCoords,
                             currentPositionAndVector,
-                            ((BomberData)weaponData).bombAttackData.targetWeights,
+                            ((BomberCurves.Snapshot)snapshot).bombSnapshot.targetWeights,
                             cities,
                             missileBatteries
                         )
                     );
-                } else if (weaponData is HammerData) {
+                } else if (snapshot is HammerCurves.Snapshot) {
                     attack = AttackUtil.scheduleHammerAttack(
                         worldCoords,
                         timeToAttack,
-                        (HammerData)weaponData,
-                        stageProgress,
+                        (HammerCurves.Snapshot)snapshot,
                         () => { pendingAttackCount--; },
-                        () => getTargetPosition(worldCoords, weaponData.targetWeights, cities, missileBatteries)
+                        () => getTargetPosition(worldCoords, snapshot.targetWeights, cities, missileBatteries)
                     );
                 }
 
                 if (attack == null) {
-                    throw new InvalidOperationException($"Unhandled WeaponData type: {weaponData}");
+                    throw new InvalidOperationException($"Unhandled WeaponData type: {snapshot}");
                 } else {
                     currentAttacks.Add(StartCoroutine(attack));
                 }
@@ -86,8 +82,8 @@ public class AttackController : MonoBehaviour {
         currentAttacks.Clear();
     }
 
-    private static float getAttackVariance(float stageProgress, float baseInterval, RangeData intervalVariance) {
-        float maxVariance = intervalVariance.evaluate(stageProgress) * baseInterval;
+    private static float getAttackVariance(float baseInterval, float stageVariance) {
+        float maxVariance = stageVariance * baseInterval;
         float variance = maxVariance * UnityEngine.Random.value * 2 - maxVariance;
         return variance;
     }

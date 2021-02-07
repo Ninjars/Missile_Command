@@ -28,9 +28,10 @@ public class BomberCurves : WeaponCurves {
         return new Snapshot(
             prefab,
             bombAttackData.createSnapshot(gameProgress),
+            initialDelay,
             intervalVariance,
             Mathf.RoundToInt(count.Evaluate(gameProgress)),
-            bombersPerWing.Evaluate(gameProgress),
+            Mathf.RoundToInt(bombersPerWing.Evaluate(gameProgress)),
             chargeTime.Evaluate(gameProgress),
             speed.Evaluate(gameProgress),
             altitudeMin,
@@ -39,13 +40,14 @@ public class BomberCurves : WeaponCurves {
         );
     }
 
-    public struct Snapshot {
+    public struct Snapshot : WeaponSnapshot {
         public Snapshot(
             Bomber prefab,
-            ICBMCurves.Snapshot snapshot,
+            ICBMCurves.Snapshot bombSnapshot,
+            float initialDelay,
             float intervalVariance,
             int count,
-            float bombersPerWing,
+            int bombersPerWing,
             float chargeTime,
             float speed,
             float altitudeMin,
@@ -53,8 +55,9 @@ public class BomberCurves : WeaponCurves {
             float evasionSpeed
         ) {
             this.prefab = prefab;
-            this.snapshot = snapshot;
+            this.bombSnapshot = bombSnapshot;
             this.intervalVariance = intervalVariance;
+            this.initialDelay = initialDelay;
             this.count = count;
             this.bombersPerWing = bombersPerWing;
             this.chargeTime = chargeTime;
@@ -65,15 +68,17 @@ public class BomberCurves : WeaponCurves {
         }
 
         public Bomber prefab { get; }
-        public ICBMCurves.Snapshot snapshot { get; }
+        public ICBMCurves.Snapshot bombSnapshot { get; }
+        public float initialDelay { get; }
         public float intervalVariance { get; }
         public int count { get; }
-        public float bombersPerWing { get; }
+        public int bombersPerWing { get; }
         public float chargeTime { get; }
         public float speed { get; }
         public float altitudeMin { get; }
         public float altitudeMax { get; }
         public float evasionSpeed { get; }
+        public TargetWeights targetWeights { get { return new TargetWeights(); }}
     }
 }
 

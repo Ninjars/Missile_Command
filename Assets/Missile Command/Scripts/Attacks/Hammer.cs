@@ -46,16 +46,15 @@ public class Hammer : Explodable {
 
     public void launch(
         WorldCoords worldCoords,
-        HammerData weaponData,
-        float stageProgress,
+        HammerCurves.Snapshot data,
         Func<Vector2> targetProvider
     ) {
         this.targetProvider = targetProvider;
         this.worldCoords = worldCoords;
-        dodgeRechargeTime = weaponData.dodgeRecharge.evaluate(stageProgress);
-        attackRechargeTime = weaponData.rechargeTime.evaluate(stageProgress);
-        attackTime = weaponData.attackTime.evaluate(stageProgress);
-        speed = weaponData.speed.evaluate(stageProgress);
+        dodgeRechargeTime = data.dodgeRecharge;
+        attackRechargeTime = data.rechargeTime;
+        attackTime = data.attackTime;
+        speed = data.speed;
         state = State.EVADING;
         dodgeIsCharged = false;
         attackIsCharged = false;

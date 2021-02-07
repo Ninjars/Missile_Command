@@ -17,7 +17,6 @@ public class PlayerSpawner : MonoBehaviour {
     public SpawnData performInitialSpawn(
             StateUpdater stateUpdater,
             WorldCoords worldCoords,
-            int numberOfLevels,
             long initialPopulation,
             int evacationsPerLevel,
             long popPerEvent

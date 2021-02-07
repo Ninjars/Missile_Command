@@ -19,6 +19,8 @@ public class HammerCurves : WeaponCurves {
     public Snapshot createSnapshot(float gameProgress) {
         return new Snapshot(
             prefab,
+            targetWeights,
+            initialDelay,
             intervalVariance,
             Mathf.RoundToInt(count.Evaluate(gameProgress)),
             dodgeRecharge.Evaluate(gameProgress),
@@ -28,9 +30,21 @@ public class HammerCurves : WeaponCurves {
         );
     }
 
-    public struct Snapshot {
-        public Snapshot(Hammer prefab, float intervalVariance, int count, float dodgeRecharge, float rechargeTime, float attackTime, float speed) {
+    public struct Snapshot : WeaponSnapshot {
+        public Snapshot(
+            Hammer prefab,
+            TargetWeights targetWeights,
+            float initialDelay,
+            float intervalVariance,
+            int count,
+            float dodgeRecharge,
+            float rechargeTime,
+            float attackTime,
+            float speed
+        ) {
             this.prefab = prefab;
+            this.targetWeights = targetWeights;
+            this.initialDelay = initialDelay;
             this.intervalVariance = intervalVariance;
             this.count = count;
             this.dodgeRecharge = dodgeRecharge;
@@ -40,6 +54,8 @@ public class HammerCurves : WeaponCurves {
         }
 
         public Hammer prefab { get; }
+        public TargetWeights targetWeights { get; }
+        public float initialDelay { get; }
         public float intervalVariance { get; }
         public int count { get; }
         public float dodgeRecharge { get; }

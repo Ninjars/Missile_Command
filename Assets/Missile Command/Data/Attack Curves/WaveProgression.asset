@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ICBM: {fileID: 11400000, guid: ee2b533936f123149b8d1b261618fa7a, type: 2}
   RFG: {fileID: 11400000, guid: aba98d1bbf412da4d96d81722677140d, type: 2}
-  heavyMIRV: {fileID: 0}
+  heavyMIRV: {fileID: 11400000, guid: 0db5742c27b003d439cb25e23db90d69, type: 2}
   standardBomber: {fileID: 11400000, guid: 5b54500b0704709488d5aad8aef7ef8e, type: 2}
   strategicBomber: {fileID: 11400000, guid: e528629ddf1bbe2478e3ad45637bfe2c, type: 2}
   hammer: {fileID: 11400000, guid: 03ccff5c2b66642419b976011ea831d7, type: 2}
@@ -47,7 +47,7 @@ MonoBehaviour:
     waveCount: 5
     icbm: 1
     heavyMirv: 0
-    rfg: 1
+    rfg: 0
     standardBomber: 0
     strategicBomber: 0
     hammer: 1
@@ -59,50 +59,50 @@ MonoBehaviour:
     standardBomber: 1
     strategicBomber: 1
     hammer: 1
-  - title: REPRIEVE
+  - title: MISSILE STORM
     waveCount: 5
     icbm: 1
-    heavyMirv: 0
+    heavyMirv: 1
     rfg: 1
     standardBomber: 0
     strategicBomber: 0
     hammer: 0
-  - title: 
-    waveCount: 0
+  - title: JUDGEMENT
+    waveCount: 5
     icbm: 0
-    heavyMirv: 0
-    rfg: 0
+    heavyMirv: 1
+    rfg: 1
     standardBomber: 0
-    strategicBomber: 0
+    strategicBomber: 1
+    hammer: 1
+  - title: BLITZ
+    waveCount: 5
+    icbm: 1
+    heavyMirv: 0
+    rfg: 1
+    standardBomber: 1
+    strategicBomber: 1
     hammer: 0
-  - title: 
-    waveCount: 0
+  - title: SPARSE
+    waveCount: 5
     icbm: 0
-    heavyMirv: 0
-    rfg: 0
-    standardBomber: 0
-    strategicBomber: 0
+    heavyMirv: 1
+    rfg: 1
+    standardBomber: 1
+    strategicBomber: 1
     hammer: 0
-  - title: 
-    waveCount: 0
-    icbm: 0
+  - title: FIRE STORM
+    waveCount: 5
+    icbm: 1
     heavyMirv: 0
-    rfg: 0
-    standardBomber: 0
+    rfg: 1
+    standardBomber: 1
     strategicBomber: 0
-    hammer: 0
-  - title: 
-    waveCount: 0
-    icbm: 0
-    heavyMirv: 0
-    rfg: 0
-    standardBomber: 0
-    strategicBomber: 0
-    hammer: 0
+    hammer: 1
   - title: END TIMES
     waveCount: 50
     icbm: 1
-    heavyMirv: 0
+    heavyMirv: 1
     rfg: 1
     standardBomber: 1
     strategicBomber: 1

@@ -73,13 +73,13 @@ public class Missile : Explodable {
         trail.initialise(gameObject, trailSettings, colors.missileTrailColor);
     }
 
-    private void OnDrawGizmos() {
-        Debug.DrawLine(
-            new Vector3(rb.position.x, rb.position.y, missileLayerZ),
-            new Vector3(target.x, target.y, missileLayerZ),
-            Color.green
-        );
-    }
+    // private void OnDrawGizmos() {
+    //     Debug.DrawLine(
+    //         new Vector3(rb.position.x, rb.position.y, missileLayerZ),
+    //         new Vector3(target.x, target.y, missileLayerZ),
+    //         Color.green
+    //     );
+    // }
 
     private void OnDisable() {
         rb.velocity = Vector2.zero;

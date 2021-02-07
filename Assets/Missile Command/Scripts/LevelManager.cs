@@ -3,71 +3,61 @@ using System.Linq;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour {
-    public StagesList stageData;
-    private List<StageData> stages { get { return stageData.stages; } }
+    public WaveProgressionData levelData;
+    public int totalLevels { get; private set; }
 
-    private int currentStage;
-    private int stageLevel;
+    private List<StageDefinition> stages { get { return levelData.stages; } }
 
-    private LevelData? currentLevelData;
-    private bool _allStagesCompleted = false;
-    public bool allStagesCompleted { get { return _allStagesCompleted; } }
-    public bool beginningNewStage { get { return stageLevel == 0; } }
-
-    public void reset() {
-        currentStage = 0;
-        stageLevel = 0;
-        _allStagesCompleted = false;
-        currentLevelData = null;
+    private void Awake() {
+        totalLevels = stages.Select(stage => stage.waveCount).Aggregate(0, (acc, next) => acc + next);
     }
 
-    public void onLevelCompleted() {
-        currentLevelData = null;
-        if (currentStage >= stages.Count) {
-            Debug.LogError($"unable to start stage {currentStage}; exceeds scheduled stages. Should have ended the game.");
-            _allStagesCompleted = true;
-            return;
+    public LevelData getLevelData(int levelsCompleted) {
+        int runningTotal = 0;
+        foreach (var stage in stages) {
+            runningTotal += stage.waveCount;
+            if (runningTotal > levelsCompleted) {
+                return createLevelData(stage, levelsCompleted);
+            }
         }
-        stageLevel++;
-        StageData currentStageData = stages[currentStage];
-        if (stageLevel >= currentStageData.levels) {
-            currentStage++;
-            stageLevel = 0;
+        throw new System.Exception($"no stage found for level {levelsCompleted} of {totalLevels}");
+    }
+
+    private LevelData createLevelData(StageDefinition stage, int levelsCompleted) {
+        return new LevelData(stage.title, 15, createWeaponSnapshots(stage, levelsCompleted / (float) totalLevels));
+    }
+
+    private List<WeaponSnapshot> createWeaponSnapshots(StageDefinition stage, float gameProgress) {
+        List<WeaponSnapshot> snapshots = new List<WeaponSnapshot>();
+        if (stage.icbm) {
+            snapshots.Add(levelData.ICBM.createSnapshot(gameProgress));
         }
-        _allStagesCompleted = currentStage >= stages.Count;
-    }
-
-    public LevelData getLevelData() {
-        if (currentLevelData.HasValue) {
-            return currentLevelData.Value;
-        } else {
-            StageData currentData = stages[currentStage];
-            var levelData = createLevelData(currentData, stageLevel);
-            currentLevelData = levelData;
-            return levelData;
+        if (stage.heavyMirv) {
+            snapshots.Add(levelData.heavyMIRV.createSnapshot(gameProgress));
         }
-    }
-
-    public int getTotalLevels() {
-        return stages.Select(stage => stage.levels).Aggregate(0, (acc, next) => acc + next);
-    }
-
-    private LevelData createLevelData(StageData currentData, int stageLevel) {
-        float stageProgress = stageLevel / (float)(currentData.levels - 1);
-        var title = stageLevel == 0 ? currentData.title : null;
-        return new LevelData(title, stageProgress, currentData.levelDuration.evaluate(stageProgress), currentData.weaponData);
+        if (stage.rfg) {
+            snapshots.Add(levelData.RFG.createSnapshot(gameProgress));
+        }
+        if (stage.standardBomber) {
+            snapshots.Add(levelData.standardBomber.createSnapshot(gameProgress));
+        }
+        if (stage.strategicBomber) {
+            snapshots.Add(levelData.strategicBomber.createSnapshot(gameProgress));
+        }
+        if (stage.hammer) {
+            snapshots.Add(levelData.hammer.createSnapshot(gameProgress));
+        }
+        return snapshots;
     }
 }
 
 public struct LevelData {
     public readonly string title;
-    public readonly float stageProgress;
     public readonly float stageDuration;
-    public readonly List<WeaponData> weaponData;
+    public readonly List<WeaponSnapshot> weaponData;
 
-    public LevelData(string title, float stageProgress, float stageDuration, List<WeaponData> weaponData) {
+    public LevelData(string title, float stageDuration, List<WeaponSnapshot> weaponData) {
         this.title = title;
-        this.stageProgress = stageProgress;
         this.stageDuration = stageDuration;
         this.weaponData = weaponData;
     }
