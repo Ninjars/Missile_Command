@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31f56b7fa9d47fe41b17afa165234ad8, type: 3}
+  m_Name: WaveProgression
+  m_EditorClassIdentifier: 
+  ICBM: {fileID: 11400000, guid: ee2b533936f123149b8d1b261618fa7a, type: 2}
+  RFG: {fileID: 11400000, guid: aba98d1bbf412da4d96d81722677140d, type: 2}
+  heavyMIRV: {fileID: 0}
+  standardBomber: {fileID: 11400000, guid: 5b54500b0704709488d5aad8aef7ef8e, type: 2}
+  strategicBomber: {fileID: 11400000, guid: e528629ddf1bbe2478e3ad45637bfe2c, type: 2}
+  hammer: {fileID: 11400000, guid: 03ccff5c2b66642419b976011ea831d7, type: 2}
+  stages:
+  - title: SO IT BEGINS
+    waveCount: 5
+    icbm: 1
+    heavyMirv: 0
+    rfg: 0
+    standardBomber: 0
+    strategicBomber: 0
+    hammer: 0
+  - title: RODS FROM GOD
+    waveCount: 5
+    icbm: 1
+    heavyMirv: 0
+    rfg: 1
+    standardBomber: 0
+    strategicBomber: 0
+    hammer: 0
+  - title: DRONE OF BOMBERS
+    waveCount: 5
+    icbm: 1
+    heavyMirv: 0
+    rfg: 0
+    standardBomber: 1
+    strategicBomber: 0
+    hammer: 0
+  - title: HAMMER TIME
+    waveCount: 5
+    icbm: 1
+    heavyMirv: 0
+    rfg: 1
+    standardBomber: 0
+    strategicBomber: 0
+    hammer: 1
+  - title: MECHANICAL MAYHEM
+    waveCount: 5
+    icbm: 1
+    heavyMirv: 0
+    rfg: 0
+    standardBomber: 1
+    strategicBomber: 1
+    hammer: 1
+  - title: REPRIEVE
+    waveCount: 5
+    icbm: 1
+    heavyMirv: 0
+    rfg: 1
+    standardBomber: 0
+    strategicBomber: 0
+    hammer: 0
+  - title: 
+    waveCount: 0
+    icbm: 0
+    heavyMirv: 0
+    rfg: 0
+    standardBomber: 0
+    strategicBomber: 0
+    hammer: 0
+  - title: 
+    waveCount: 0
+    icbm: 0
+    heavyMirv: 0
+    rfg: 0
+    standardBomber: 0
+    strategicBomber: 0
+    hammer: 0
+  - title: 
+    waveCount: 0
+    icbm: 0
+    heavyMirv: 0
+    rfg: 0
+    standardBomber: 0
+    strategicBomber: 0
+    hammer: 0
+  - title: 
+    waveCount: 0
+    icbm: 0
+    heavyMirv: 0
+    rfg: 0
+    standardBomber: 0
+    strategicBomber: 0
+    hammer: 0
+  - title: END TIMES
+    waveCount: 50
+    icbm: 1
+    heavyMirv: 0
+    rfg: 1
+    standardBomber: 1
+    strategicBomber: 1
+    hammer: 1
