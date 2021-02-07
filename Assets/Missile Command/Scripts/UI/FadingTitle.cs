@@ -26,6 +26,8 @@ public class FadingTitle : MonoBehaviour {
     }
 
     internal void display(string title) {
+        if (stageTitle.text == title) return;
+        
         stageTitle.color = colors.textColor;
         stageTitle.text = title;
         stageTitle.alpha = 0;
