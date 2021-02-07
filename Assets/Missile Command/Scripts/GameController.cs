@@ -174,7 +174,7 @@ public class GameController : MonoBehaviour {
         gameState.awardUpgradePoints(1);
         
         // award bonus upgrade points for thresholds
-        if (levelsCompleted > 0 && levelsCompleted % 5 == 0) {
+        if ((levelsCompleted + 1) % 5 == 0) {
             gameState.awardUpgradePoints(1);
         }
     }
