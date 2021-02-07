@@ -5,7 +5,7 @@ using Shapes;
 using TMPro;
 using UnityEngine;
 
-public class City : MonoBehaviour {
+public class City : Explodable {
     public bool isDestroyed = false;
     public GameObject aliveVisuals;
     public GameObject deadVisuals;
@@ -125,6 +125,10 @@ public class City : MonoBehaviour {
         if (explodable != null) {
             explodable.explode();
         }
+    }
+
+    public override void explode() {
+        destroy();
     }
 
     private void destroy() {

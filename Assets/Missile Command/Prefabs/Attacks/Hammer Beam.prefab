@@ -53,7 +53,8 @@ MonoBehaviour:
     m_Bits: 1792
   beam: {fileID: 8335038193783076071}
   maxBeamWidth: 0.5
-  killBeamWidth: 0.01
+  killBeamWidth: 0.03
+  maxInterruptExplosions: 40
 --- !u!1 &8716299223873428860
 GameObject:
   m_ObjectHideFlags: 0

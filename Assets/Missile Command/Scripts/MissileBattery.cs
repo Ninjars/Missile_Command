@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MissileBattery : MonoBehaviour {
+public class MissileBattery : Explodable {
     public GameObject missilePrefab;
     public GameObject ammoIndicatorPrefab;
     public GameObject loadedIndicator;
@@ -65,6 +65,10 @@ public class MissileBattery : MonoBehaviour {
         }
     }
 
+    public override void explode() {
+        destroy();
+    }
+
     public bool fire(float x, float y) {
         if (!stats.canLaunchMissile() || isDestroyed) {
             return false;
@@ -92,7 +96,7 @@ public class MissileBattery : MonoBehaviour {
         stats.clear();
         updateAmmoIndicators();
         screenEffectManager.onBatteryDestroyed();
-        batteryUi.onDead();
+        batteryUi.setIsDead(true);
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
         explosion.boom(transform.position, colors.buildingExplodeColor);
@@ -107,6 +111,7 @@ public class MissileBattery : MonoBehaviour {
 
     internal void restore() {
         isDestroyed = false;
+        batteryUi.setIsDead(false);
         stats.refresh();
         updateAmmoIndicators();
         lineShape.Color = colors.batteryColor;

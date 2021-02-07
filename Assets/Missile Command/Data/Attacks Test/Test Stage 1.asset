@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Test Stage 1
   m_EditorClassIdentifier: 
   title: Stage 1
-  levels: 2
+  levels: 10
   levelDuration:
     from: 3
     to: 3
   weaponData:
-  - {fileID: 11400000, guid: 1d496b1e6220d06489a6f92a3ada93d6, type: 2}
+  - {fileID: 11400000, guid: fd01c9424f86d6a46b2de2f12f50c574, type: 2}

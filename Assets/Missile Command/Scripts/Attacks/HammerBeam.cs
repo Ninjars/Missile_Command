@@ -12,11 +12,11 @@ public class HammerBeam : MonoBehaviour {
 
     private float startTime;
     private float attackTime;
-    private float groundLevel;
+    private float groundOffset;
     private Colors colors { get { return Colors.Instance; } }
 
     internal void beginSequence(Vector2 position, float groundLevel, float attackTime) {
-        this.groundLevel = groundLevel;
+        this.groundOffset = groundLevel - position.y;
         this.attackTime = attackTime;
         transform.position = position;
         startTime = Time.time;
@@ -28,14 +28,14 @@ public class HammerBeam : MonoBehaviour {
     private void positionBeam() {
         beam.transform.localPosition = new Vector3(
             0,
-            -(transform.position.y - groundLevel) / 2f,
+            groundOffset / 2f,
             transform.position.z
         );
-        beam.Height = transform.position.y - groundLevel;
+        beam.Height = groundOffset;
     }
 
     internal void onInterrupt() {
-        float maxY = (transform.position.y - groundLevel) * 0.7f;
+        float maxY = groundOffset * 0.7f;
         int explosionCount = Mathf.RoundToInt(((Time.time - startTime) / attackTime) * maxInterruptExplosions);
         for (int i = 0; i < explosionCount; i++) {
             var randomX = UnityEngine.Random.value;
@@ -45,7 +45,7 @@ public class HammerBeam : MonoBehaviour {
             }
             x = transform.position.x + x;
             var randomY = UnityEngine.Random.value;
-            var y = transform.position.y - (randomY * randomY) * maxY;
+            var y = transform.position.y + (randomY * randomY) * maxY;
             var explosion = ObjectPoolManager.Instance.getObjectInstance(interruptExplosionPrefab.gameObject).GetComponent<Explosion>();
             explosion.boom(
                 new Vector2(x, y),
@@ -72,9 +72,13 @@ public class HammerBeam : MonoBehaviour {
 
     private void fire() {
         var explosion = GameObject.Instantiate<Explosion>(impactExplosionPrefab);
-        explosion.boom(new Vector2(transform.position.x, groundLevel), colors.attackExplodeColor);
+        explosion.boom(transform.position + groundOffset * Vector3.up, colors.attackExplodeColor);
 
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, killBeamWidth, Vector2.down, transform.position.y - groundLevel, beamKillLayerMask.value);
+        Collider2D[] hits = Physics2D.OverlapAreaAll(
+            transform.position - killBeamWidth * Vector3.right, 
+            transform.position + groundOffset * Vector3.up + killBeamWidth * Vector3.right,
+            beamKillLayerMask
+        );
         foreach (var hit in hits) {
             var explodable = hit.transform.gameObject.GetComponent<Explodable>();
             if (hit.transform.gameObject.GetComponent<Hammer>() == null && explodable != null) {

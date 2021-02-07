@@ -26,7 +26,7 @@ public class Hammer : Explodable {
     private Colors colors { get { return Colors.Instance; } }
     private float targetX;
     private List<Coroutine> activeRoutines;
-    private RaycastHit2D[] dodgeCheckResults;
+    private Collider2D[] dodgeCheckResults;
     private Rigidbody2D _rb;
     private Rigidbody2D rb {
         get {
@@ -60,7 +60,7 @@ public class Hammer : Explodable {
         dodgeIsCharged = false;
         attackIsCharged = false;
         activeRoutines = new List<Coroutine>();
-        dodgeCheckResults = new RaycastHit2D[1];
+        dodgeCheckResults = new Collider2D[1];
 
         bool isLeftSpawn = UnityEngine.Random.value < 0.5;
         Vector3 spawnPosition = new Vector3(
@@ -69,16 +69,16 @@ public class Hammer : Explodable {
             layerZ
         );
         transform.position = spawnPosition;
-        rb.velocity = isLeftSpawn
-                ? new Vector2(speed, 0)
-                : new Vector2(-speed, 0);
-        rb.angularVelocity = 0;
         
         foreach (var shape in GetComponentsInChildren<ShapeRenderer>()) {
             shape.Color = colors.attackColor;
         }
 
         gameObject.SetActive(true);
+        rb.velocity = isLeftSpawn
+                ? new Vector2(speed, 0)
+                : new Vector2(-speed, 0);
+        rb.angularVelocity = 0;
         activeRoutines.Add(StartCoroutine(rechargeDodge()));
         activeRoutines.Add(StartCoroutine(rechargeAttack()));
     }
@@ -162,13 +162,12 @@ public class Hammer : Explodable {
     }
 
     private bool isThreatened() {
-        int hits = Physics2D.CircleCastNonAlloc(
-            rb.position,
-            dodgeCheckRadius,
-            rb.velocity,
+        Vector2 castStartPosition = rb.position - Vector2.up * dodgeCheckRadius;
+        int hits = Physics2D.OverlapAreaNonAlloc(
+            rb.position + Vector2.up * dodgeCheckRadius + rb.velocity.normalized * dodgeCheckDistance, 
+            rb.position - Vector2.up * dodgeCheckRadius,
             dodgeCheckResults,
-            dodgeCheckDistance,
-            dodgeCheckLayerMask.value
+            dodgeCheckLayerMask
         );
         return hits > 0;
     }

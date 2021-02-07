@@ -89,6 +89,8 @@ public class CityUI : MonoBehaviour {
         isFadingUi = false;
         isAnimating = false;
         showElements();
+            markerTriangle.transform.localScale = Vector3.one;
+            markerTriangle.transform.localPosition = Vector3.zero;
         if (!isDead && upgrading) {
             startAnimating();
         }

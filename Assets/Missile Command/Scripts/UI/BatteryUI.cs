@@ -102,8 +102,10 @@ public class BatteryUI : MonoBehaviour {
         stopAnimating();
     }
 
-    internal void onDead() {
-        isDead = true;
-        onHide();
+    internal void setIsDead(bool isDead) {
+        this.isDead = isDead;
+        if (isDead) {
+            onHide();
+        }
     }
 }
