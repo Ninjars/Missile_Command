@@ -14,7 +14,12 @@ public class CursorLines : MonoBehaviour {
 
     private void Start() {
         foreach (var line in lines) {
-            line.Color = colors.targetMarkerColor;
+            Color startColor = colors.targetMarkerColor;
+            startColor.a = 0;
+            Color endColor = colors.targetMarkerColor;
+            endColor.a = 0.5f;
+            line.ColorStart = startColor;
+            line.ColorEnd = endColor;
         }
     }
 

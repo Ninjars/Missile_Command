@@ -6832,6 +6832,11 @@ PrefabInstance:
       propertyPath: thickness
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 6720093787881167365, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: colorMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6720093787881167366, guid: fa1c21c6b1a7d6348bdd59af25494821,
         type: 3}
       propertyPath: m_Mesh
@@ -6866,6 +6871,11 @@ PrefabInstance:
         type: 3}
       propertyPath: thickness
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093788244932144, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: colorMode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6720093788244932145, guid: fa1c21c6b1a7d6348bdd59af25494821,
         type: 3}
@@ -6961,6 +6971,11 @@ PrefabInstance:
         type: 3}
       propertyPath: thickness
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720093789503156978, guid: fa1c21c6b1a7d6348bdd59af25494821,
+        type: 3}
+      propertyPath: colorMode
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6720093789503156979, guid: fa1c21c6b1a7d6348bdd59af25494821,
         type: 3}
