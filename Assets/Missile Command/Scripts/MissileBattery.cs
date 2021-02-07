@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MissileBattery : MonoBehaviour {
+public class MissileBattery : Explodable {
     public GameObject missilePrefab;
     public GameObject ammoIndicatorPrefab;
     public GameObject loadedIndicator;
@@ -63,6 +63,10 @@ public class MissileBattery : MonoBehaviour {
         if (explodable != null) {
             explodable.explode();
         }
+    }
+
+    public override void explode() {
+        destroy();
     }
 
     public bool fire(float x, float y) {
