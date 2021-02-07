@@ -225,7 +225,7 @@ MonoBehaviour:
   dodgeCheckDistance: 2
   dodgeCheckLayerMask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 2560
   explosionPrefab: {fileID: 6328716267540692050, guid: 653f48bb3b4b200419eca6d49d60b62b,
     type: 3}
   beamAttackPrefab: {fileID: 3761440624663263174, guid: c17ad16f9f96d234aa89b33d3be39977,
