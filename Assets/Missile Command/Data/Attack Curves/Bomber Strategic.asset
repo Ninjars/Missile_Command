@@ -42,7 +42,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   intervalVariance: 2
-  prefab: {fileID: 8779594394452551350, guid: 22341750fdff99a44944085c989e321d, type: 3}
+  prefab: {fileID: 8779594394452551350, guid: e1c1dc53934c55e45b3ab137af2325b7, type: 3}
   bombAttackData: {fileID: 11400000, guid: 126f2d5275e69a94297f612fcb74905e, type: 2}
   bombersPerWing:
     serializedVersion: 2
