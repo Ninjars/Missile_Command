@@ -69,16 +69,16 @@ public class Hammer : Explodable {
             layerZ
         );
         transform.position = spawnPosition;
-        rb.velocity = isLeftSpawn
-                ? new Vector2(speed, 0)
-                : new Vector2(-speed, 0);
-        rb.angularVelocity = 0;
         
         foreach (var shape in GetComponentsInChildren<ShapeRenderer>()) {
             shape.Color = colors.attackColor;
         }
 
         gameObject.SetActive(true);
+        rb.velocity = isLeftSpawn
+                ? new Vector2(speed, 0)
+                : new Vector2(-speed, 0);
+        rb.angularVelocity = 0;
         activeRoutines.Add(StartCoroutine(rechargeDodge()));
         activeRoutines.Add(StartCoroutine(rechargeAttack()));
     }
