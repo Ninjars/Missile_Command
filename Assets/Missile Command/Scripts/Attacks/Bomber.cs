@@ -13,6 +13,7 @@ public class Bomber : Explodable {
     private float chargeTime;
     private float evasionSpeed;
     private float speed;
+    private float maxAltitude;
     private Vector2 velocity;
     private Colors colors { get { return Colors.Instance; } }
     private Collider2D[] dodgeCheckResults;
@@ -46,6 +47,7 @@ public class Bomber : Explodable {
         WorldCoords worldCoords,
         BomberCurves.Snapshot data,
         Func<Vector3, Vector2> targetProvider,
+        float maxAltitude,
         float x,
         float y
     ) {
@@ -55,6 +57,7 @@ public class Bomber : Explodable {
         this.evasionSpeed = data.evasionSpeed;
         this.speed = data.speed;
         this.bombAttackData = data.bombSnapshot;
+        this.maxAltitude = maxAltitude;
         dodgeCheckResults = new Collider2D[3];
 
         velocity = x < worldCoords.centerX
@@ -135,7 +138,7 @@ public class Bomber : Explodable {
         }
         if (closest == null) return Vector2.zero;
 
-        if (closest.transform.position.y < transform.position.y) {
+        if (closest.transform.position.y < transform.position.y && transform.position.y < maxAltitude) {
             return Vector2.up * evasionSpeed;
         } else {
             return Vector2.up * -evasionSpeed;

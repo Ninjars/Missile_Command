@@ -82,6 +82,7 @@ public class AttackUtil {
                 worldCoords,
                 data,
                 targetProvider,
+                getMaxBomberAltitude(worldCoords, data.altitudeMax),
                 x, 
                 altitude + (UnityEngine.Random.value * 2 - 1) * 0.5f
             );
@@ -94,6 +95,7 @@ public class AttackUtil {
         WorldCoords worldCoords,
         BomberCurves.Snapshot data,
         Func<Vector3, Vector2> targetProvider,
+        float maxAltitude,
         float x, 
         float y
     ) {
@@ -102,6 +104,7 @@ public class AttackUtil {
             worldCoords,
             data,
             targetProvider,
+            maxAltitude,
             x,
             y
         );
@@ -111,5 +114,10 @@ public class AttackUtil {
         float dy = worldCoords.worldTop - worldCoords.groundY;
         float altOffset = min + ((max - min) * UnityEngine.Random.value);
         return worldCoords.groundY + altOffset * dy;
+    }
+
+    private static float getMaxBomberAltitude(WorldCoords worldCoords, float max) {
+        float dy = worldCoords.worldTop - worldCoords.groundY;
+        return worldCoords.groundY + max * dy;
     }
 }
