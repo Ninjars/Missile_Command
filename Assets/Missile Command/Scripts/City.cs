@@ -13,8 +13,10 @@ public class City : Explodable {
     public Evacuator evacuatorPrefab;
     public Explosion explosionPrefab;
     public CityUI uiController;
+    public List<GameObject> shieldDomes;
     public float evacuatorYOffset = 0.1f;
     public float evacuatorXSpacing = 0.11f;
+    public float hitInvulnDuration = 1.5f;
 
     public long population { get; private set; }
     public CityUpgradeState upgradeState { get; private set; }
@@ -31,6 +33,8 @@ public class City : Explodable {
         }
     }
     private List<Evacuator> evacuators;
+    private ShapeRenderer aliveShape;
+    private float invulnAmount;
 
     public void initialise(StateUpdater stateUpdater, long population, int evacEventCount, long popPerEvac) {
         this.stateUpdater = stateUpdater;
@@ -41,9 +45,18 @@ public class City : Explodable {
 
         uiController.initialise(gameObject.name, population);
 
-        aliveVisuals.GetComponent<Polyline>().Color = colors.cityColor;
+        aliveShape = aliveVisuals.GetComponent<Polyline>();
+        aliveShape.Color = colors.cityColor;
         deadVisuals.GetComponent<Polyline>().Color = colors.deadBuildingColor;
         hideUpgradeOptions();
+    }
+
+    private void Update() {
+        updateActiveShields();
+        if (invulnAmount > 0) {
+            invulnAmount -= Time.deltaTime;
+            updateInvulnState();
+        }
     }
 
     public void showUi(bool isUpgrading) {
@@ -119,7 +132,7 @@ public class City : Explodable {
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (!isDestroyed) {
-            destroy();
+            onHit();
         }
         var explodable = other.GetComponent<Explodable>();
         if (explodable != null) {
@@ -128,7 +141,47 @@ public class City : Explodable {
     }
 
     public override void explode() {
-        destroy();
+        onHit();
+    }
+
+    private void onHit() {
+        if (invulnAmount > 0) return;
+
+        if (upgradeState.shieldLevel > 0) {
+            upgradeState.decreaseShield();
+            invulnAmount = hitInvulnDuration;
+            updateInvulnState();
+
+        } else {
+            destroy();
+        }
+    }
+
+    private void updateInvulnState() {
+        if (isDestroyed) return;
+        float factor = Mathf.Clamp01((hitInvulnDuration - invulnAmount) / hitInvulnDuration);
+
+        if (factor == 1) {
+            aliveShape.Color = colors.cityColor;
+        } else {
+            float value = Mathf.Round(Mathf.Sin(factor * Mathf.PI * 8));
+            var color = colors.cityColor;
+            color.a = value;
+            aliveShape.Color = color;
+        }
+    }
+
+    private void updateActiveShields() {
+        for (int i = 0; i < shieldDomes.Count; i++) {
+            var shouldBeActive = i < upgradeState.shieldLevel;
+            var dome = shieldDomes[i];
+            if (!dome.activeInHierarchy == shouldBeActive) {
+                dome.SetActive(shouldBeActive);
+                if (shouldBeActive) {
+                    dome.GetComponent<ShapeRenderer>().Color = colors.cityColor;
+                }
+            }
+        }
     }
 
     private void destroy() {
@@ -136,6 +189,7 @@ public class City : Explodable {
         GetComponent<CircleCollider2D>().enabled = false;
         stateUpdater.onPopulationLost(population);
         population = 0;
+        invulnAmount = 0;
         isDestroyed = true;
         screenEffectManager.onCityNukeHit(1f);
         evacuationStats.clear();
@@ -143,6 +197,9 @@ public class City : Explodable {
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
         explosion.boom(transform.position, colors.buildingExplodeColor);
+        foreach (var obj in shieldDomes) {
+            obj.SetActive(false);
+        }
         foreach (var evacuator in evacuators) {
             evacuator.gameObject.SetActive(false);
         }

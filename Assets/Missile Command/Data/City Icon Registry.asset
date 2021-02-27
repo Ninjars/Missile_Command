@@ -16,3 +16,5 @@ MonoBehaviour:
     type: 3}
   popEvacRateIcon: {fileID: 5388727829978667026, guid: 6047ab42a613fe7498b3a1f8b166b65e,
     type: 3}
+  domeIcon: {fileID: 5388727829978667026, guid: ba6f886114156864e8c2b5024f2dd7ee,
+    type: 3}

@@ -4,4 +4,5 @@
 public class CityIconRegistry : ScriptableObject {
     public GameObject evacuatorCountIcon;
     public GameObject popEvacRateIcon;
+    public GameObject domeIcon;
 }
