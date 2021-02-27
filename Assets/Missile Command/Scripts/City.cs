@@ -13,6 +13,7 @@ public class City : Explodable {
     public Evacuator evacuatorPrefab;
     public Explosion explosionPrefab;
     public CityUI uiController;
+    public List<GameObject> shieldDomes;
     public float evacuatorYOffset = 0.1f;
     public float evacuatorXSpacing = 0.11f;
 
@@ -44,6 +45,10 @@ public class City : Explodable {
         aliveVisuals.GetComponent<Polyline>().Color = colors.cityColor;
         deadVisuals.GetComponent<Polyline>().Color = colors.deadBuildingColor;
         hideUpgradeOptions();
+    }
+
+    private void Update() {
+        updateActiveShields();
     }
 
     public void showUi(bool isUpgrading) {
@@ -119,7 +124,7 @@ public class City : Explodable {
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (!isDestroyed) {
-            destroy();
+            onHit();
         }
         var explodable = other.GetComponent<Explodable>();
         if (explodable != null) {
@@ -128,7 +133,29 @@ public class City : Explodable {
     }
 
     public override void explode() {
-        destroy();
+        onHit();
+    }
+
+    private void onHit() {
+        if (upgradeState.shieldLevel > 0) {
+            upgradeState.decreaseShield();
+
+        } else {
+            destroy();
+        }
+    }
+
+    private void updateActiveShields() {
+        for (int i = 0; i < shieldDomes.Count; i++) {
+            var shouldBeActive = i < upgradeState.shieldLevel;
+            var dome = shieldDomes[i];
+            if (!dome.activeInHierarchy == shouldBeActive) {
+                dome.SetActive(shouldBeActive);
+                if (shouldBeActive) {
+                    dome.GetComponent<ShapeRenderer>().Color = colors.cityColor;
+                }
+            }
+        }
     }
 
     private void destroy() {
@@ -143,6 +170,9 @@ public class City : Explodable {
 
         var explosion = ObjectPoolManager.Instance.getObjectInstance(explosionPrefab.gameObject).GetComponent<Explosion>();
         explosion.boom(transform.position, colors.buildingExplodeColor);
+        foreach (var obj in shieldDomes) {
+            obj.SetActive(false);
+        }
         foreach (var evacuator in evacuators) {
             evacuator.gameObject.SetActive(false);
         }

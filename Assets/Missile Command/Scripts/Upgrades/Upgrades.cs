@@ -53,6 +53,22 @@ public class CityUpgradeState {
         return new UpgradeState(maxEvacuatorPopLevel, evacuatorPopLevel);
     }
 
+    private readonly int maxShieldLevel = 3;
+    public int shieldLevel { get; private set; }
+
+    public void increaseShield() {
+        if (shieldLevel < maxShieldLevel) {
+            shieldLevel++;
+        }
+    }
+    public void decreaseShield() {
+        if (shieldLevel > 0) {
+            shieldLevel--;
+        }
+    }
+    public UpgradeState shieldUpgradeState() {
+        return new UpgradeState(maxShieldLevel, shieldLevel);
+    }
 }
 
 public class BatteryUpgradeState {

@@ -39,10 +39,10 @@ public class CityUpgradeUI : BaseUpgradeUi {
                 }
             ),
             new UpgradeData(
-                city.upgradeState.evacuatorPopUpgradeState(),
+                city.upgradeState.shieldUpgradeState(),
                 iconRegistry.popEvacRateIcon,
                 (element) => {
-                    city.upgradeState.increaseEvacuatorPop();
+                    city.upgradeState.increaseShield();
                     onUpgradeAction(element);
                 }
             )
