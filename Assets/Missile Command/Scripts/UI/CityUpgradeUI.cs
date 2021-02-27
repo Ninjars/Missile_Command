@@ -40,7 +40,7 @@ public class CityUpgradeUI : BaseUpgradeUi {
             ),
             new UpgradeData(
                 city.upgradeState.shieldUpgradeState(),
-                iconRegistry.popEvacRateIcon,
+                iconRegistry.domeIcon,
                 (element) => {
                     city.upgradeState.increaseShield();
                     onUpgradeAction(element);
