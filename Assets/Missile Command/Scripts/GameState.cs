@@ -36,9 +36,11 @@ public class GameState : StateUpdater {
     public long populationDead { get; private set; }
     public float evacEventInterval { get; private set; }
     public int upgradePoints { get; private set; }
+    public int totalLevels { get; private set; }
 
-    public GameState(float evacEventsPerMin) {
+    public GameState(float evacEventsPerMin, int totalLevels) {
         currentMode = GameMode.MAIN_MENU;
+        this.totalLevels = totalLevels;
         this.evacEventInterval = evacEventsPerMin / 60f;
     }
 
