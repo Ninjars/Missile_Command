@@ -46,7 +46,7 @@ MonoBehaviour:
   - title: FOUR HORSEMEN RIDE
     waveCount: 4
     icbm: 1
-    heavyMirv: 1
+    heavyMirv: 0
     rfg: 1
     standardBomber: 1
     strategicBomber: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
   - title: END TIMES
     waveCount: 4
     icbm: 1
-    heavyMirv: 1
+    heavyMirv: 0
     rfg: 1
     standardBomber: 1
     strategicBomber: 1
