@@ -29,9 +29,9 @@ public class CityUpgradeState {
     public bool hasAnyAvailableUpgrades { get {
         return evacuatorCountLevel < maxEvacuatorCountLevel || evacuatorPopLevel < maxEvacuatorCountLevel;
     } }
-    private readonly int maxEvacuatorCountLevel = 12;
+    private readonly int maxEvacuatorCountLevel = 3;
     private int evacuatorCountLevel = 0;
-    public int evacuatorCount { get { return evacuatorCountLevel; } }
+    public int evacuatorCount { get { return evacuatorCountLevel*2; } }
     public void increaseEvacuatorCount() {
         if (evacuatorCountLevel < maxEvacuatorCountLevel) {
             evacuatorCountLevel++;
@@ -77,9 +77,10 @@ public class BatteryUpgradeState {
             || missileSpeedLevel < maxMissileSpeedLevel
             || explosionLingerLevel < maxExplosionLingerLevel;
     } }
-    private readonly int maxExplosionRadiusLevel = 10;
+    private readonly int maxExplosionRadiusLevel = 3;
+    private readonly float maxRadiusFactor = 1f;
     private int explosionRadiusLevel = 0;
-    public float explosionRadiusFactor { get { return 1 + explosionRadiusLevel * 0.1f; } }
+    public float explosionRadiusFactor { get { return 1 + explosionRadiusLevel / (float) maxExplosionRadiusLevel * maxRadiusFactor; } }
     public void increaseExplosionRadius() {
         if (explosionRadiusLevel < maxExplosionRadiusLevel) {
             explosionRadiusLevel++;
@@ -89,9 +90,10 @@ public class BatteryUpgradeState {
         return new UpgradeState(maxExplosionRadiusLevel, explosionRadiusLevel);
     }
 
-    private readonly int maxMissileSpeedLevel = 10;
+    private readonly int maxMissileSpeedLevel = 3;
+    private readonly float maxMissileSpeedFactor = 1f;
     private int missileSpeedLevel = 0;
-    public float missileSpeedFactor { get { return 1 + missileSpeedLevel * 0.1f; } }
+    public float missileSpeedFactor { get { return 1 + missileSpeedLevel / (float) maxMissileSpeedLevel * maxMissileSpeedFactor; } }
     public void increaseMissileSpeed() {
         if (missileSpeedLevel < maxMissileSpeedLevel) {
             missileSpeedLevel++;
@@ -101,9 +103,10 @@ public class BatteryUpgradeState {
         return new UpgradeState(maxMissileSpeedLevel, missileSpeedLevel);
     }
 
-    private readonly int maxExplosionLingerLevel = 10;
+    private readonly int maxExplosionLingerLevel = 3;
+    private readonly float maxExplosionLingerfactor = 1.5f;
     private int explosionLingerLevel = 0;
-    public float explosionLingerFactor { get { return 1 + explosionLingerLevel * 0.1f; } }
+    public float explosionLingerFactor { get { return 1 + explosionLingerLevel / (float) maxExplosionLingerLevel * maxExplosionLingerfactor; } }
     public void increaseExplosionLinger() {
         if (explosionLingerLevel < maxExplosionLingerLevel) {
             explosionLingerLevel++;

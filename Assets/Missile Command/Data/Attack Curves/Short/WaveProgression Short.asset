@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31f56b7fa9d47fe41b17afa165234ad8, type: 3}
+  m_Name: WaveProgression Short
+  m_EditorClassIdentifier: 
+  ICBM: {fileID: 11400000, guid: 26eee4a6144bcf44e80feb113b07e819, type: 2}
+  RFG: {fileID: 11400000, guid: 3bc54958411b94a4f889f2af4f09ba42, type: 2}
+  heavyMIRV: {fileID: 11400000, guid: c531677168e210f479930c6266c407ee, type: 2}
+  standardBomber: {fileID: 11400000, guid: 10899ad8d59dcfe48b9921b6e0e5e88d, type: 2}
+  strategicBomber: {fileID: 11400000, guid: 80a51a263a3c6c44f9b789470ffa2fed, type: 2}
+  hammer: {fileID: 11400000, guid: 381aa7d7514f4964094c595b4bea6896, type: 2}
+  stages:
+  - title: SO IT BEGINS
+    waveCount: 4
+    icbm: 1
+    heavyMirv: 0
+    rfg: 1
+    standardBomber: 0
+    strategicBomber: 0
+    hammer: 0
+  - title: APOCALYPSE NOW
+    waveCount: 4
+    icbm: 1
+    heavyMirv: 0
+    rfg: 1
+    standardBomber: 1
+    strategicBomber: 0
+    hammer: 0
+  - title: JUDGEMENT DAY
+    waveCount: 4
+    icbm: 1
+    heavyMirv: 1
+    rfg: 0
+    standardBomber: 0
+    strategicBomber: 1
+    hammer: 1
+  - title: FOUR HORSEMEN RIDE
+    waveCount: 4
+    icbm: 1
+    heavyMirv: 1
+    rfg: 1
+    standardBomber: 1
+    strategicBomber: 0
+    hammer: 1
+  - title: END TIMES
+    waveCount: 4
+    icbm: 1
+    heavyMirv: 1
+    rfg: 1
+    standardBomber: 1
+    strategicBomber: 1
+    hammer: 1
