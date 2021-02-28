@@ -57,7 +57,7 @@ public class GameController : MonoBehaviour {
         inGameInput["Fire 2"].performed += fireTwo;
         inGameInput["Fire 3"].performed += fireThree;
 
-        gameState = new GameState(baseEvacRate);
+        gameState = new GameState(baseEvacRate, levelManager.totalLevels);
     }
 
     private void Start() {
@@ -224,7 +224,7 @@ public class GameController : MonoBehaviour {
     public void onUiMainMenu() {
         attackController.stopAttacks();
         clearBoard();
-        gameState = new GameState(baseEvacRate);
+        gameState = new GameState(baseEvacRate, levelManager.totalLevels);
     }
 
     public void onUiRestart() {
@@ -236,7 +236,7 @@ public class GameController : MonoBehaviour {
         clearBoard();
         backdropGenerator.generateBackground(worldCoords);
 
-        gameState = new GameState(baseEvacRate);
+        gameState = new GameState(baseEvacRate, levelManager.totalLevels);
 
         var spawnedPlayerData = playerSpawner.performInitialSpawn(
             gameState,
