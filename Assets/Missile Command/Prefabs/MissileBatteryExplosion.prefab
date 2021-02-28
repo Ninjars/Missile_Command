@@ -206,6 +206,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6d5b59611f35ab489e7d691b1285e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEffect: {fileID: 8300000, guid: 3b84d86fc3af6e846968e14799b019e2, type: 3}
+  additionalSoundEffects:
+  - {fileID: 8300000, guid: a70c1af3a4ab549469f92ae9fce63936, type: 3}
   causesEmp: 0
   defaultRadius: 0.8
   defaultDuration: 1

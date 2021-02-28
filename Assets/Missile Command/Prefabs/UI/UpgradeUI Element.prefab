@@ -413,6 +413,8 @@ MonoBehaviour:
   elementSeparation: 0.5
   outline: {fileID: 5028072834712485692}
   progressBar: {fileID: 1133157989946720291}
+  mouseOverSound: {fileID: 8300000, guid: e99b52d2893d50e409b41eac4bbc31ad, type: 3}
+  selectSound: {fileID: 8300000, guid: 6d7cb436ca0a4c4488b38dbc6773e1d9, type: 3}
 --- !u!58 &3999415478215855247
 CircleCollider2D:
   m_ObjectHideFlags: 0

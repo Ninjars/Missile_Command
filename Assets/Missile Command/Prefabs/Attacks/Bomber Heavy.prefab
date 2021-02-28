@@ -54,6 +54,7 @@ MonoBehaviour:
     m_Bits: 2560
   explosionPrefab: {fileID: 6328716267540692050, guid: b83021573fe266244ae5f691e69982f4,
     type: 3}
+  attackSound: {fileID: 8300000, guid: b589617b8d9946b45a7ceef4b3213dfc, type: 3}
 --- !u!58 &167931672471041925
 CircleCollider2D:
   m_ObjectHideFlags: 0
