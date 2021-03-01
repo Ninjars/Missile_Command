@@ -1,7 +1,10 @@
-﻿using Shapes;
+﻿using System.Collections.Generic;
+using Shapes;
 using UnityEngine;
 
 public class Explosion : MonoBehaviour {
+    public AudioClip soundEffect;
+    public List<AudioClip> additionalSoundEffects;
     public bool causesEmp = true;
     public float defaultRadius = 1;
     public float defaultDuration = 1f;
@@ -58,6 +61,12 @@ public class Explosion : MonoBehaviour {
         duration = explosionDuration;
         gameObject.SetActive(true);
         if (causesEmp) screenEffectManager.onEMP(explosionRadius, position.y);
+        SoundManager.Instance.play(soundEffect);
+        if (additionalSoundEffects != null) {
+            foreach (var clip in additionalSoundEffects) {
+                SoundManager.Instance.play(clip);
+            }
+        }
     }
 
     private void Update() {

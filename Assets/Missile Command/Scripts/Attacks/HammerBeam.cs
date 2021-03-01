@@ -4,6 +4,7 @@ using UnityEngine;
 public class HammerBeam : MonoBehaviour {
     public Explosion interruptExplosionPrefab;
     public Explosion impactExplosionPrefab;
+    public AudioSource firingSoundLoop;
     public LayerMask beamKillLayerMask;
     public Rectangle beam;
     public float maxBeamWidth;

@@ -9,6 +9,8 @@ public class UpgradeElement : MonoBehaviour, IPointerClickHandler, IPointerEnter
     public float elementSeparation = 0.5f;
     public Disc outline;
     public Disc progressBar;
+    public AudioClip mouseOverSound;
+    public AudioClip selectSound;
     private Colors colors { get { return Colors.Instance; } }
     private Line line;
     private UpgradeData upgradeData;
@@ -45,10 +47,12 @@ public class UpgradeElement : MonoBehaviour, IPointerClickHandler, IPointerEnter
 
     public void OnPointerClick(PointerEventData eventData) {
         upgradeData.upgradeAction(this);
+        SoundManager.Instance.play(selectSound, volume:0.5f);
     }
 
     public void OnPointerEnter(PointerEventData eventData) {
         outline.Color = colors.upgradeUiHighlightedColor;
+        SoundManager.Instance.play(mouseOverSound, volume:0.5f);
     }
 
     public void OnPointerExit(PointerEventData eventData) {

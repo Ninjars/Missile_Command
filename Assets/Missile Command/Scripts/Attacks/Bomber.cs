@@ -9,6 +9,7 @@ public class Bomber : Explodable {
     public float dodgeCheckRadius;
     public LayerMask dodgeCheckLayerMask;
     public Explosion explosionPrefab;
+    public AudioClip attackSound;
 
     private float chargeTime;
     private float evasionSpeed;
@@ -92,6 +93,7 @@ public class Bomber : Explodable {
     }
 
     private void launchAttack(Vector3 launchPosition, Vector2 targetPosition) {
+        SoundManager.Instance.play(attackSound);
         ICBM weapon = ObjectPoolManager.Instance.getObjectInstance(bombAttackData.prefab.gameObject).GetComponent<ICBM>();
         weapon.launch(
             worldCoords,
