@@ -143,8 +143,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5912318683653796411}
-  - component: {fileID: 3841708464275515832}
-  - component: {fileID: 2450931466075576520}
   m_Layer: 8
   m_Name: CityUi
   m_TagString: Untagged
@@ -168,53 +166,6 @@ Transform:
   m_Father: {fileID: 3181994914049257599}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3841708464275515832
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 657987381439512223}
-  m_Mesh: {fileID: 0}
---- !u!23 &2450931466075576520
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 657987381439512223}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 7fa44248079235a47bd861b2601b7808, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!1 &1660560829838557379
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,6 +671,7 @@ MonoBehaviour:
   - {fileID: 5466126645431027648}
   evacuatorYOffset: 0
   evacuatorXSpacing: 0.13
+  hitInvulnDuration: 1.5
 --- !u!58 &-4855930507761740206
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -856,8 +808,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 207742265
+  m_SortingLayer: 10
   m_SortingOrder: 0
 --- !u!1 &4499601333072981996
 GameObject:

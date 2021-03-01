@@ -103,8 +103,8 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 207742265
+  m_SortingLayer: 10
   m_SortingOrder: 0
 --- !u!114 &6297655413322652084
 MonoBehaviour:
@@ -896,6 +896,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8787980163679719714, guid: 92c4a8a8ac39f8e4a8917a163f6285e4,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8787980163679719714, guid: 92c4a8a8ac39f8e4a8917a163f6285e4,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -911,6 +916,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8787980163679719714, guid: 92c4a8a8ac39f8e4a8917a163f6285e4,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8787980163679719714, guid: 92c4a8a8ac39f8e4a8917a163f6285e4,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -923,16 +933,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8787980163679719714, guid: 92c4a8a8ac39f8e4a8917a163f6285e4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8787980163679719714, guid: 92c4a8a8ac39f8e4a8917a163f6285e4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8787980163679719714, guid: 92c4a8a8ac39f8e4a8917a163f6285e4,
         type: 3}
